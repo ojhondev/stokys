@@ -5,12 +5,15 @@ Plataforma da agência Stokys: landing page + dashboard do cliente, com onboardi
 plataforma (PIX, cartão de crédito, boleto), acompanhamento de produção, mensageria
 interna e diretório de parceiros de tráfego pago.
 
+- Produção: https://stokys.vercel.app
 - Visão de produto e arquitetura: [docs/PRD.md](docs/PRD.md)
 - Design system (base): [docs/DESIGN.md](docs/DESIGN.md) — inspirado no [Perk](https://www.perk.com/)
 
 ## Stack
 
-Next.js (App Router) + TypeScript + Tailwind v4 + Neon (Postgres) + Drizzle ORM.
+Next.js (App Router) + TypeScript + Tailwind v4 + Neon (Postgres) + Drizzle ORM +
+Vercel. Banco provisionado via integração Neon do Vercel Marketplace (projeto
+`neon-pink-zebra`, exclusivo deste app).
 
 ## Rodando localmente
 
@@ -19,9 +22,17 @@ npm install
 npm run dev
 ```
 
-Copie `.env.local.example` para `.env.local` e preencha as variáveis antes de conectar
-a um banco Neon real — sem isso, as páginas estáticas (LP, onboarding) funcionam
-normalmente, mas nada que dependa de `src/lib/db` funciona ainda.
+`.env.local` já vem preenchido neste ambiente (Neon + segredos gerados). Em uma máquina
+nova, copie `.env.local.example` para `.env.local` e preencha as variáveis — sem isso,
+as páginas estáticas (LP, onboarding) funcionam normalmente, mas nada que dependa de
+`src/lib/db` funciona.
+
+## Deploy
+
+Deploy é manual por enquanto: `vercel deploy --prod` a partir desta pasta. O app do
+GitHub da Vercel ainda não está autorizado para o repositório `ojhondev/stokys`
+(`vercel git connect` falha até isso ser aprovado no GitHub) — depois de autorizado,
+todo push em `main` passa a fazer deploy automático.
 
 ## Status
 
