@@ -1,3 +1,4 @@
+import { AnnouncementBar } from "@/components/marketing/announcement-bar";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { Hero } from "@/components/marketing/hero";
@@ -20,6 +21,7 @@ import { ClosingCta } from "@/components/marketing/closing-cta";
 export default function Home() {
   return (
     <>
+      <AnnouncementBar />
       <SiteHeader />
 
       <main className="flex flex-1 flex-col">
