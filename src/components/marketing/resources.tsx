@@ -27,12 +27,12 @@ export function Resources() {
   return (
     <section className="bg-pure-white px-6 py-20 md:py-24">
       <div className="mx-auto w-full max-w-[1200px]">
-        <h2 className="text-heading font-medium text-off-black-ink">Vamos pra prática.</h2>
+        <h2 className="text-heading font-heading font-medium text-off-black-ink">Vamos pra prática.</h2>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {recursos.map((recurso) => (
             <div key={recurso.heading} className="rounded-3xl bg-off-white-canvas p-8">
-              <h3 className="text-subheading font-medium text-off-black-ink">
+              <h3 className="text-subheading font-heading font-medium text-off-black-ink">
                 {recurso.heading}
               </h3>
               <p className="mt-3 text-body-sm text-graphite">{recurso.descricao}</p>

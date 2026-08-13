@@ -13,7 +13,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-10 bg-off-white-canvas/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-6">
         <Link href="/" className="flex items-center">
-          <Image src="/logo-stokys.png" alt="Stokys" width={140} height={39} priority />
+          <Image src="/logo-stokys.png" alt="Stokys" width={108} height={30} priority />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

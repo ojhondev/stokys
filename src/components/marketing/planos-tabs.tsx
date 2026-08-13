@@ -20,7 +20,7 @@ export function PlanosTabs() {
     <section id="planos" className="bg-pure-white px-6 py-20 md:py-24">
       <div className="mx-auto w-full max-w-[1200px]">
         <span className="text-caption font-medium uppercase text-graphite">Planos</span>
-        <h2 className="mt-3 max-w-[560px] text-heading font-medium text-off-black-ink">
+        <h2 className="mt-3 max-w-[560px] text-heading font-heading font-medium text-off-black-ink">
           Três formas de montar sua loja.
         </h2>
 
@@ -43,7 +43,7 @@ export function PlanosTabs() {
               </div>
 
               <div className="mt-10 md:mt-0">
-                <h3 className="text-subheading font-medium text-off-black-ink">{plano.nome}</h3>
+                <h3 className="text-subheading font-heading font-medium text-off-black-ink">{plano.nome}</h3>
                 <p className="mt-2 max-w-[380px] text-body text-graphite">{plano.descricao}</p>
                 <ul className="mt-6 flex flex-col gap-2">
                   {plano.itens.map((item) => (

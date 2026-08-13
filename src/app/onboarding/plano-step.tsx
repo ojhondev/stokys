@@ -23,7 +23,7 @@ export function PlanoStep({ inicial }: { inicial?: PlanoConteudo["slug"] }) {
                 ativo ? "bg-electric-lime" : "bg-off-white-canvas"
               }`}
             >
-              <h3 className="text-subheading font-medium text-off-black-ink">{p.nome}</h3>
+              <h3 className="text-subheading font-heading font-medium text-off-black-ink">{p.nome}</h3>
               <p className="mt-2 text-body-sm text-off-black-ink/70">{p.descricao}</p>
               <ul className="mt-6 flex flex-col gap-2">
                 {p.itens.map((item) => (

@@ -39,7 +39,7 @@ export function Personas() {
   return (
     <section id="como-funciona" className="bg-pure-white px-6 py-20 md:py-24">
       <div className="mx-auto w-full max-w-[1200px]">
-        <h2 className="max-w-[600px] text-heading font-medium text-off-black-ink">
+        <h2 className="max-w-[600px] text-heading font-heading font-medium text-off-black-ink">
           Simples pra você. Direto pra quem produz.
         </h2>
         <p className="mt-4 max-w-[520px] text-body text-graphite">
@@ -52,7 +52,7 @@ export function Personas() {
               <span className="text-caption font-medium uppercase text-graphite">
                 {persona.eyebrow}
               </span>
-              <h3 className="mt-3 text-subheading font-medium text-off-black-ink">
+              <h3 className="mt-3 text-subheading font-heading font-medium text-off-black-ink">
                 {persona.heading}
               </h3>
               <p className="mt-3 text-body-sm text-graphite">{persona.descricao}</p>

@@ -22,7 +22,7 @@ export default async function OnboardingPage({
         <span className="mt-10 block text-caption font-medium uppercase text-graphite">
           Onboarding · Etapa 1 de 4
         </span>
-        <h1 className="mt-3 max-w-[560px] text-heading font-medium text-off-black-ink">
+        <h1 className="mt-3 max-w-[560px] text-heading font-heading font-medium text-off-black-ink">
           Qual plano combina com a sua loja?
         </h1>
 

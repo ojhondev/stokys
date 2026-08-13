@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section className="bg-off-white-canvas px-6 pb-0 pt-16 md:pt-20">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
-        <h1 className="text-heading-lg font-medium text-off-black-ink md:text-display">
+        <h1 className="text-heading-lg font-heading font-medium text-off-black-ink md:text-display">
           A agência #1 do Brasil em dropshipping
         </h1>
 

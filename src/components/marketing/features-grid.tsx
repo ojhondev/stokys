@@ -18,7 +18,7 @@ export function FeaturesGrid() {
         <span className="text-caption font-medium uppercase text-graphite">
           Por dentro da plataforma
         </span>
-        <h2 className="mt-3 max-w-[560px] text-heading font-medium text-off-black-ink">
+        <h2 className="mt-3 max-w-[560px] text-heading font-heading font-medium text-off-black-ink">
           Cada detalhe do processo, resolvido em um lugar só.
         </h2>
 
@@ -26,7 +26,7 @@ export function FeaturesGrid() {
           {features.map((feature) => (
             <div key={feature.heading}>
               <span className="text-heading font-medium text-off-black-ink">{feature.glifo}</span>
-              <h3 className="mt-4 text-subheading font-medium text-off-black-ink">
+              <h3 className="mt-4 text-subheading font-heading font-medium text-off-black-ink">
                 {feature.heading}
               </h3>
               <p className="mt-2 text-body-sm text-graphite">{feature.descricao}</p>

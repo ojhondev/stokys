@@ -7,7 +7,7 @@ export default function DashboardPage() {
     <main className="flex flex-1 flex-col bg-off-white-canvas px-6 py-16">
       <div className="mx-auto w-full max-w-[1200px]">
         <span className="text-caption font-medium uppercase text-graphite">Seu projeto</span>
-        <h1 className="mt-3 text-heading font-medium text-off-black-ink">
+        <h1 className="mt-3 text-heading font-heading font-medium text-off-black-ink">
           Ainda não há um projeto vinculado a esta conta.
         </h1>
         <p className="mt-4 max-w-[480px] text-body-sm text-graphite">

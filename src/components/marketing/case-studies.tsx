@@ -10,7 +10,7 @@ export function CaseStudies() {
     <section className="bg-off-white-canvas px-6 py-20 md:py-24">
       <div className="mx-auto w-full max-w-[1200px]">
         <span className="text-caption font-medium uppercase text-graphite">Resultados</span>
-        <h2 className="mt-3 max-w-[560px] text-heading font-medium text-off-black-ink">
+        <h2 className="mt-3 max-w-[560px] text-heading font-heading font-medium text-off-black-ink">
           [X]+ lojas entregues, gente de verdade vendendo.
         </h2>
 

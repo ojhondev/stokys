@@ -8,7 +8,7 @@ export default function LoginPage() {
         <Link href="/" className="text-body font-medium text-off-black-ink">
           Stokys
         </Link>
-        <h1 className="mt-8 text-heading font-medium text-off-black-ink">Acessar minha conta</h1>
+        <h1 className="mt-8 text-heading font-heading font-medium text-off-black-ink">Acessar minha conta</h1>
         <p className="mt-2 text-body-sm text-graphite">
           Cliente, produção, admin ou parceiro — mesmo login, acesso por papel.
         </p>

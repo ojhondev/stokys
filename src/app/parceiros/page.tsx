@@ -13,7 +13,7 @@ export default function ParceirosPage() {
       <main className="flex flex-1 flex-col bg-off-white-canvas px-6 py-20">
         <div className="mx-auto flex w-full max-w-[1200px] flex-col items-start rounded-3xl bg-pure-white p-12">
           <span className="text-caption font-medium uppercase text-graphite">Parceiros</span>
-          <h1 className="mt-3 max-w-[520px] text-heading font-medium text-off-black-ink">
+          <h1 className="mt-3 max-w-[520px] text-heading font-heading font-medium text-off-black-ink">
             A vitrine de parceiros ainda está sendo montada.
           </h1>
           <p className="mt-4 max-w-[480px] text-body-sm text-graphite">

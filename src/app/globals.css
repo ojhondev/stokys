@@ -37,8 +37,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* Tipografia — família única (OTSono -> Inter) */
+  /* Tipografia — corpo (OTSono -> Inter) + títulos (Poppins, pedido do usuário) */
   --font-sans: var(--font-otsono);
+  --font-heading: var(--font-poppins);
 
   /* Escala de texto (tamanho / line-height / letter-spacing pareados) */
   --text-eyebrow: 10px;
@@ -56,18 +57,19 @@
   --text-body--line-height: 1.5;
 
   --text-subheading: 22px;
-  --text-subheading--line-height: 1.18;
+  --text-subheading--line-height: 1.24;
+  --text-subheading--letter-spacing: -0.03em;
 
-  --text-heading: 28px;
-  --text-heading--line-height: 1.14;
-  --text-heading--letter-spacing: -0.02em;
+  --text-heading: 26px;
+  --text-heading--line-height: 1.2;
+  --text-heading--letter-spacing: -0.03em;
 
-  --text-heading-lg: 60px;
-  --text-heading-lg--line-height: 1;
+  --text-heading-lg: 46px;
+  --text-heading-lg--line-height: 1.1;
   --text-heading-lg--letter-spacing: -0.03em;
 
-  --text-display: 90px;
-  --text-display--line-height: 0.89;
+  --text-display: 66px;
+  --text-display--line-height: 0.98;
   --text-display--letter-spacing: -0.03em;
 
   /* Raios — cards/botões 28px (3xl), pills/tags 9999px (full), inputs 8px (lg), inner 18px (2xl) */

@@ -14,12 +14,12 @@ export default function AdminPage() {
     <main className="flex flex-1 flex-col bg-pure-white px-6 py-16">
       <div className="mx-auto w-full max-w-[1200px]">
         <span className="text-caption font-medium uppercase text-graphite">Painel interno</span>
-        <h1 className="mt-3 text-heading font-medium text-off-black-ink">Stokys — Operação</h1>
+        <h1 className="mt-3 text-heading font-heading font-medium text-off-black-ink">Stokys — Operação</h1>
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {modulos.map((modulo) => (
             <div key={modulo.titulo} className="rounded-3xl bg-off-white-canvas p-8">
-              <h2 className="text-subheading font-medium text-off-black-ink">{modulo.titulo}</h2>
+              <h2 className="text-subheading font-heading font-medium text-off-black-ink">{modulo.titulo}</h2>
               <p className="mt-2 text-body-sm text-graphite">{modulo.descricao}</p>
               <p className="mt-4 text-caption font-medium uppercase text-stone">Em construção</p>
             </div>
