@@ -29,10 +29,8 @@ as páginas estáticas (LP, onboarding) funcionam normalmente, mas nada que depe
 
 ## Deploy
 
-Deploy é manual por enquanto: `vercel deploy --prod` a partir desta pasta. O app do
-GitHub da Vercel ainda não está autorizado para o repositório `ojhondev/stokys`
-(`vercel git connect` falha até isso ser aprovado no GitHub) — depois de autorizado,
-todo push em `main` passa a fazer deploy automático.
+Deploy automático: todo push em `main` builda e publica em https://stokys.vercel.app
+(GitHub conectado ao projeto Vercel em 2026-08-13).
 
 ## Status
 
