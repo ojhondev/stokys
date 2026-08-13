@@ -4,11 +4,12 @@ import { useState } from "react";
 import { LinkButton } from "@/components/ui/button";
 import { planosConteudo, type PlanoConteudo } from "@/lib/planos-conteudo";
 import { planosCases } from "@/lib/planos-cases";
+import { PlanoMockup } from "@/components/marketing/plano-mockup";
 
-// Mesmo padrão das abas Travel/Spend/Events da perk.com — indicador lima atrás da
-// aba ativa, descrição + itens em cima, e uma barra "pill" com case/estatísticas
-// embaixo (mesma composição do card de case da perk.com: marca, 2 números, citação,
-// link). Copy de rascunho — ver src/lib/planos-cases.ts.
+// Mesmo padrão da seção Travel/Spend/Events da perk.com: abas com indicador lima
+// dentro do card, coluna esquerda com texto (topo: abas — base: descrição/itens/CTA)
+// e coluna direita com o preview da loja preenchendo a altura toda; embaixo, a barra
+// "pill" de case/estatísticas. Copy de rascunho — ver src/lib/planos-cases.ts.
 
 export function PlanosTabs() {
   const [ativo, setAtivo] = useState<PlanoConteudo["slug"]>("pro");
@@ -23,39 +24,44 @@ export function PlanosTabs() {
           Três formas de montar sua loja.
         </h2>
 
-        <div className="mt-10 inline-flex rounded-full bg-off-white-canvas p-1">
-          {planosConteudo.map((p) => (
-            <button
-              key={p.slug}
-              type="button"
-              onClick={() => setAtivo(p.slug)}
-              className={`rounded-full px-5 py-2.5 text-body-sm font-medium transition-colors ${
-                ativo === p.slug ? "bg-electric-lime text-off-black-ink" : "text-graphite"
-              }`}
-            >
-              {p.nome}
-            </button>
-          ))}
-        </div>
-
         <div className="mt-10 rounded-3xl bg-off-white-canvas p-10 md:p-16">
           <div className="grid gap-10 md:grid-cols-2">
-            <div>
-              <h3 className="text-subheading font-medium text-off-black-ink">{plano.nome}</h3>
-              <p className="mt-2 text-body text-graphite">{plano.descricao}</p>
-            </div>
-            <ul className="flex flex-col gap-2 self-center">
-              {plano.itens.map((item) => (
-                <li key={item} className="text-body-sm text-off-black-ink">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div className="flex flex-col justify-between">
+              <div className="inline-flex w-fit rounded-full bg-pure-white p-1">
+                {planosConteudo.map((p) => (
+                  <button
+                    key={p.slug}
+                    type="button"
+                    onClick={() => setAtivo(p.slug)}
+                    className={`rounded-full px-5 py-2.5 text-body-sm font-medium transition-colors ${
+                      ativo === p.slug ? "bg-electric-lime text-off-black-ink" : "text-graphite"
+                    }`}
+                  >
+                    {p.nome}
+                  </button>
+                ))}
+              </div>
 
-          <LinkButton href={`/onboarding?plano=${plano.slug}`} className="mt-8">
-            Escolher {plano.nome}
-          </LinkButton>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-subheading font-medium text-off-black-ink">{plano.nome}</h3>
+                <p className="mt-2 max-w-[380px] text-body text-graphite">{plano.descricao}</p>
+                <ul className="mt-6 flex flex-col gap-2">
+                  {plano.itens.map((item) => (
+                    <li key={item} className="text-body-sm text-off-black-ink">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <LinkButton href={`/onboarding?plano=${plano.slug}`} className="mt-8">
+                  Escolher {plano.nome}
+                </LinkButton>
+              </div>
+            </div>
+
+            <div className="min-h-[360px]">
+              <PlanoMockup plano={plano.slug} />
+            </div>
+          </div>
 
           <div className="mt-10 flex flex-col gap-6 rounded-3xl bg-pure-white px-8 py-6 lg:flex-row lg:items-center lg:gap-10 lg:rounded-full">
             <span className="text-subheading font-medium text-off-black-ink">{caso.marca}</span>

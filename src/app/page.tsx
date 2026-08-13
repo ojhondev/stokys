@@ -29,8 +29,8 @@ export default function Home() {
         <TrustedBy />
 
         <StatCallout
-          numero="[—]"
-          heading="Uma plataforma. Da escolha do plano à loja publicada."
+          linha1="Uma plataforma."
+          linha2="[—] lojas entregues até hoje."
           descricao="Onboarding, pagamento, produção e preview — sem trocar de ferramenta em nenhuma etapa."
           ctaLabel="Montar minha loja"
           ctaHref="/onboarding"
@@ -40,8 +40,8 @@ export default function Home() {
         <PlanosTabs />
 
         <StatCallout
-          numero="[—]"
-          heading="Menos ida e volta no WhatsApp, mais loja pronta."
+          linha1="Menos WhatsApp,"
+          linha2="mais loja no ar."
           descricao="Toda decisão do projeto fica registrada — orçamento, acessos, mensagens e pagamento, tudo num histórico só."
           ctaLabel="Começar agora"
           ctaHref="/onboarding"
@@ -51,8 +51,8 @@ export default function Home() {
         <ValueGrid />
 
         <StatCallout
-          numero="[—]"
-          heading="Toda etapa da produção, sem você precisar perguntar “como tá indo”."
+          linha1="Toda etapa,"
+          linha2="sem você perguntar “como tá indo”."
           descricao="Status atualizado e preview disponível assim que a produção avança."
           ctaLabel="Ver como funciona"
           ctaHref="#como-funciona"
