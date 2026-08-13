@@ -15,6 +15,8 @@
   --color-deep-charcoal: #30302a;
   --color-stone: #919183;
   --color-smoke: #b9b9b7;
+  /* Fora do DESIGN.md original — pedido do usuário pro header/menu/aviso. */
+  --color-cloud: #f9f9f9;
 
   --background: var(--color-pure-white);
   --foreground: var(--color-off-black-ink);
@@ -34,6 +36,7 @@
   --color-deep-charcoal: var(--color-deep-charcoal);
   --color-stone: var(--color-stone);
   --color-smoke: var(--color-smoke);
+  --color-cloud: var(--color-cloud);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 

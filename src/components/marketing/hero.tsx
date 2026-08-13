@@ -10,7 +10,7 @@ export function Hero() {
     <section className="bg-off-white-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
         <h1 className="text-heading-lg font-heading font-medium text-off-black-ink md:text-display">
-          Comece um negócio online com uma loja de dropshipping
+          Comece um negócio com uma loja de dropshipping
         </h1>
 
         <div className="mt-6 flex items-center gap-2 rounded-full bg-pure-white px-4 py-2">
@@ -28,13 +28,13 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 w-full max-w-[1800px]">
+      <div className="mx-auto mt-10 w-full max-w-[960px]">
         <Image
           src="/hero-mockup.png"
           alt="Preview da plataforma Stokys"
           width={6197}
           height={1795}
-          className="w-full h-auto"
+          className="h-auto w-full"
           priority
         />
       </div>

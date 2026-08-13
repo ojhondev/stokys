@@ -6,8 +6,8 @@ import Link from "next/link";
 import { LinkButton } from "@/components/ui/button";
 
 // Header: no topo da página é uma barra cheia; ao rolar, encolhe pra uma pill
-// flutuante arredondada (com margem das bordas) — mesmo comportamento da perk.com.
-// Nav fica só no hambúrguer (sem links soltos na barra).
+// flutuante arredondada — mesmo comportamento da perk.com. Nav fica só no
+// hambúrguer, que abre como overlay (position: absolute) sem empurrar a página.
 
 const navLinks = [
   { href: "#planos", label: "Planos" },
@@ -28,12 +28,10 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-20 px-6 sm:px-10 lg:px-16">
+    <header className="sticky top-0 z-20 bg-cloud px-6 sm:px-10 lg:px-16">
       <div
-        className={`mx-auto flex w-full items-center justify-between bg-off-white-canvas transition-all duration-300 ${
-          scrolled
-            ? "mt-4 max-w-[640px] rounded-full border border-ash px-6 py-3"
-            : "max-w-[1800px] px-0 py-6"
+        className={`mx-auto flex w-full items-center justify-between bg-cloud transition-all duration-300 ${
+          scrolled ? "mt-4 max-w-[640px] rounded-full px-6 py-3" : "max-w-[1800px] px-0 py-6"
         }`}
       >
         <Link href="/" className="flex items-center">
@@ -63,12 +61,8 @@ export function SiteHeader() {
       </div>
 
       {menuAberto && (
-        <div
-          className={`mx-auto w-full transition-all duration-300 ${
-            scrolled ? "max-w-[640px]" : "max-w-[1800px] px-0"
-          }`}
-        >
-          <nav className="mt-2 flex flex-col gap-1 rounded-3xl border border-ash bg-pure-white p-4">
+        <div className="absolute inset-x-0 top-full bg-cloud px-6 pb-6 sm:px-10 lg:px-16">
+          <nav className="mx-auto flex w-full max-w-[1800px] flex-col gap-1 rounded-3xl bg-pure-white p-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
