@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   return (
-    <main className="flex flex-1 items-center justify-center bg-off-white-canvas px-6 py-20">
+    <main className="flex flex-1 items-center justify-center bg-off-white-canvas px-6 py-14 sm:px-10 lg:px-16">
       <div className="w-full max-w-[400px] rounded-3xl bg-pure-white p-10">
         <Link href="/" className="text-body font-medium text-off-black-ink">
           Stokys

@@ -25,8 +25,8 @@ const recursos = [
 
 export function Resources() {
   return (
-    <section className="bg-pure-white px-6 py-20 md:py-24">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section className="bg-pure-white px-6 sm:px-10 lg:px-16 py-14 md:py-16">
+      <div className="mx-auto w-full max-w-[1800px]">
         <h2 className="text-heading font-heading font-medium text-off-black-ink">Vamos pra prática.</h2>
 
         <div className="mt-12 grid gap-6 md:grid-cols-3">

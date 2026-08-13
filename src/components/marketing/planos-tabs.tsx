@@ -17,8 +17,8 @@ export function PlanosTabs() {
   const caso = planosCases[ativo];
 
   return (
-    <section id="planos" className="bg-pure-white px-6 py-20 md:py-24">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section id="planos" className="bg-pure-white px-6 sm:px-10 lg:px-16 py-14 md:py-16">
+      <div className="mx-auto w-full max-w-[1800px]">
         <span className="text-caption font-medium uppercase text-graphite">Planos</span>
         <h2 className="mt-3 max-w-[560px] text-heading font-heading font-medium text-off-black-ink">
           Três formas de montar sua loja.

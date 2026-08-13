@@ -11,8 +11,8 @@ const modulos = [
 
 export default function AdminPage() {
   return (
-    <main className="flex flex-1 flex-col bg-pure-white px-6 py-16">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <main className="flex flex-1 flex-col bg-pure-white px-6 py-14 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-[1800px]">
         <span className="text-caption font-medium uppercase text-graphite">Painel interno</span>
         <h1 className="mt-3 text-heading font-heading font-medium text-off-black-ink">Stokys — Operação</h1>
 

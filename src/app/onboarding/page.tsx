@@ -13,8 +13,8 @@ export default async function OnboardingPage({
   const inicial = slugsValidos.find((slug) => slug === plano);
 
   return (
-    <main className="flex flex-1 flex-col bg-pure-white px-6 py-16">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <main className="flex flex-1 flex-col bg-pure-white px-6 py-14 sm:px-10 lg:px-16">
+      <div className="mx-auto w-full max-w-[1800px]">
         <Link href="/" className="text-body font-medium text-off-black-ink">
           Stokys
         </Link>

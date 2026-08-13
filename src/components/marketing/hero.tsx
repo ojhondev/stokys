@@ -7,20 +7,20 @@ import { LinkButton } from "@/components/ui/button";
 
 export function Hero() {
   return (
-    <section className="bg-off-white-canvas px-6 pb-0 pt-16 md:pt-20">
+    <section className="bg-off-white-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
         <h1 className="text-heading-lg font-heading font-medium text-off-black-ink md:text-display">
-          A agência #1 do Brasil em dropshipping
+          Comece um negócio online com uma loja de dropshipping
         </h1>
 
-        <div className="mt-8 flex items-center gap-2 rounded-full bg-pure-white px-4 py-2">
+        <div className="mt-6 flex items-center gap-2 rounded-full bg-pure-white px-4 py-2">
           <span className="text-body-sm text-electric-lime">★★★★★</span>
           <span className="text-body-sm font-medium text-off-black-ink">
             [+X avaliações de clientes]
           </span>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
           <LinkButton href="/onboarding">Montar minha loja</LinkButton>
           <LinkButton href="#como-funciona" variant="ghost">
             Ver como funciona
@@ -28,7 +28,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 w-full max-w-[1200px]">
+      <div className="mx-auto mt-10 w-full max-w-[1800px]">
         <Image
           src="/hero-mockup.png"
           alt="Preview da plataforma Stokys"

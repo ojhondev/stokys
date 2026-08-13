@@ -13,8 +13,8 @@ const features = [
 
 export function FeaturesGrid() {
   return (
-    <section className="bg-off-white-canvas px-6 py-20 md:py-24">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section className="bg-off-white-canvas px-6 sm:px-10 lg:px-16 py-14 md:py-16">
+      <div className="mx-auto w-full max-w-[1800px]">
         <span className="text-caption font-medium uppercase text-graphite">
           Por dentro da plataforma
         </span>

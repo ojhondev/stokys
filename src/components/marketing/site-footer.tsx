@@ -19,8 +19,8 @@ const columns = [
 
 export function SiteFooter() {
   return (
-    <footer className="bg-off-black-ink px-6 py-20">
-      <div className="mx-auto grid w-full max-w-[1200px] gap-16 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
+    <footer className="bg-off-black-ink px-6 py-14 sm:px-10 lg:px-16">
+      <div className="mx-auto grid w-full max-w-[1800px] gap-16 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
         <div>
           <p className="text-heading font-medium text-off-white-canvas">Stokys</p>
           <p className="mt-4 max-w-[280px] text-body-sm text-ash">
@@ -45,7 +45,7 @@ export function SiteFooter() {
         ))}
       </div>
 
-      <div className="mx-auto mt-16 w-full max-w-[1200px] border-t border-white/10 pt-8">
+      <div className="mx-auto mt-16 w-full max-w-[1800px] border-t border-white/10 pt-8">
         <p className="text-caption font-medium uppercase text-ash">[Fundada em — · cidade]</p>
       </div>
     </footer>

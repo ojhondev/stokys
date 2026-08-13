@@ -33,8 +33,8 @@ const valores = [
 
 export function ValueGrid() {
   return (
-    <section className="bg-pure-white px-6 py-20 md:py-24">
-      <div className="mx-auto grid w-full max-w-[1200px] gap-6 md:grid-cols-4">
+    <section className="bg-pure-white px-6 sm:px-10 lg:px-16 py-14 md:py-16">
+      <div className="mx-auto grid w-full max-w-[1800px] gap-6 md:grid-cols-4">
         {valores.map((valor) => (
           <div key={valor.eyebrow} className="rounded-3xl bg-off-white-canvas p-8">
             <span className="text-heading text-off-black-ink">{valor.glifo}</span>

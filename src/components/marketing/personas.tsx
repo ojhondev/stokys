@@ -37,8 +37,8 @@ const personas = [
 
 export function Personas() {
   return (
-    <section id="como-funciona" className="bg-pure-white px-6 py-20 md:py-24">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section id="como-funciona" className="bg-pure-white px-6 sm:px-10 lg:px-16 py-14 md:py-16">
+      <div className="mx-auto w-full max-w-[1800px]">
         <h2 className="max-w-[600px] text-heading font-heading font-medium text-off-black-ink">
           Simples pra você. Direto pra quem produz.
         </h2>
