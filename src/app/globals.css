@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de A:\Stokys\docs\DESIGN.md (estilo Perk). OTSono não está disponível
+ * como webfont público — usamos Inter como substituto, conforme o próprio
+ * documento de design indica ("Substitute: Inter, system-ui sans-serif").
+ */
+:root {
+  --color-electric-lime: #beff50;
+  --color-off-black-ink: #14140f;
+  --color-off-white-canvas: #f5f5eb;
+  --color-pure-white: #ffffff;
+  --color-ash: #d2d2c8;
+  --color-graphite: #6e6e64;
+  --color-deep-charcoal: #30302a;
+  --color-stone: #919183;
+  --color-smoke: #b9b9b7;
+
+  --background: var(--color-pure-white);
+  --foreground: var(--color-off-black-ink);
+  /* O app ainda não tem tema escuro desenhado — força controles nativos a
+     renderizar sempre no claro, senão o SO em modo escuro deixa texto ilegível. */
+  color-scheme: light;
+}
+
+@theme inline {
+  /* Cores */
+  --color-electric-lime: var(--color-electric-lime);
+  --color-off-black-ink: var(--color-off-black-ink);
+  --color-off-white-canvas: var(--color-off-white-canvas);
+  --color-pure-white: var(--color-pure-white);
+  --color-ash: var(--color-ash);
+  --color-graphite: var(--color-graphite);
+  --color-deep-charcoal: var(--color-deep-charcoal);
+  --color-stone: var(--color-stone);
+  --color-smoke: var(--color-smoke);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Tipografia — família única (OTSono -> Inter) */
+  --font-sans: var(--font-otsono);
+
+  /* Escala de texto (tamanho / line-height / letter-spacing pareados) */
+  --text-eyebrow: 10px;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.1em;
+
+  --text-caption: 12px;
+  --text-caption--line-height: 1.33;
+  --text-caption--letter-spacing: 0.1em;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.29;
+
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+
+  --text-subheading: 22px;
+  --text-subheading--line-height: 1.18;
+
+  --text-heading: 28px;
+  --text-heading--line-height: 1.14;
+  --text-heading--letter-spacing: -0.02em;
+
+  --text-heading-lg: 60px;
+  --text-heading-lg--line-height: 1;
+  --text-heading-lg--letter-spacing: -0.03em;
+
+  --text-display: 90px;
+  --text-display--line-height: 0.89;
+  --text-display--letter-spacing: -0.03em;
+
+  /* Raios — cards/botões 28px (3xl), pills/tags 9999px (full), inputs 8px (lg), inner 18px (2xl) */
+  --radius-lg: 8px;
+  --radius-2xl: 18px;
+  --radius-3xl: 28px;
+
+  /* Base de espaçamento já é 4px por padrão no Tailwind v4 (--spacing: 0.25rem),
+     o que já casa com a escala de 4/8/12/16/20/24/32/40/60/64/72/80/96/220/224px
+     do design system — usar múltiplos diretos (ex.: p-20 = 80px, p-55 = 220px). */
+}
+
+body {
+  background: var(--color-pure-white);
+  color: var(--color-off-black-ink);
+}
