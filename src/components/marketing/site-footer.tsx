@@ -44,6 +44,10 @@ export function SiteFooter() {
           </div>
         ))}
       </div>
+
+      <div className="mx-auto mt-16 w-full max-w-[1200px] border-t border-white/10 pt-8">
+        <p className="text-caption font-medium uppercase text-ash">[Fundada em — · cidade]</p>
+      </div>
     </footer>
   );
 }

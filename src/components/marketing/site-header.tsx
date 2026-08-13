@@ -9,24 +9,34 @@ const navLinks = [
 
 export function SiteHeader() {
   return (
-    <header className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-8">
-      <Link href="/" className="text-heading font-medium text-off-black-ink">
-        Stokys
-      </Link>
+    <header className="sticky top-0 z-10 bg-off-white-canvas/95 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center justify-between px-6 py-6">
+        <Link href="/" className="text-heading font-medium text-off-black-ink">
+          Stokys
+        </Link>
 
-      <nav className="hidden items-center gap-8 md:flex">
-        {navLinks.map((link) => (
+        <nav className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-body font-medium text-off-black-ink/80 transition-colors hover:text-off-black-ink"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-6">
           <Link
-            key={link.href}
-            href={link.href}
-            className="text-body font-medium text-off-black-ink/80 transition-colors hover:text-off-black-ink"
+            href="/login"
+            className="hidden text-body font-medium text-off-black-ink md:block"
           >
-            {link.label}
+            Entrar
           </Link>
-        ))}
-      </nav>
-
-      <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+          <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+        </div>
+      </div>
     </header>
   );
 }
