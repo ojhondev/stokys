@@ -53,42 +53,41 @@ export function PricingCards() {
           ))}
         </div>
 
-        {/* Mobile: lista com divisórias por plano */}
+        {/* Mobile: card com nome, preço em destaque e CTA compacto, sem lista —
+            a comparação completa já está na seção "Entenda os planos" */}
         <div className="mt-10 flex flex-col gap-6 md:hidden">
           {planosConteudo.map((plano) => (
-            <div key={plano.slug} className="rounded-3xl bg-off-white-canvas p-6">
+            <div
+              key={plano.slug}
+              className={`rounded-3xl p-6 ${
+                plano.destaque ? "bg-off-white-canvas" : "border border-ash bg-pure-white"
+              }`}
+            >
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-heading font-heading font-bold text-off-black-ink">
-                  Com o {plano.nome}, você ganha:
+                  {plano.nome}
                 </h3>
                 {plano.destaque && (
                   <span className="shrink-0 rounded-full bg-electric-lime px-3 py-1 text-caption font-medium text-off-black-ink">
-                    Popular
+                    Mais popular
                   </span>
                 )}
               </div>
-              <p className="mt-1 text-subheading font-heading font-bold text-off-black-ink">
+
+              <p className="mt-4 text-caption text-graphite">Com o {plano.nome} você tem...</p>
+              <p className="mt-1 text-heading-lg font-heading font-bold text-off-black-ink">
                 {formatarPreco(plano.precoCentavos)}
               </p>
-              <p className="mt-1 text-body-sm font-medium text-graphite">{plano.descricao}</p>
 
-              <ul className="mt-5 flex flex-col">
-                {plano.itens.map((item) => (
-                  <li
-                    key={item}
-                    className="border-t border-ash py-3 text-body-sm text-off-black-ink first:border-t-0"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <p className="mt-3 text-body-sm text-graphite">{plano.descricao}</p>
 
               <LinkButton
                 href={`/onboarding?plano=${plano.slug}`}
                 variant={plano.destaque ? "primary" : "outline"}
-                className="mt-6 w-full justify-center"
+                className="mt-6 gap-2"
               >
                 {plano.slug === "zen" ? "Começar" : `Escolher ${plano.nome}`}
+                <span aria-hidden>→</span>
               </LinkButton>
             </div>
           ))}

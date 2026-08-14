@@ -56,14 +56,16 @@ export default function Home() {
 
         <Personas />
 
-        <StatCallout
-          linha1="Toda etapa,"
-          linha2="sem você perguntar “como tá indo”."
-          descricao="Status atualizado e preview disponível assim que a produção avança."
-          ctaLabel="Ver como funciona"
-          ctaHref="#como-funciona"
-          fundo="off-white-canvas"
-        />
+        <div className="hidden md:block">
+          <StatCallout
+            linha1="Toda etapa,"
+            linha2="sem você perguntar “como tá indo”."
+            descricao="Status atualizado e preview disponível assim que a produção avança."
+            ctaLabel="Ver como funciona"
+            ctaHref="#como-funciona"
+            fundo="off-white-canvas"
+          />
+        </div>
 
         <PricingCards />
         <ComparisonTable />
