@@ -1,6 +1,12 @@
-// Tabela de comparação — mesmo padrão de "The long list" da perk.com: cabeçalho
-// com os 3 planos (badge no mais popular), linhas de recurso com check/valor por
-// coluna. Só mostra o que já está confirmado no PRD — nada inventado por plano.
+import { Fragment } from "react";
+
+// Tabela de comparação — mesmo padrão de "Comparar todos os recursos" da
+// slack.com/pricing: título dos planos fixo no topo enquanto o usuário rola
+// pra comparar os recursos. Usa CSS Grid em vez de <table> porque um wrapper
+// overflow-x-auto força overflow-y para "auto" (regra da spec de overflow),
+// o que quebra o position: sticky — a Slack evita isso não usando scroll
+// horizontal no mobile, então as colunas aqui são estreitas o bastante pra
+// caber sem scroll em qualquer largura de tela.
 
 const colunas: { slug: "zen" | "pro" | "customizado"; nome: string; badge?: string }[] = [
   { slug: "zen", nome: "Zen" },
@@ -67,52 +73,43 @@ function Celula({ valor }: { valor: Valor }) {
 
 export function ComparisonTable() {
   return (
-    <section className="hidden bg-pure-white px-6 py-14 sm:px-10 md:block md:py-16 lg:px-16">
+    <section className="bg-pure-white px-6 py-14 sm:px-10 md:py-16 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
         <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink">
           Entenda os planos
         </h2>
 
-        {/* Desktop: tabela completa lado a lado, título dos planos fixo ao rolar */}
-        <div className="mt-14 overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse">
-            <thead>
-              <tr>
-                <th className="sticky top-24 z-10 w-[280px] bg-pure-white" />
-                {colunas.map((coluna) => (
-                  <th
-                    key={coluna.slug}
-                    className="sticky top-24 z-10 bg-pure-white px-4 pb-8 text-left align-bottom"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-subheading font-heading font-bold text-off-black-ink">
-                        {coluna.nome}
-                      </span>
-                      {coluna.badge && (
-                        <span className="rounded-full bg-electric-lime px-3 py-1 text-caption font-medium text-off-black-ink">
-                          {coluna.badge}
-                        </span>
-                      )}
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {linhas.map((linha) => (
-                <tr key={linha.label} className="border-b border-ash">
-                  <td className="py-5 pr-4 text-body-sm font-bold text-off-black-ink">
-                    {linha.label}
-                  </td>
-                  {colunas.map((coluna) => (
-                    <td key={coluna.slug} className="px-4 py-5">
-                      <Celula valor={linha.valores[coluna.slug]} />
-                    </td>
-                  ))}
-                </tr>
+        <div className="mt-14 grid grid-cols-[minmax(120px,1.5fr)_repeat(3,minmax(0,1fr))] gap-x-3 sm:gap-x-6 md:grid-cols-[280px_repeat(3,1fr)]">
+          {/* Título dos planos — fixo no topo ao rolar, no mobile e no desktop */}
+          <div className="sticky top-24 z-10 bg-pure-white pb-8" />
+          {colunas.map((coluna) => (
+            <div
+              key={coluna.slug}
+              className="sticky top-24 z-10 flex flex-col items-start gap-2 bg-pure-white pb-8"
+            >
+              <span className="text-subheading font-heading font-bold text-off-black-ink">
+                {coluna.nome}
+              </span>
+              {coluna.badge && (
+                <span className="rounded-full bg-electric-lime px-3 py-1 text-caption font-medium text-off-black-ink">
+                  {coluna.badge}
+                </span>
+              )}
+            </div>
+          ))}
+
+          {linhas.map((linha) => (
+            <Fragment key={linha.label}>
+              <div className="border-b border-ash py-5 pr-2 text-body-sm font-bold text-off-black-ink">
+                {linha.label}
+              </div>
+              {colunas.map((coluna) => (
+                <div key={coluna.slug} className="border-b border-ash py-5">
+                  <Celula valor={linha.valores[coluna.slug]} />
+                </div>
               ))}
-            </tbody>
-          </table>
+            </Fragment>
+          ))}
         </div>
       </div>
     </section>

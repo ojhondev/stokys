@@ -128,7 +128,7 @@ body {
   animation: marquee 60s linear infinite;
 }
 
-/* Stroke lima de 2px em todos os containers (cards) do site. */
+/* Stroke lima de 1px em todos os containers (cards) do site. */
 .rounded-3xl {
-  border: 2px solid var(--color-electric-lime);
+  border: 1px solid var(--color-electric-lime);
 }
