@@ -12,7 +12,7 @@ export function PromoBar() {
   if (!visivel) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 bg-electric-lime px-6 py-3 sm:px-10 lg:px-16">
+    <div className="fixed inset-x-0 bottom-0 z-30 bg-pure-white px-6 py-3 sm:px-10 lg:px-16">
       <div className="mx-auto flex w-full max-w-[1800px] items-center justify-between gap-4">
         <p className="text-body-sm font-medium text-off-black-ink">
           Crie um plano Customizado com{" "}
