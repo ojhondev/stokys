@@ -12,21 +12,26 @@ export function PromoBar() {
   if (!visivel) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 bg-off-black-ink px-6 py-3 sm:px-10 lg:px-16">
+    <div className="fixed inset-x-0 bottom-0 z-30 bg-electric-lime px-6 py-3 sm:px-10 lg:px-16">
       <div className="mx-auto flex w-full max-w-[1800px] items-center justify-between gap-4">
-        <p className="text-body-sm font-medium text-off-white-canvas">
+        <p className="text-body-sm font-medium text-off-black-ink">
           Crie um plano Customizado com{" "}
-          <span className="font-bold text-electric-lime">15% de desconto</span> à vista no PIX.
+          <span className="font-bold underline underline-offset-2">15% de desconto</span> à vista
+          no PIX.
         </p>
         <div className="flex shrink-0 items-center gap-3">
-          <LinkButton href="/onboarding?plano=customizado" className="whitespace-nowrap">
-            Criar minha loja
+          <LinkButton
+            href="/onboarding?plano=customizado"
+            variant="dark"
+            className="whitespace-nowrap"
+          >
+            Criar loja
           </LinkButton>
           <button
             type="button"
             onClick={() => setVisivel(false)}
             aria-label="Fechar"
-            className="text-body-sm text-off-white-canvas/60"
+            className="text-body-sm text-off-black-ink/60"
           >
             ✕
           </button>

@@ -67,20 +67,23 @@ function Celula({ valor }: { valor: Valor }) {
 
 export function ComparisonTable() {
   return (
-    <section className="bg-pure-white px-6 py-14 sm:px-10 md:py-16 lg:px-16">
+    <section className="hidden bg-pure-white px-6 py-14 sm:px-10 md:block md:py-16 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
         <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink">
           Entenda os planos
         </h2>
 
-        {/* Desktop: tabela completa lado a lado */}
-        <div className="mt-14 hidden overflow-x-auto md:block">
+        {/* Desktop: tabela completa lado a lado, título dos planos fixo ao rolar */}
+        <div className="mt-14 overflow-x-auto">
           <table className="w-full min-w-[720px] border-collapse">
             <thead>
               <tr>
-                <th className="w-[280px]" />
+                <th className="sticky top-24 z-10 w-[280px] bg-pure-white" />
                 {colunas.map((coluna) => (
-                  <th key={coluna.slug} className="px-4 pb-8 text-left align-bottom">
+                  <th
+                    key={coluna.slug}
+                    className="sticky top-24 z-10 bg-pure-white px-4 pb-8 text-left align-bottom"
+                  >
                     <div className="flex items-center gap-3">
                       <span className="text-subheading font-heading font-bold text-off-black-ink">
                         {coluna.nome}
@@ -110,40 +113,6 @@ export function ComparisonTable() {
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Mobile: um bloco por plano, só com o que está incluso */}
-        <div className="mt-10 flex flex-col gap-6 md:hidden">
-          {colunas.map((coluna) => {
-            const itensInclusos = linhas
-              .map((linha) => ({ label: linha.label, valor: linha.valores[coluna.slug] }))
-              .filter((item) => item.valor !== false);
-
-            return (
-              <div key={coluna.slug} className="rounded-3xl bg-off-white-canvas p-6">
-                <div className="flex items-center gap-3">
-                  <h3 className="text-subheading font-heading font-bold text-off-black-ink">
-                    Com o {coluna.nome} você tem
-                  </h3>
-                  {coluna.badge && (
-                    <span className="rounded-full bg-electric-lime px-3 py-1 text-caption font-medium text-off-black-ink">
-                      {coluna.badge}
-                    </span>
-                  )}
-                </div>
-                <ul className="mt-4 flex flex-col gap-2">
-                  {itensInclusos.map((item) => (
-                    <li key={item.label} className="text-body-sm text-off-black-ink">
-                      <span className="font-bold">{item.label}</span>
-                      {typeof item.valor === "string" && (
-                        <span className="text-graphite"> — {item.valor}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
         </div>
       </div>
     </section>

@@ -11,7 +11,7 @@ export function ClosingCta() {
           A loja pronta. Você só vende.
         </h2>
         <div className="mt-10">
-          <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+          <LinkButton href="/onboarding">Criar loja</LinkButton>
         </div>
       </div>
     </section>

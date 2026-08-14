@@ -8,6 +8,7 @@ const variants = {
   primary: `${base} rounded-3xl bg-electric-lime pt-4 pb-4 pl-4 pr-3 text-off-black-ink hover:opacity-90`,
   ghost: `${base} rounded-full text-off-black-ink hover:opacity-70`,
   outline: `${base} rounded-full border border-off-black-ink pt-4 pb-4 pl-4 pr-3 text-off-black-ink hover:opacity-70`,
+  dark: `${base} rounded-3xl bg-off-black-ink pt-4 pb-4 pl-4 pr-3 text-electric-lime hover:opacity-90`,
 } as const;
 
 type Variant = keyof typeof variants;

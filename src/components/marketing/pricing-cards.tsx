@@ -18,7 +18,7 @@ export function PricingCards() {
           {planosConteudo.map((plano) => (
             <div
               key={plano.slug}
-              className={`flex flex-col rounded-3xl p-8 ${
+              className={`flex flex-col rounded-3xl p-8 transition-transform duration-200 hover:scale-[1.02] ${
                 plano.destaque ? "bg-off-white-canvas" : "border border-ash bg-pure-white"
               }`}
             >

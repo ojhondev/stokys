@@ -18,7 +18,7 @@ const colunas = [
     links: [
       { href: "#planos", label: "Planos" },
       { href: "#como-funciona", label: "Como funciona" },
-      { href: "/onboarding", label: "Montar minha loja" },
+      { href: "/onboarding", label: "Criar loja" },
     ],
   },
   {

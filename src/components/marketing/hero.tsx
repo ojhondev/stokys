@@ -7,7 +7,7 @@ import { LinkButton } from "@/components/ui/button";
 
 export function Hero() {
   return (
-    <section className="bg-off-white-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
+    <section className="bg-hero-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
         <h1 className="text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           Comece um negócio com uma loja de dropshipping
@@ -23,7 +23,7 @@ export function Hero() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-          <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+          <LinkButton href="/onboarding">Criar loja</LinkButton>
           <LinkButton href="#como-funciona" variant="ghost">
             Ver como funciona
           </LinkButton>

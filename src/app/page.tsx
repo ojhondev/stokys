@@ -29,12 +29,14 @@ export default function Home() {
       <main className="flex flex-1 flex-col">
         <Hero />
         <TrustedBy />
+        <NichesMarquee />
 
         <StatCallout
           linha1="Uma plataforma."
-          linha2="[—] lojas entregues até hoje."
+          contadorAte={600}
+          contadorSufixo="lojas entregues até hoje."
           descricao="Onboarding, pagamento, produção e preview — sem trocar de ferramenta em nenhuma etapa."
-          ctaLabel="Montar minha loja"
+          ctaLabel="Criar loja"
           ctaHref="/onboarding"
           fundo="pure-white"
         />
@@ -65,7 +67,6 @@ export default function Home() {
         <FeaturesGrid />
         <Personas />
         <CaseStudies />
-        <NichesMarquee />
         <ClosingCta />
       </main>
 

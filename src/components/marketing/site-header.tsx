@@ -41,9 +41,9 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-20 bg-off-white-canvas px-6 sm:px-10 lg:px-16">
+    <header className="sticky top-0 z-20 bg-hero-canvas px-6 sm:px-10 lg:px-16">
       <div
-        className={`mx-auto flex w-full items-center justify-between bg-off-white-canvas transition-all duration-300 ${
+        className={`mx-auto flex w-full items-center justify-between bg-hero-canvas transition-all duration-300 ${
           scrolled ? "mt-3 max-w-[900px] rounded-full px-5 py-2" : "max-w-[1800px] px-0 py-3"
         }`}
       >
@@ -71,14 +71,8 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <span
-            aria-hidden
-            className="hidden items-center gap-1 text-body-sm text-off-black-ink sm:flex"
-          >
-            🌐 <span className="text-caption">PT-BR</span>
-          </span>
           <div className="hidden items-center gap-3 sm:flex">
-            <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+            <LinkButton href="/onboarding">Criar loja</LinkButton>
             <LinkButton href="/login" variant="outline">
               Entrar
             </LinkButton>
@@ -104,14 +98,14 @@ export function SiteHeader() {
       </div>
 
       {menuAberto && (
-        <div className="absolute inset-x-0 top-full bg-off-white-canvas px-6 pb-6 sm:px-10 lg:px-16">
+        <div className="absolute inset-x-0 top-full bg-hero-canvas px-6 pb-6 sm:px-10 lg:px-16">
           <nav className="mx-auto flex w-full max-w-[1800px] flex-col gap-1 rounded-3xl bg-pure-white p-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuAberto(false)}
-                className="rounded-2xl px-4 py-3 text-body font-medium text-off-black-ink hover:bg-off-white-canvas"
+                className="rounded-2xl px-4 py-3 text-body font-medium text-off-black-ink hover:bg-hero-canvas"
               >
                 {link.label}
               </Link>
@@ -119,7 +113,7 @@ export function SiteHeader() {
             <Link
               href="/login"
               onClick={() => setMenuAberto(false)}
-              className="rounded-2xl px-4 py-3 text-body font-medium text-off-black-ink hover:bg-off-white-canvas sm:hidden"
+              className="rounded-2xl px-4 py-3 text-body font-medium text-off-black-ink hover:bg-hero-canvas sm:hidden"
             >
               Entrar
             </Link>
