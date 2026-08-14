@@ -14,7 +14,9 @@ export function Hero() {
         </h1>
 
         <div className="mt-6 flex items-center gap-2 rounded-full bg-pure-white px-4 py-2">
-          <span className="text-body-sm text-electric-lime">★★★★★</span>
+          <span className="flex text-body text-off-black-ink" aria-hidden>
+            ★★★★<span className="opacity-30">★</span>
+          </span>
           <span className="text-body-sm font-medium text-off-black-ink">
             [+X avaliações de clientes]
           </span>

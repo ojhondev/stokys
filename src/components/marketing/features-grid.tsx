@@ -18,12 +18,12 @@ const features = [
 
 function FeatureMockup() {
   return (
-    <div className="grid grid-cols-4 gap-2">
-      {Array.from({ length: 16 }).map((_, i) => (
+    <div className="grid w-32 grid-cols-3 gap-1.5 sm:w-40">
+      {Array.from({ length: 9 }).map((_, i) => (
         <div
           key={i}
-          className={`aspect-square rounded-lg ${
-            [5, 6, 9, 10, 13, 14].includes(i) ? "bg-electric-lime/60" : "bg-pure-white"
+          className={`aspect-square rounded-md ${
+            [2, 4, 7].includes(i) ? "bg-electric-lime/60" : "bg-off-white-canvas"
           }`}
         />
       ))}
@@ -63,19 +63,18 @@ export function FeaturesGrid() {
         {features.map((feature, i) => (
           <div
             key={feature.heading}
-            className={`flex w-[85vw] shrink-0 snap-center flex-col justify-between rounded-3xl bg-pure-white p-8 sm:w-[420px] ${
+            className={`flex aspect-[2/1] w-[90vw] shrink-0 snap-center flex-col justify-between rounded-3xl bg-pure-white p-8 sm:w-[640px] ${
               i === ativo ? "outline outline-2 outline-electric-lime" : ""
             }`}
           >
-            <span className="w-fit rounded-full border border-ash px-3 py-1 text-caption font-medium uppercase text-graphite">
-              + {feature.eyebrow}
-            </span>
-
-            <div className="my-8">
+            <div className="flex items-start justify-between gap-6">
+              <span className="w-fit rounded-full border border-ash px-3 py-1 text-caption font-medium uppercase text-graphite">
+                + {feature.eyebrow}
+              </span>
               <FeatureMockup />
             </div>
 
-            <div>
+            <div className="max-w-[380px]">
               <h3 className="text-subheading font-heading font-bold text-off-black-ink">
                 {feature.heading}
               </h3>

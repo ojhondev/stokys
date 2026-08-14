@@ -1,64 +1,54 @@
-import { LinkButton } from "@/components/ui/button";
-
-// Mesmo padrão da seção de personas da perk.com (Finance teams / Travel managers /
-// Operations / Travelers) — aqui adaptado pros diferentes momentos de quem procura
-// a Stokys, em vez de papéis internos de uma empresa.
+// Mesmo padrão da seção de personas da perk.com: título centralizado maior, cards
+// com título + subtexto + placeholder de imagem à direita, e efeito de scroll onde
+// cada card fixa e o próximo sobe por cima (stacking via position: sticky).
 
 const personas = [
   {
-    eyebrow: "Quem tá começando",
-    heading: "Sua primeira loja, sem aprender a mexer em nada técnico",
-    descricao: "O plano Zen entrega o essencial: tema, produtos e banners prontos.",
-    ctaLabel: "Conhecer o plano Zen",
-    ctaHref: "/onboarding?plano=zen",
+    titulo: "Quem tá começando",
+    subtexto:
+      "Sua primeira loja, sem aprender a mexer em nada técnico. O plano Zen entrega o essencial: tema, produtos e banners prontos.",
   },
   {
-    eyebrow: "Quem já vende",
-    heading: "Quer profissionalizar sem recomeçar do zero",
-    descricao: "O plano Pro adiciona página de política, rastreio e mais categorias.",
-    ctaLabel: "Conhecer o plano Pro",
-    ctaHref: "/onboarding?plano=pro",
+    titulo: "Quem já vende",
+    subtexto:
+      "Quer profissionalizar sem recomeçar do zero. O plano Pro adiciona página de política, rastreio e mais categorias.",
   },
   {
-    eyebrow: "Quem quer sob medida",
-    heading: "Marca própria, mercado definido, loja customizada",
-    descricao: "Logotipo, paleta de cores e template para Brasil, Global ou Latam.",
-    ctaLabel: "Conhecer o Customizado",
-    ctaHref: "/onboarding?plano=customizado",
+    titulo: "Quem quer sob medida",
+    subtexto:
+      "Marca própria, mercado definido, loja customizada — logotipo, paleta de cores e template para Brasil, Global ou Latam.",
   },
   {
-    eyebrow: "Quem quer tráfego",
-    heading: "Loja pronta é só metade do caminho",
-    descricao: "Depois da entrega, acesse a vitrine de parceiros de tráfego pago.",
-    ctaLabel: "Ver parceiros",
-    ctaHref: "/parceiros",
+    titulo: "Quem quer tráfego",
+    subtexto:
+      "Loja pronta é só metade do caminho. Depois da entrega, acesse a vitrine de parceiros de tráfego pago.",
   },
 ];
 
 export function Personas() {
   return (
-    <section id="como-funciona" className="bg-pure-white px-6 sm:px-10 lg:px-16 py-14 md:py-16">
+    <section id="como-funciona" className="bg-pure-white px-6 py-14 sm:px-10 md:py-24 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
-        <h2 className="max-w-[600px] text-heading font-heading font-bold text-off-black-ink">
+        <h2 className="mx-auto max-w-[720px] text-center text-heading-lg font-heading font-bold text-off-black-ink">
           Simples pra você. Direto pra quem produz.
         </h2>
-        <p className="mt-4 max-w-[520px] text-body text-graphite">
-          Seja qual for o seu momento, a Stokys tem um caminho pronto.
-        </p>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {personas.map((persona) => (
-            <div key={persona.eyebrow} className="rounded-3xl bg-off-white-canvas p-10">
-              <span className="text-caption font-medium uppercase text-graphite">
-                {persona.eyebrow}
-              </span>
-              <h3 className="mt-3 text-subheading font-heading font-bold text-off-black-ink">
-                {persona.heading}
-              </h3>
-              <p className="mt-3 text-body-sm text-graphite">{persona.descricao}</p>
-              <LinkButton href={persona.ctaHref} variant="ghost" className="mt-6 -ml-4">
-                {persona.ctaLabel}
-              </LinkButton>
+        <div className="relative mt-16">
+          {personas.map((persona, i) => (
+            <div
+              key={persona.titulo}
+              className="sticky top-24 flex min-h-[64vh] items-center"
+              style={{ zIndex: i + 1 }}
+            >
+              <div className="grid w-full items-center gap-10 rounded-3xl bg-off-white-canvas p-10 md:grid-cols-2 md:p-16">
+                <div>
+                  <h3 className="text-heading font-heading font-bold text-off-black-ink">
+                    {persona.titulo}
+                  </h3>
+                  <p className="mt-4 max-w-[420px] text-body text-graphite">{persona.subtexto}</p>
+                </div>
+                <div className="aspect-[4/3] rounded-2xl bg-pure-white" />
+              </div>
             </div>
           ))}
         </div>

@@ -3,22 +3,25 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { LinkButton } from "@/components/ui/button";
 
 // Header: no topo da página é uma barra cheia; ao rolar, encolhe pra uma pill
-// flutuante arredondada — mesmo comportamento da perk.com. Nav fica só no
-// hambúrguer, que abre como overlay (position: absolute) sem empurrar a página.
+// flutuante arredondada — mesmo comportamento da perk.com. Lado direito segue
+// exatamente docs de referência do usuário: globo, CTA lima, CTA contorno,
+// ícone de conta, hambúrguer (abre o menu com os links).
 
 const navLinks = [
   { href: "#planos", label: "Planos" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#parceiros", label: "Parceiros" },
-  { href: "/login", label: "Entrar" },
 ];
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -27,14 +30,23 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  function irParaTopo(e: React.MouseEvent) {
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      router.push("/");
+    }
+  }
+
   return (
     <header className="sticky top-0 z-20 bg-cloud px-6 sm:px-10 lg:px-16">
       <div
         className={`mx-auto flex w-full items-center justify-between bg-cloud transition-all duration-300 ${
-          scrolled ? "mt-4 max-w-[640px] rounded-full px-6 py-3" : "max-w-[1800px] px-0 py-6"
+          scrolled ? "mt-4 max-w-[900px] rounded-full px-6 py-3" : "max-w-[1800px] px-0 py-6"
         }`}
       >
-        <Link href="/" className="flex items-center">
+        <Link href="/" onClick={irParaTopo} className="flex items-center">
           <Image
             src="/logo-stokys.png"
             alt="Stokys"
@@ -45,8 +57,38 @@ export function SiteHeader() {
           />
         </Link>
 
-        <div className="flex items-center gap-4">
-          <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+        <nav className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-body-sm font-medium text-off-black-ink/80 transition-colors hover:text-off-black-ink"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-3">
+          <span
+            aria-hidden
+            className="hidden items-center gap-1 text-body-sm text-off-black-ink sm:flex"
+          >
+            🌐 <span className="text-caption">PT-BR</span>
+          </span>
+          <div className="hidden items-center gap-3 sm:flex">
+            <LinkButton href="/onboarding">Montar minha loja</LinkButton>
+            <LinkButton href="/login" variant="outline">
+              Entrar
+            </LinkButton>
+          </div>
+          <Link
+            href="/dashboard"
+            aria-label="Minha conta"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-body text-off-black-ink"
+          >
+            ●
+          </Link>
           <button
             type="button"
             onClick={() => setMenuAberto((v) => !v)}
@@ -73,6 +115,13 @@ export function SiteHeader() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/login"
+              onClick={() => setMenuAberto(false)}
+              className="rounded-2xl px-4 py-3 text-body font-medium text-off-black-ink hover:bg-off-white-canvas sm:hidden"
+            >
+              Entrar
+            </Link>
           </nav>
         </div>
       )}

@@ -91,3 +91,17 @@ body {
   background: var(--color-pure-white);
   color: var(--color-off-black-ink);
 }
+
+/* Faixa de texto rolando no rodapé (ver site-footer.tsx). */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 24s linear infinite;
+}

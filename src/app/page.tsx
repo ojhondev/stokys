@@ -4,7 +4,8 @@ import { SiteFooter } from "@/components/marketing/site-footer";
 import { Hero } from "@/components/marketing/hero";
 import { TrustedBy } from "@/components/marketing/trusted-by";
 import { StatCallout } from "@/components/marketing/stat-callout";
-import { PlanosTabs } from "@/components/marketing/planos-tabs";
+import { PricingCards } from "@/components/marketing/pricing-cards";
+import { ComparisonTable } from "@/components/marketing/comparison-table";
 import { ValueGrid } from "@/components/marketing/value-grid";
 import { FeaturesGrid } from "@/components/marketing/features-grid";
 import { Personas } from "@/components/marketing/personas";
@@ -37,7 +38,8 @@ export default function Home() {
           fundo="pure-white"
         />
 
-        <PlanosTabs />
+        <PricingCards />
+        <ComparisonTable />
 
         <StatCallout
           linha1="Menos WhatsApp,"
