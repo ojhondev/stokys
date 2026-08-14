@@ -11,14 +11,15 @@ import { FeaturesGrid } from "@/components/marketing/features-grid";
 import { Personas } from "@/components/marketing/personas";
 import { CaseStudies } from "@/components/marketing/case-studies";
 import { NichesMarquee } from "@/components/marketing/niches-marquee";
+import { Faq } from "@/components/marketing/faq";
 import { ClosingCta } from "@/components/marketing/closing-cta";
 import { PromoBar } from "@/components/marketing/promo-bar";
 
-// Estrutura da página segue, seção a seção, o layout real de perk.com (hero 2-col,
-// tira de logos, blocos de estatística gigante, abas, grid 4-col, grid de features,
-// cards de persona, cases, recursos, banner de fechamento, rodapé escuro) — conteúdo
-// adaptado pra Stokys, com placeholders explícitos onde a Perk usa dado real que a
-// Stokys ainda não tem (depoimentos, cases, métricas).
+// Ordem da página (pedido do usuário): Seção 1 > Como funciona > Loja
+// profissional de verdade > Toda etapa sem você perguntar > Planos e preços
+// > Resultados > FAQ > CTA final. As seções de apoio (marcas, nichos,
+// diferenciais, personas) ficam encaixadas perto do bloco com que mais se
+// relacionam, em vez de removidas.
 
 export default function Home() {
   return (
@@ -41,8 +42,8 @@ export default function Home() {
           fundo="pure-white"
         />
 
-        <PricingCards />
-        <ComparisonTable />
+        <FeaturesGrid />
+        <ValueGrid />
 
         <StatCallout
           linha1="Loja profissional"
@@ -53,7 +54,7 @@ export default function Home() {
           fundo="off-white-canvas"
         />
 
-        <ValueGrid />
+        <Personas />
 
         <StatCallout
           linha1="Toda etapa,"
@@ -64,9 +65,10 @@ export default function Home() {
           fundo="off-white-canvas"
         />
 
-        <FeaturesGrid />
-        <Personas />
+        <PricingCards />
+        <ComparisonTable />
         <CaseStudies />
+        <Faq />
         <ClosingCta />
       </main>
 

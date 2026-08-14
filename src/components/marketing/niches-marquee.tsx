@@ -20,11 +20,11 @@ function Itens() {
   return (
     <>
       {nichos.map((nicho, i) => (
-        <div key={i} className="flex items-center gap-4">
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl sm:h-20 sm:w-20">
-            <Image src={nicho.imagem} alt={nicho.nome} fill sizes="80px" className="object-cover" />
+        <div key={i} className="flex items-center gap-5">
+          <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl sm:h-24 sm:w-24">
+            <Image src={nicho.imagem} alt={nicho.nome} fill sizes="96px" className="object-cover" />
           </div>
-          <span className="whitespace-nowrap text-heading font-heading font-bold text-off-black-ink">
+          <span className="whitespace-nowrap text-heading-lg font-heading font-bold text-off-black-ink">
             {nicho.nome}
           </span>
         </div>
@@ -36,7 +36,7 @@ function Itens() {
 export function NichesMarquee() {
   return (
     <section className="overflow-hidden bg-pure-white py-14 md:py-16">
-      <span className="mx-auto block w-full max-w-[1800px] px-6 text-caption font-medium uppercase text-graphite sm:px-10 lg:px-16">
+      <span className="mx-auto block w-full max-w-[1800px] px-6 text-center text-caption font-medium uppercase text-graphite sm:px-10 lg:px-16">
         Pra qualquer nicho
       </span>
       <div className="mt-8 flex whitespace-nowrap">

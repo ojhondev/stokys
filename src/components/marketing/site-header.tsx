@@ -80,9 +80,17 @@ export function SiteHeader() {
           <Link
             href="/dashboard"
             aria-label="Minha conta"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-body text-off-black-ink"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-off-black-ink"
           >
-            ●
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.8" />
+              <path
+                d="M4 20c1.5-3.5 4.8-5.5 8-5.5s6.5 2 8 5.5"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
           </Link>
           <button
             type="button"

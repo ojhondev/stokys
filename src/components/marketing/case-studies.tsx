@@ -1,36 +1,45 @@
-// Carrossel de cases — mesmo padrão da seção "10,000+ real businesses" da perk.com
-// (cards escuros, min-height alto, um case em destaque). Sem clientes reais entregues
-// ainda, então os 3 cards ficam como placeholder explícito — trocar por cases reais
-// conforme lojas forem entregues (PRD seção 9).
+import Image from "next/image";
 
-const placeholders = [1, 2, 3];
+// Resultados — imagens reais de lojas entregues, rolando em marquee (mesmo
+// padrão da faixa de nichos): dois grupos idênticos animando em sincronia.
+
+const cases = [
+  { arquivo: "/case-loja-1.png", nome: "Loja entregue 1" },
+  { arquivo: "/case-loja-2.png", nome: "Loja entregue 2" },
+  { arquivo: "/case-loja-3.png", nome: "Loja entregue 3" },
+];
+
+function Itens() {
+  return (
+    <>
+      {cases.map((item, i) => (
+        <div
+          key={i}
+          className="relative h-[280px] w-[280px] shrink-0 overflow-hidden rounded-3xl sm:h-[360px] sm:w-[360px]"
+        >
+          <Image src={item.arquivo} alt={item.nome} fill sizes="360px" className="object-cover" />
+        </div>
+      ))}
+    </>
+  );
+}
 
 export function CaseStudies() {
   return (
-    <section className="bg-off-white-canvas px-6 sm:px-10 lg:px-16 py-14 md:py-16">
-      <div className="mx-auto w-full max-w-[1800px]">
+    <section className="overflow-hidden bg-off-white-canvas py-14 md:py-16">
+      <div className="mx-auto w-full max-w-[1800px] px-6 sm:px-10 lg:px-16">
         <span className="text-caption font-medium uppercase text-graphite">Resultados</span>
-        <h2 className="mt-3 max-w-[560px] text-heading font-heading font-bold text-off-black-ink">
-          [X]+ lojas entregues, gente de verdade vendendo.
+        <h2 className="mt-3 max-w-[720px] text-heading-lg font-heading font-bold text-off-black-ink">
+          +40 cases de sucesso com lojas profissionais rodando pelo mundo
         </h2>
+      </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {placeholders.map((n) => (
-            <div
-              key={n}
-              className="flex min-h-[320px] flex-col justify-between rounded-3xl bg-deep-charcoal p-8"
-            >
-              <span className="text-caption font-medium uppercase text-ash">
-                [case de cliente {n}]
-              </span>
-              <div>
-                <p className="text-subheading font-medium text-off-white-canvas">
-                  “[Como a loja de [cliente] saiu do zero com a Stokys]”
-                </p>
-                <p className="mt-4 text-body-sm text-ash">[Ler case completo →]</p>
-              </div>
-            </div>
-          ))}
+      <div className="mt-10 flex whitespace-nowrap">
+        <div className="flex shrink-0 animate-marquee-reverse items-center gap-6 pr-6">
+          <Itens />
+        </div>
+        <div aria-hidden className="flex shrink-0 animate-marquee-reverse items-center gap-6 pr-6">
+          <Itens />
         </div>
       </div>
     </section>
