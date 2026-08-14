@@ -58,7 +58,7 @@ export function Personas() {
               className="sticky top-20 flex min-h-[46vh] items-center"
               style={{ zIndex: i + 1 }}
             >
-              <div className="grid w-full items-center gap-8 rounded-3xl bg-off-white-canvas p-8 md:grid-cols-2 md:p-10">
+              <div className="grid w-full items-center gap-8 rounded-3xl bg-off-white-canvas p-8 transition-transform duration-200 hover:scale-[1.015] md:grid-cols-2 md:p-10">
                 <div>
                   <span className="text-caption font-bold uppercase text-graphite">
                     {persona.categoria}

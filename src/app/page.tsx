@@ -10,8 +10,9 @@ import { ValueGrid } from "@/components/marketing/value-grid";
 import { FeaturesGrid } from "@/components/marketing/features-grid";
 import { Personas } from "@/components/marketing/personas";
 import { CaseStudies } from "@/components/marketing/case-studies";
-import { Resources } from "@/components/marketing/resources";
+import { NichesMarquee } from "@/components/marketing/niches-marquee";
 import { ClosingCta } from "@/components/marketing/closing-cta";
+import { PromoBar } from "@/components/marketing/promo-bar";
 
 // Estrutura da página segue, seção a seção, o layout real de perk.com (hero 2-col,
 // tira de logos, blocos de estatística gigante, abas, grid 4-col, grid de features,
@@ -42,8 +43,8 @@ export default function Home() {
         <ComparisonTable />
 
         <StatCallout
-          linha1="Menos WhatsApp,"
-          linha2="mais loja no ar."
+          linha1="Loja profissional"
+          linha2="de verdade."
           descricao="Toda decisão do projeto fica registrada — orçamento, acessos, mensagens e pagamento, tudo num histórico só."
           ctaLabel="Começar agora"
           ctaHref="/onboarding"
@@ -64,11 +65,13 @@ export default function Home() {
         <FeaturesGrid />
         <Personas />
         <CaseStudies />
-        <Resources />
+        <NichesMarquee />
         <ClosingCta />
       </main>
 
       <SiteFooter />
+      <div className="h-20" aria-hidden />
+      <PromoBar />
     </>
   );
 }

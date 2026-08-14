@@ -5,6 +5,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { clienteNavItems } from "./nav-items";
+import {
+  IconVisaoGeral,
+  IconPreview,
+  IconMensagens,
+  IconPagamentos,
+  IconConfiguracoes,
+  IconPerfil,
+  IconAjuda,
+} from "./icons";
+
+const icones = {
+  visaoGeral: IconVisaoGeral,
+  preview: IconPreview,
+  mensagens: IconMensagens,
+  pagamentos: IconPagamentos,
+  configuracoes: IconConfiguracoes,
+  perfil: IconPerfil,
+} as const;
 
 // Casca do app do cliente — mobile first: barra de abas fixa embaixo no celular
 // (estilo app nativo), vira sidebar (com/sem rótulo, colapsável) a partir de md,
@@ -42,15 +60,19 @@ export function AppShell({ children }: { children: ReactNode }) {
             type="button"
             onClick={() => setColapsado((v) => !v)}
             aria-label={colapsado ? "Expandir menu" : "Recolher menu"}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-body-sm text-graphite hover:bg-off-white-canvas"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-graphite hover:bg-off-white-canvas"
           >
-            ▥
+            <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
+              <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+              <path d="M9.5 4.5v15" stroke="currentColor" strokeWidth="1.8" />
+            </svg>
           </button>
         </div>
 
         <nav className="mt-10 flex flex-1 flex-col gap-1">
           {clienteNavItems.map((item) => {
             const ativo = pathname === item.href;
+            const Icone = icones[item.icone];
             return (
               <Link
                 key={item.href}
@@ -60,7 +82,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   ativo ? "font-bold text-off-black-ink" : "font-medium text-graphite"
                 }`}
               >
-                <span className="w-5 text-center text-body">{item.glifo}</span>
+                <Icone className="h-5 w-5 shrink-0" />
                 {!colapsado && <span>{item.label}</span>}
               </Link>
             );
@@ -73,7 +95,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             title={colapsado ? "Ajuda" : undefined}
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-off-white-canvas"
           >
-            <span className="w-5 text-center text-body">?</span>
+            <IconAjuda className="h-5 w-5 shrink-0" />
             {!colapsado && <span>Ajuda</span>}
           </Link>
           <Link
@@ -97,9 +119,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link
             href="/dashboard/perfil"
             aria-label="Perfil"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-off-white-canvas text-body-sm text-off-black-ink"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-off-white-canvas text-off-black-ink"
           >
-            ○
+            <IconPerfil className="h-5 w-5" />
           </Link>
         </header>
 
@@ -111,15 +133,14 @@ export function AppShell({ children }: { children: ReactNode }) {
       <nav className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ash bg-pure-white py-2 md:hidden">
         {clienteNavItems.map((item) => {
           const ativo = pathname === item.href;
+          const Icone = icones[item.icone];
           return (
             <Link
               key={item.href}
               href={item.href}
               className="flex flex-col items-center gap-1 px-2 py-1"
             >
-              <span className={`text-subheading ${ativo ? "text-off-black-ink" : "text-graphite"}`}>
-                {item.glifo}
-              </span>
+              <Icone className={`h-5 w-5 ${ativo ? "text-off-black-ink" : "text-graphite"}`} />
               <span
                 className={`text-eyebrow ${ativo ? "font-bold text-off-black-ink" : "text-graphite"}`}
               >

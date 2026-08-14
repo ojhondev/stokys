@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
+import { PromoBar } from "@/components/marketing/promo-bar";
 
 // Vitrine de parceiros (agências de tráfego pago) — ver docs/PRD.md, seção 4.6.
 // Cadastro real entra na Fase 3 do roadmap (seção 9); por ora, estado vazio.
@@ -27,6 +28,8 @@ export default function ParceirosPage() {
       </main>
 
       <SiteFooter />
+      <div className="h-20" aria-hidden />
+      <PromoBar />
     </>
   );
 }

@@ -63,7 +63,7 @@ export function FeaturesGrid() {
         {features.map((feature, i) => (
           <div
             key={feature.heading}
-            className={`flex aspect-[2/1] w-[90vw] shrink-0 snap-center flex-col justify-between rounded-3xl bg-pure-white p-8 sm:w-[640px] ${
+            className={`flex aspect-[2/1] w-[90vw] shrink-0 snap-center flex-col justify-between rounded-3xl bg-pure-white p-8 transition-transform duration-200 hover:scale-[1.02] sm:w-[640px] ${
               i === ativo ? "outline outline-2 outline-electric-lime" : ""
             }`}
           >
