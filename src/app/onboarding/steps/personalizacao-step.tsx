@@ -23,7 +23,7 @@ export function PersonalizacaoStep({ dados, setDados, onContinuar, onVoltar }: S
 
   return (
     <div>
-      <h1 className="text-heading font-heading font-medium text-off-black-ink">
+      <h1 className="text-heading font-heading font-bold text-off-black-ink">
         Como a sua loja Customizada vai se apresentar?
       </h1>
       <p className="mt-2 max-w-[520px] text-body-sm text-graphite">
@@ -45,7 +45,7 @@ export function PersonalizacaoStep({ dados, setDados, onContinuar, onVoltar }: S
                   ativo ? "bg-electric-lime" : "bg-off-white-canvas"
                 }`}
               >
-                <p className="text-subheading font-heading font-medium text-off-black-ink">
+                <p className="text-subheading font-heading font-bold text-off-black-ink">
                   {m.label}
                 </p>
                 <p className="mt-1 text-body-sm text-off-black-ink/70">{m.descricao}</p>

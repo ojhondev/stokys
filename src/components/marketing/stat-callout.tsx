@@ -28,7 +28,7 @@ export function StatCallout({
   return (
     <section className={`${fundoClasses[fundo]} px-6 py-14 sm:px-10 lg:px-16`}>
       <div className="mx-auto flex w-full max-w-[720px] flex-col items-center text-center">
-        <h2 className="text-heading-lg font-heading font-medium text-off-black-ink md:text-display">
+        <h2 className="text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           {linha1}
           <br />
           {linha2}

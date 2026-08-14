@@ -2,7 +2,7 @@ export default function PerfilPage() {
   return (
     <div>
       <span className="text-caption font-medium uppercase text-graphite">Perfil</span>
-      <h1 className="mt-1 text-heading font-heading font-medium text-off-black-ink">Sua conta</h1>
+      <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">Sua conta</h1>
 
       <div className="mt-8 flex flex-col gap-4 rounded-3xl bg-pure-white p-6">
         <label className="flex flex-col gap-2">

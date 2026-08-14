@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section className="bg-off-white-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
-        <h1 className="text-heading-lg font-heading font-medium text-off-black-ink md:text-display">
+        <h1 className="text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           Comece um negócio com uma loja de dropshipping
         </h1>
 

@@ -4,7 +4,7 @@ export default function PreviewPage() {
   return (
     <div>
       <span className="text-caption font-medium uppercase text-graphite">Preview</span>
-      <h1 className="mt-1 text-heading font-heading font-medium text-off-black-ink">
+      <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
         Loja em construção
       </h1>
       <p className="mt-2 max-w-[480px] text-body-sm text-graphite">

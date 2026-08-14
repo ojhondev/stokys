@@ -7,7 +7,7 @@ export function PlanoStep({ dados, setDados, onContinuar }: StepProps) {
 
   return (
     <div>
-      <h1 className="text-heading font-heading font-medium text-off-black-ink">
+      <h1 className="text-heading font-heading font-bold text-off-black-ink">
         Qual plano combina com a sua loja?
       </h1>
 
@@ -23,7 +23,7 @@ export function PlanoStep({ dados, setDados, onContinuar }: StepProps) {
                 ativo ? "bg-electric-lime" : "bg-off-white-canvas"
               }`}
             >
-              <h3 className="text-subheading font-heading font-medium text-off-black-ink">
+              <h3 className="text-subheading font-heading font-bold text-off-black-ink">
                 {p.nome}
               </h3>
               <p className="mt-2 text-body-sm text-off-black-ink/70">{p.descricao}</p>

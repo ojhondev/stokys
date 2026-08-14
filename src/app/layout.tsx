@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const otsonoSubstitute = Inter({
-  variable: "--font-otsono",
+// Família única do site (pedido do usuário) — Regular pro corpo, Bold pros títulos.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
-  weight: ["400", "500"],
-});
-
-// Fonte dos títulos (pedido do usuário) — corpo/labels continuam em OTSono/Inter.
-const poppins = Poppins({
-  variable: "--font-poppins",
-  subsets: ["latin"],
-  weight: ["500", "600"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,10 +17,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${otsonoSubstitute.variable} ${poppins.variable} h-full antialiased`}
-    >
+    <html lang="pt-BR" className={`${spaceGrotesk.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );

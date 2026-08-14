@@ -7,7 +7,7 @@ export function ClosingCta() {
   return (
     <section className="bg-pure-white px-6 sm:px-10 lg:px-16 py-14 md:py-16">
       <div className="mx-auto flex w-full max-w-[1800px] flex-col items-center text-center">
-        <h2 className="max-w-[640px] text-heading-lg font-heading font-medium text-off-black-ink">
+        <h2 className="max-w-[640px] text-heading-lg font-heading font-bold text-off-black-ink">
           A loja pronta. Você só vende.
         </h2>
         <div className="mt-10">

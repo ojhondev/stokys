@@ -2,8 +2,9 @@
 
 /*
  * Tokens de A:\Stokys\docs\DESIGN.md (estilo Perk). OTSono não está disponível
- * como webfont público — usamos Inter como substituto, conforme o próprio
- * documento de design indica ("Substitute: Inter, system-ui sans-serif").
+ * como webfont público; por pedido do usuário, a família adotada em todo o site
+ * é Space Grotesk (Regular no corpo, Bold nos títulos) em vez do substituto
+ * original (Inter) sugerido pelo documento de design.
  */
 :root {
   --color-electric-lime: #beff50;
@@ -40,9 +41,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* Tipografia — corpo (OTSono -> Inter) + títulos (Poppins, pedido do usuário) */
-  --font-sans: var(--font-otsono);
-  --font-heading: var(--font-poppins);
+  /* Tipografia — família única Space Grotesk (pedido do usuário): Regular no
+     corpo, Bold nos títulos (classe font-heading + font-bold nos elementos). */
+  --font-sans: var(--font-space-grotesk);
+  --font-heading: var(--font-space-grotesk);
 
   /* Escala de texto (tamanho / line-height / letter-spacing pareados) */
   --text-eyebrow: 10px;

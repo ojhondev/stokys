@@ -41,7 +41,7 @@ export function ValueGrid() {
             <p className="mt-6 text-caption font-medium uppercase text-graphite">
               {valor.eyebrow}
             </p>
-            <h3 className="mt-3 text-subheading font-heading font-medium text-off-black-ink">
+            <h3 className="mt-3 text-subheading font-heading font-bold text-off-black-ink">
               {valor.heading}
             </h3>
             <p className="mt-3 text-body-sm text-graphite">{valor.descricao}</p>

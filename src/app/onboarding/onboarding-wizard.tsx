@@ -3,8 +3,12 @@
 import { useState } from "react";
 import { dadosIniciais, type DadosOnboarding } from "./types";
 import { PlanoStep } from "./steps/plano-step";
-import { PersonalizacaoStep } from "./steps/personalizacao-step";
 import { PlataformaStep } from "./steps/plataforma-step";
+import { TemaStep } from "./steps/tema-step";
+import { PersonalizacaoStep } from "./steps/personalizacao-step";
+import { NichoStep } from "./steps/nicho-step";
+import { ReferenciasStep } from "./steps/referencias-step";
+import { RevisaoStep } from "./steps/revisao-step";
 import { PagamentoStep } from "./steps/pagamento-step";
 
 export function OnboardingWizard({
@@ -22,10 +26,13 @@ export function OnboardingWizard({
     setDadosState(updater);
   }
 
+  // Plano -> Plataforma -> Tema (Zen/Pro) ou Personalização (Customizado) -> Nicho ->
+  // Referências -> Revisão ("Criar minha loja") -> Pagamento. Nenhuma etapa deixa
+  // avançar sem os campos obrigatórios preenchidos (ver validação em cada step).
   const etapas =
     dados.plano === "customizado"
-      ? (["Plano", "Personalização", "Plataforma", "Pagamento"] as const)
-      : (["Plano", "Plataforma", "Pagamento"] as const);
+      ? (["Plano", "Plataforma", "Personalização", "Nicho", "Referências", "Revisão", "Pagamento"] as const)
+      : (["Plano", "Plataforma", "Tema", "Nicho", "Referências", "Revisão", "Pagamento"] as const);
 
   const avancar = () => setPasso((p) => Math.min(p + 1, etapas.length - 1));
   const voltar = () => setPasso((p) => Math.max(p - 1, 0));
@@ -52,6 +59,12 @@ export function OnboardingWizard({
         {etapaAtual === "Plano" && (
           <PlanoStep dados={dados} setDados={setDados} onContinuar={avancar} />
         )}
+        {etapaAtual === "Plataforma" && (
+          <PlataformaStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />
+        )}
+        {etapaAtual === "Tema" && (
+          <TemaStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />
+        )}
         {etapaAtual === "Personalização" && (
           <PersonalizacaoStep
             dados={dados}
@@ -60,13 +73,19 @@ export function OnboardingWizard({
             onVoltar={voltar}
           />
         )}
-        {etapaAtual === "Plataforma" && (
-          <PlataformaStep
+        {etapaAtual === "Nicho" && (
+          <NichoStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />
+        )}
+        {etapaAtual === "Referências" && (
+          <ReferenciasStep
             dados={dados}
             setDados={setDados}
             onContinuar={avancar}
             onVoltar={voltar}
           />
+        )}
+        {etapaAtual === "Revisão" && (
+          <RevisaoStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />
         )}
         {etapaAtual === "Pagamento" && (
           <PagamentoStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />

@@ -15,7 +15,7 @@ export default function MensagensPage() {
   return (
     <div>
       <span className="text-caption font-medium uppercase text-graphite">Mensagens</span>
-      <h1 className="mt-1 text-heading font-heading font-medium text-off-black-ink">
+      <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
         Conversa com a produção
       </h1>
 

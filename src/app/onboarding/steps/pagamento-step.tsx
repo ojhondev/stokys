@@ -26,11 +26,12 @@ export function PagamentoStep({ dados, onVoltar }: StepProps) {
         <span className="rounded-full bg-electric-lime px-4 py-1 text-body-sm font-medium text-off-black-ink">
           Pagamento confirmado (mock)
         </span>
-        <h1 className="mt-6 text-heading font-heading font-medium text-off-black-ink">
+        <h1 className="mt-6 text-heading font-heading font-bold text-off-black-ink">
           Seu projeto {plano?.nome} está em produção.
         </h1>
         <p className="mt-3 max-w-[420px] text-body-sm text-graphite">
-          Acompanhe status, mensagens e o preview da loja pelo seu dashboard.
+          Sua produção já foi liberada automaticamente. Nossa equipe confere as informações que
+          você enviou e, se tiver alguma dúvida, entra em contato por WhatsApp ou e-mail.
         </p>
         <a
           href="/dashboard"
@@ -44,7 +45,7 @@ export function PagamentoStep({ dados, onVoltar }: StepProps) {
 
   return (
     <div>
-      <h1 className="text-heading font-heading font-medium text-off-black-ink">
+      <h1 className="text-heading font-heading font-bold text-off-black-ink">
         Fechar pedido e pagar
       </h1>
 

@@ -27,7 +27,7 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <span className="text-caption font-medium uppercase text-graphite">Seu projeto</span>
-          <h1 className="mt-1 text-heading font-heading font-medium text-off-black-ink">
+          <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
             Loja Nortex — plano Pro
           </h1>
         </div>
@@ -70,7 +70,7 @@ export default function DashboardPage() {
         {stats.map((stat) => (
           <div key={stat.label} className="rounded-3xl bg-pure-white p-6">
             <p className="text-caption font-medium uppercase text-graphite">{stat.label}</p>
-            <p className="mt-2 text-subheading font-heading font-medium text-off-black-ink">
+            <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
               {stat.valor}
             </p>
           </div>
@@ -81,7 +81,7 @@ export default function DashboardPage() {
       <div className="mt-6 grid gap-4 lg:grid-cols-[1.3fr_1fr]">
         <div className="rounded-3xl bg-pure-white p-6">
           <div className="flex items-center justify-between">
-            <p className="text-subheading font-heading font-medium text-off-black-ink">Preview</p>
+            <p className="text-subheading font-heading font-bold text-off-black-ink">Preview</p>
             <Link
               href="/dashboard/preview"
               className="text-body-sm font-medium text-off-black-ink underline underline-offset-4"
@@ -96,7 +96,7 @@ export default function DashboardPage() {
 
         <div className="rounded-3xl bg-pure-white p-6">
           <div className="flex items-center justify-between">
-            <p className="text-subheading font-heading font-medium text-off-black-ink">
+            <p className="text-subheading font-heading font-bold text-off-black-ink">
               Mensagens
             </p>
             <Link

@@ -4,5 +4,6 @@ export const clienteNavItems = [
   { href: "/dashboard/preview", label: "Preview", glifo: "◱" },
   { href: "/dashboard/mensagens", label: "Mensagens", glifo: "✎" },
   { href: "/dashboard/pagamentos", label: "Pagamentos", glifo: "$" },
+  { href: "/dashboard/configuracoes", label: "Configurações", glifo: "⚙" },
   { href: "/dashboard/perfil", label: "Perfil", glifo: "○" },
 ];
