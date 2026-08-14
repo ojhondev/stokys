@@ -40,10 +40,10 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-20 bg-cloud px-6 sm:px-10 lg:px-16">
+    <header className="sticky top-0 z-20 bg-off-white-canvas px-6 sm:px-10 lg:px-16">
       <div
-        className={`mx-auto flex w-full items-center justify-between bg-cloud transition-all duration-300 ${
-          scrolled ? "mt-4 max-w-[900px] rounded-full px-6 py-3" : "max-w-[1800px] px-0 py-6"
+        className={`mx-auto flex w-full items-center justify-between bg-off-white-canvas transition-all duration-300 ${
+          scrolled ? "mt-3 max-w-[900px] rounded-full px-5 py-2" : "max-w-[1800px] px-0 py-3"
         }`}
       >
         <Link href="/" onClick={irParaTopo} className="flex items-center">
@@ -103,7 +103,7 @@ export function SiteHeader() {
       </div>
 
       {menuAberto && (
-        <div className="absolute inset-x-0 top-full bg-cloud px-6 pb-6 sm:px-10 lg:px-16">
+        <div className="absolute inset-x-0 top-full bg-off-white-canvas px-6 pb-6 sm:px-10 lg:px-16">
           <nav className="mx-auto flex w-full max-w-[1800px] flex-col gap-1 rounded-3xl bg-pure-white p-4">
             {navLinks.map((link) => (
               <Link

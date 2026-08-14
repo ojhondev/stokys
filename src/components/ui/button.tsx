@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 
-const base = "inline-flex items-center justify-center text-body font-medium transition-opacity";
+const base = "inline-flex items-center justify-center text-body font-bold transition-opacity";
 
 const variants = {
   // Único botão preenchido do sistema — ver docs/DESIGN.md, "Primary Action Button".

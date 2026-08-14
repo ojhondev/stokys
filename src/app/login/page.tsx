@@ -1,5 +1,53 @@
+"use client";
+
+import { Suspense } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+
+// TODO (Fase 0): ligar a um Server Action que usa src/lib/auth.ts
+// (verifyPassword + createSession) assim que o Neon estiver provisionado.
+// Por ora, o submit só simula o login e redireciona pra "next" (ou /dashboard).
+
+function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = searchParams.get("next") ?? "/dashboard";
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        router.push(next);
+      }}
+      className="mt-8 flex flex-col gap-4"
+    >
+      <label className="flex flex-col gap-2">
+        <span className="text-caption font-medium uppercase text-graphite">E-mail</span>
+        <input
+          type="email"
+          name="email"
+          required
+          className="rounded-lg border border-ash bg-pure-white px-4 py-3 text-body text-off-black-ink"
+        />
+      </label>
+
+      <label className="flex flex-col gap-2">
+        <span className="text-caption font-medium uppercase text-graphite">Senha</span>
+        <input
+          type="password"
+          name="senha"
+          required
+          className="rounded-lg border border-ash bg-pure-white px-4 py-3 text-body text-off-black-ink"
+        />
+      </label>
+
+      <Button type="submit" className="mt-4">
+        Entrar
+      </Button>
+    </form>
+  );
+}
 
 export default function LoginPage() {
   return (
@@ -8,38 +56,16 @@ export default function LoginPage() {
         <Link href="/" className="text-body font-medium text-off-black-ink">
           Stokys
         </Link>
-        <h1 className="mt-8 text-heading font-heading font-bold text-off-black-ink">Acessar minha conta</h1>
+        <h1 className="mt-8 text-heading font-heading font-bold text-off-black-ink">
+          Acessar minha conta
+        </h1>
         <p className="mt-2 text-body-sm text-graphite">
           Cliente, produção, admin ou parceiro — mesmo login, acesso por papel.
         </p>
 
-        {/* TODO (Fase 0): ligar a um Server Action que usa src/lib/auth.ts
-            (verifyPassword + createSession) assim que o Neon estiver provisionado. */}
-        <form className="mt-8 flex flex-col gap-4">
-          <label className="flex flex-col gap-2">
-            <span className="text-caption font-medium uppercase text-graphite">E-mail</span>
-            <input
-              type="email"
-              name="email"
-              required
-              className="rounded-lg border border-ash bg-pure-white px-4 py-3 text-body text-off-black-ink"
-            />
-          </label>
-
-          <label className="flex flex-col gap-2">
-            <span className="text-caption font-medium uppercase text-graphite">Senha</span>
-            <input
-              type="password"
-              name="senha"
-              required
-              className="rounded-lg border border-ash bg-pure-white px-4 py-3 text-body text-off-black-ink"
-            />
-          </label>
-
-          <Button type="submit" className="mt-4">
-            Entrar
-          </Button>
-        </form>
+        <Suspense>
+          <LoginForm />
+        </Suspense>
       </div>
     </main>
   );

@@ -9,7 +9,6 @@ import { PersonalizacaoStep } from "./steps/personalizacao-step";
 import { NichoStep } from "./steps/nicho-step";
 import { ReferenciasStep } from "./steps/referencias-step";
 import { RevisaoStep } from "./steps/revisao-step";
-import { PagamentoStep } from "./steps/pagamento-step";
 
 export function OnboardingWizard({
   planoInicial,
@@ -27,12 +26,14 @@ export function OnboardingWizard({
   }
 
   // Plano -> Plataforma -> Tema (Zen/Pro) ou Personalização (Customizado) -> Nicho ->
-  // Referências -> Revisão ("Criar minha loja") -> Pagamento. Nenhuma etapa deixa
-  // avançar sem os campos obrigatórios preenchidos (ver validação em cada step).
+  // Referências -> Revisão ("Criar minha loja"). Nenhuma etapa deixa avançar sem os
+  // campos obrigatórios preenchidos (ver validação em cada step). Pagamento NÃO faz
+  // parte do onboarding — só acontece depois, dentro do dashboard, com o usuário
+  // logado (RevisaoStep leva pra /login ao concluir).
   const etapas =
     dados.plano === "customizado"
-      ? (["Plano", "Plataforma", "Personalização", "Nicho", "Referências", "Revisão", "Pagamento"] as const)
-      : (["Plano", "Plataforma", "Tema", "Nicho", "Referências", "Revisão", "Pagamento"] as const);
+      ? (["Plano", "Plataforma", "Personalização", "Nicho", "Referências", "Revisão"] as const)
+      : (["Plano", "Plataforma", "Tema", "Nicho", "Referências", "Revisão"] as const);
 
   const avancar = () => setPasso((p) => Math.min(p + 1, etapas.length - 1));
   const voltar = () => setPasso((p) => Math.max(p - 1, 0));
@@ -86,9 +87,6 @@ export function OnboardingWizard({
         )}
         {etapaAtual === "Revisão" && (
           <RevisaoStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />
-        )}
-        {etapaAtual === "Pagamento" && (
-          <PagamentoStep dados={dados} setDados={setDados} onContinuar={avancar} onVoltar={voltar} />
         )}
       </div>
     </div>

@@ -42,9 +42,9 @@ flowchart LR
     F --> G[7. Vitrine de parceiros]
 ```
 
-1. **Onboarding / Escolha de plano** — o lead escolhe um dos 3 planos (tabela abaixo), informa a plataforma (mesmo preço nas duas) e os acessos necessários para a implementação (seção 4.2.1). No plano Customizado, preenche também as personalizações (mercado-alvo, logotipo, paleta de cores).
-2. **Resumo do plano** — tela final com o plano escolhido, o que está incluso, e o valor total. Lead pode revisar/voltar antes de confirmar.
-3. **Cobrança** — ao confirmar, a plataforma gera a cobrança dentro dela mesma: QR Code + copia-e-cola PIX, formulário de cartão de crédito, ou boleto — sem redirecionar para um site externo do gateway.
+1. **Onboarding / Escolha de plano** — o lead escolhe um dos 3 planos (tabela abaixo), a plataforma (mesmo preço nas duas), tema (Spark/Quart — ou personalização de mercado/logotipo/paleta no Customizado), nicho da loja e 5 referências de lojas que admira. Nenhuma etapa avança sem os campos obrigatórios preenchidos. Os **acessos da plataforma não são pedidos aqui** — só depois, dentro do dashboard (seção 4.2.1).
+2. **Resumo do plano** — tela final ("Criar minha loja") com tudo que foi escolhido e o valor total. Ao confirmar, leva pro login — **pagamento não faz parte do onboarding**, só acontece depois, com o usuário logado.
+3. **Cobrança** — já dentro do dashboard (usuário logado), a plataforma gera a cobrança nela mesma: QR Code + copia-e-cola PIX, formulário de cartão de crédito, ou boleto — sem redirecionar para um site externo do gateway. O projeto fica com status "aguardando pagamento" até a confirmação; depois disso a produção é liberada automaticamente, e a equipe Stokys confere as informações enviadas, entrando em contato por WhatsApp ou e-mail em caso de dúvida.
 4. **Projeto em produção** — pagamento confirmado vira um **Projeto** com status, atribuído à equipe de produção. Esteira interna (kanban) para o time Stokys.
 5. **Preview disponível** — equipe sobe link/snapshot da loja em construção; cliente acompanha na área de preview do dashboard.
 6. **Entrega / Handoff** — loja finalizada, acessos devolvidos/revogados (ver 4.2.1), projeto marcado como entregue.
@@ -61,7 +61,7 @@ O preço não é mais somado item a item — o cliente escolhe **um dos 3 planos
 | Produtos | 15 produtos minerados e cadastrados | 15 produtos minerados e cadastrados | 35 produtos minerados e cadastrados |
 | Tema | Spark ou Quart (**incluso, sem custo extra**) | Spark ou Quart (incluso) | Template Shopify para mercado **Brasil, Global ou Latam** + logotipo e paleta de cores personalizados |
 | Extras | — | Página de política e rastreio | 1 Mentoria Estratégica com o Gestor de Tráfego parceiro (**Viscale Assessoria**) |
-| Preço | *a definir* | *a definir* | *a definir* |
+| Preço (pagamento único) | R$ 697 | R$ 997 | R$ 1.997 |
 
 Plataforma (Shopify ou Nuvemshop) tem o **mesmo preço** nos 3 planos — a escolha não afeta o valor, só o processo técnico de implementação.
 
@@ -73,15 +73,15 @@ Plataforma (Shopify ou Nuvemshop) tem o **mesmo preço** nos 3 planos — a esco
 Página institucional da agência: proposta de valor, portfólio de lojas entregues, prova social, CTA principal levando ao onboarding. Segue exatamente o [design system Perk](DESIGN.md) (ver seção 8).
 
 ### 4.2 Onboarding
-Wizard multi-step: (1) escolha do plano — Zen, Pro ou Customizado (comparativo lado a lado do que está incluso em cada um); (2) só para Customizado — personalização (mercado-alvo Brasil/Global/Latam, upload de logotipo, paleta de cores); (3) escolha da plataforma (Shopify ou Nuvemshop) + acessos da plataforma (4.2.1). **O wizard não inclui forma de pagamento** — ao concluir a última etapa, o cliente cai numa tela de resumo separada, e é só ali que a forma de pagamento é escolhida.
+Wizard multi-step, com validação obrigatória em cada etapa antes de avançar: (1) escolha do plano — Zen, Pro ou Customizado; (2) plataforma (Shopify ou Nuvemshop — mesmo preço nas duas); (3) tema — Spark ou Quart (Zen/Pro) ou personalização de mercado-alvo/logotipo/paleta (Customizado); (4) nicho da loja; (5) 5 referências de lojas que o cliente admira; (6) revisão final com botão **"Criar minha loja"**. **Pagamento não faz parte do onboarding** — ao clicar em "Criar minha loja", o cliente vai pro login; a cobrança só acontece depois, dentro do dashboard, com o usuário logado (seção 4.3). Os **acessos da plataforma também não são pedidos aqui** — ver 4.2.1.
 
 #### 4.2.1 Acessos da plataforma
-Para implementar a loja, a produção precisa de acesso à conta do cliente na plataforma escolhida (Shopify ou Nuvemshop). O onboarding coleta esses acessos diretamente (login/senha ou API key, conforme a plataforma), e a orientação passada ao cliente é **desativar a autenticação de dois fatores (2FA)** da conta durante o período de implementação, para não travar o time de produção.
+Para implementar a loja, a produção precisa de acesso à conta do cliente na plataforma escolhida (Shopify ou Nuvemshop). Esses acessos são pedidos **dentro do dashboard, em Configurações** — não no onboarding, para não pedir credenciais antes de o projeto existir de fato. A orientação passada ao cliente é **desativar a autenticação de dois fatores (2FA)** da conta durante o período de implementação, para não travar o time de produção.
 
-> **Nota de segurança:** pedir para o cliente desligar o 2FA reduz a segurança da conta dele enquanto o projeto está em produção — é uma troca consciente de conveniência por risco, então vale documentar isso claramente para o cliente no próprio formulário (ex.: "recomendamos reativar o 2FA assim que a loja for entregue"). Do lado da Stokys, os acessos armazenados precisam de tratamento como segredo: criptografados em repouso, visíveis só para quem está de fato produzindo aquele projeto, e **revogados/apagados após o handoff** (não ficam guardados indefinidamente). Se Shopify/Nuvemshop suportarem convite de "colaborador"/"equipe" com permissão restrita em vez de compartilhar a conta principal, isso é preferível a médio prazo — mas fica registrado aqui como melhoria futura, já que a orientação atual do cliente é compartilhar o acesso direto.
+> **Nota de segurança:** pedir para o cliente desligar o 2FA reduz a segurança da conta dele enquanto o projeto está em produção — é uma troca consciente de conveniência por risco, então vale documentar isso claramente pro cliente na própria tela de Configurações (ex.: "recomendamos reativar o 2FA assim que a loja for entregue"). Do lado da Stokys, os acessos armazenados precisam de tratamento como segredo: criptografados em repouso, visíveis só para quem está de fato produzindo aquele projeto, e **revogados/apagados após o handoff** (não ficam guardados indefinidamente). Se Shopify/Nuvemshop suportarem convite de "colaborador"/"equipe" com permissão restrita em vez de compartilhar a conta principal, isso é preferível a médio prazo — mas fica registrado aqui como melhoria futura, já que a orientação atual do cliente é compartilhar o acesso direto.
 
 ### 4.3 Cobrança (PIX / Cartão / Boleto) — via Asaas
-Cobrança **integral (100%)**, gerada ao final do onboarding (não durante o wizard), **dentro da plataforma**, via [Asaas](https://www.asaas.com/):
+Cobrança **integral (100%)**, gerada **dentro do dashboard, com o usuário logado** (não no onboarding — ver 4.2), via [Asaas](https://www.asaas.com/):
 - **PIX**: QR Code + código copia-e-cola, gerado via API do Asaas; confirmação automática por webhook.
 - **Cartão de crédito**: formulário de cartão (tokenizado pelo Asaas — a Stokys nunca armazena dado de cartão em texto puro, escopo PCI minimizado).
 - **Boleto**: geração de boleto registrado via Asaas, com linha digitável e PDF para download.
@@ -215,14 +215,17 @@ Habilitar a feature flag, integrar com AliExpress, encaixar como opção adicion
 8. **Preço por plataforma**: Shopify e Nuvemshop custam o mesmo — a plataforma não afeta o orçamento.
 9. **Preço dos temas**: Spark e Quart são **inclusos, sem custo extra** em qualquer plano.
 10. **Modelo de precificação**: substituído — não é mais um catálogo à la carte somado item a item. São **3 planos fixos** (Zen, Pro, Customizado), cada um com escopo pré-definido (seção 3).
-11. **Acessos da plataforma**: o onboarding coleta login/acesso da conta Shopify/Nuvemshop do cliente, com recomendação de desligar o 2FA durante a implementação (ver nota de segurança em 4.2.1).
+11. **Acessos da plataforma**: pedidos dentro do **dashboard, em Configurações** (não no onboarding), com recomendação de desligar o 2FA durante a implementação (ver nota de segurança em 4.2.1).
+12. **Preço de cada plano** (pagamento único por projeto, não mensalidade): **Zen R$ 697, Pro R$ 997, Customizado R$ 1.997**.
+13. **Pagamento fora do onboarding**: o wizard termina em "Revisão" com o botão "Criar minha loja", que leva pro login — a cobrança (PIX/cartão/boleto) só acontece depois, dentro do dashboard, com o usuário logado.
+14. **Fluxo do onboarding**: reordenado e ampliado — Plano → Plataforma → Tema (ou Personalização no Customizado) → Nicho → 5 Referências de lojas → Revisão. Cada etapa bloqueia o avanço até os campos obrigatórios estarem preenchidos.
 
 ## 11. Decisões ainda em aberto
 
-1. **Preço de cada plano**: valores de Zen, Pro e Customizado ainda não definidos — fica para depois, não bloqueia o início do desenvolvimento (o campo `preco` em `Plano` fica editável pelo admin, sem valor padrão fixo no código).
-2. **Funcionalidades dos temas Spark e Quart**: usuário vai especificar depois (hoje só há a indicação de segmento — moda/vestuário para Spark, decoração/casa para Quart).
-3. **Parcelamento no cartão**: quantas vezes, e se há juros ou é sem juros até X parcelas.
-4. **Acessos de plataforma via colaborador restrito**: vale avaliar, como melhoria futura, convidar a produção como "equipe"/"colaborador" com permissão limitada na Shopify/Nuvemshop em vez de usar a conta principal do cliente — reduz o risco de compartilhar a conta inteira e evita depender de desligar o 2FA (ver nota em 4.2.1).
+1. **Funcionalidades dos temas Spark e Quart**: usuário vai especificar depois (hoje só há a indicação de segmento — moda/vestuário para Spark, decoração/casa para Quart).
+2. **Parcelamento no cartão**: quantas vezes, e se há juros ou é sem juros até X parcelas.
+3. **Acessos de plataforma via colaborador restrito**: vale avaliar, como melhoria futura, convidar a produção como "equipe"/"colaborador" com permissão limitada na Shopify/Nuvemshop em vez de usar a conta principal do cliente — reduz o risco de compartilhar a conta inteira e evita depender de desligar o 2FA (ver nota em 4.2.1).
+4. **Faixas de produtos minerados (item 5, seção 10)**: os valores R$97/297/397/597 por faixa foram definidos numa rodada anterior, antes do modelo de 3 planos com preço fechado — não está claro se ainda se aplicam como upgrade acima do incluso no plano, ou se foram totalmente substituídos pelos preços fixos da seção 3.
 
 Resolvido nesta rodada: "Tema: Brasil, Global ou Latam" no Customizado é o **mercado-alvo da loja** — define o template Shopify usado, o idioma e o método de pagamento final da loja publicada (já refletido no modelo de dados, seção 5). E o Zen também inclui os produtos **cadastrados** na loja, não só a lista minerada — mesmo comportamento do Pro nesse ponto, escopo do Zen atualizado na tabela da seção 3.
 

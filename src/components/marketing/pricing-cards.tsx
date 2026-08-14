@@ -1,9 +1,8 @@
 import { LinkButton } from "@/components/ui/button";
-import { planosConteudo } from "@/lib/planos-conteudo";
+import { planosConteudo, formatarPreco } from "@/lib/planos-conteudo";
 
 // Cards de preço — mesmo padrão do "Pick your plan" da perk.com: nome, label da
-// taxa, preço grande, descrição, CTA. Preço ainda não definido (PRD seção 11),
-// fica como placeholder visível em vez de número inventado.
+// taxa, preço grande, descrição, CTA.
 
 export function PricingCards() {
   return (
@@ -35,8 +34,9 @@ export function PricingCards() {
               <p className="mt-4 text-caption font-medium uppercase text-graphite">
                 Valor do projeto
               </p>
-              <p className="mt-1 text-heading-lg font-heading font-bold text-off-black-ink">—</p>
-              <p className="text-caption text-graphite">[valor a definir]</p>
+              <p className="mt-1 text-heading-lg font-heading font-bold text-off-black-ink">
+                {formatarPreco(plano.precoCentavos)}
+              </p>
 
               <p className="mt-4 text-body-sm text-graphite">{plano.descricao}</p>
 
@@ -52,7 +52,7 @@ export function PricingCards() {
         </div>
 
         <p className="mt-6 text-caption text-graphite">
-          *Cada seleção no onboarding (plano, tema, produtos) compõe o orçamento final.
+          *Pagamento único por projeto — não é mensalidade.
         </p>
       </div>
     </section>

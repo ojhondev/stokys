@@ -25,7 +25,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex items-center justify-between">
           {colapsado ? (
             <Link href="/" className="flex h-9 w-9 items-center justify-center">
-              <Image src="/logo-stokys.png" alt="Stokys" width={28} height={28} className="h-7 w-auto" />
+              <Image
+                src="/logo-stokys-icon.png"
+                alt="Stokys"
+                width={28}
+                height={35}
+                className="h-8 w-auto"
+              />
             </Link>
           ) : (
             <Link href="/" className="flex items-center">

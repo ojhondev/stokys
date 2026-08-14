@@ -57,7 +57,9 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
 function Celula({ valor }: { valor: Valor }) {
   if (typeof valor === "boolean") {
     return (
-      <span className="text-body text-off-black-ink">{valor ? "✓" : ""}</span>
+      <span className={`text-body ${valor ? "text-off-black-ink" : "text-graphite"}`}>
+        {valor ? "✓" : "✕"}
+      </span>
     );
   }
   return <span className="text-body-sm text-off-black-ink">{valor}</span>;
@@ -68,10 +70,11 @@ export function ComparisonTable() {
     <section className="bg-pure-white px-6 py-14 sm:px-10 md:py-16 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
         <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink">
-          A lista completa
+          Entenda os planos
         </h2>
 
-        <div className="mt-14 overflow-x-auto">
+        {/* Desktop: tabela completa lado a lado */}
+        <div className="mt-14 hidden overflow-x-auto md:block">
           <table className="w-full min-w-[720px] border-collapse">
             <thead>
               <tr>
@@ -95,7 +98,7 @@ export function ComparisonTable() {
             <tbody>
               {linhas.map((linha) => (
                 <tr key={linha.label} className="border-b border-ash">
-                  <td className="py-5 pr-4 text-body-sm font-medium text-off-black-ink">
+                  <td className="py-5 pr-4 text-body-sm font-bold text-off-black-ink">
                     {linha.label}
                   </td>
                   {colunas.map((coluna) => (
@@ -107,6 +110,40 @@ export function ComparisonTable() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile: um bloco por plano, só com o que está incluso */}
+        <div className="mt-10 flex flex-col gap-6 md:hidden">
+          {colunas.map((coluna) => {
+            const itensInclusos = linhas
+              .map((linha) => ({ label: linha.label, valor: linha.valores[coluna.slug] }))
+              .filter((item) => item.valor !== false);
+
+            return (
+              <div key={coluna.slug} className="rounded-3xl bg-off-white-canvas p-6">
+                <div className="flex items-center gap-3">
+                  <h3 className="text-subheading font-heading font-bold text-off-black-ink">
+                    Com o {coluna.nome} você tem
+                  </h3>
+                  {coluna.badge && (
+                    <span className="rounded-full bg-electric-lime px-3 py-1 text-caption font-medium text-off-black-ink">
+                      {coluna.badge}
+                    </span>
+                  )}
+                </div>
+                <ul className="mt-4 flex flex-col gap-2">
+                  {itensInclusos.map((item) => (
+                    <li key={item.label} className="text-body-sm text-off-black-ink">
+                      <span className="font-bold">{item.label}</span>
+                      {typeof item.valor === "string" && (
+                        <span className="text-graphite"> — {item.valor}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

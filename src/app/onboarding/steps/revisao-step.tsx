@@ -1,12 +1,18 @@
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { planosConteudo } from "@/lib/planos-conteudo";
+import { planosConteudo, formatarPreco } from "@/lib/planos-conteudo";
 import type { StepProps } from "../types";
 
 const labelPlataforma = { shopify: "Shopify", nuvemshop: "Nuvemshop" } as const;
 const labelTema = { spark: "Spark", quart: "Quart" } as const;
 const labelMercado = { brasil: "Brasil", global: "Global", latam: "Latam" } as const;
 
-export function RevisaoStep({ dados, onContinuar, onVoltar }: StepProps) {
+// Pagamento não faz parte do onboarding — só acontece depois, dentro do dashboard,
+// com o usuário logado (ver docs/PRD.md 4.3). "Criar minha loja" leva pro login;
+// TODO (Fase 1): criar a conta/projeto de verdade aqui antes de redirecionar.
+
+export function RevisaoStep({ dados, onVoltar }: StepProps) {
+  const router = useRouter();
   const plano = planosConteudo.find((p) => p.slug === dados.plano);
 
   const linhas = [
@@ -17,6 +23,7 @@ export function RevisaoStep({ dados, onContinuar, onVoltar }: StepProps) {
       : { label: "Tema", valor: dados.tema && labelTema[dados.tema] },
     { label: "Nicho", valor: dados.nicho },
     { label: "Referências", valor: `${dados.referencias.length} lojas listadas` },
+    { label: "Valor", valor: plano && formatarPreco(plano.precoCentavos) },
   ];
 
   return (
@@ -25,7 +32,8 @@ export function RevisaoStep({ dados, onContinuar, onVoltar }: StepProps) {
         Confira antes de criar sua loja
       </h1>
       <p className="mt-2 text-body-sm text-graphite">
-        Os acessos da plataforma são pedidos depois, no seu painel — não precisa deles agora.
+        Falta só o pagamento — ele acontece no próximo passo, depois de você entrar na sua conta.
+        Os acessos da plataforma são pedidos depois, no painel.
       </p>
 
       <div className="mt-8 flex flex-col gap-2 rounded-3xl bg-off-white-canvas p-6">
@@ -44,7 +52,10 @@ export function RevisaoStep({ dados, onContinuar, onVoltar }: StepProps) {
         <Button type="button" onClick={onVoltar} variant="ghost">
           Voltar
         </Button>
-        <Button onClick={onContinuar} className="w-full sm:w-auto">
+        <Button
+          onClick={() => router.push("/login?next=/dashboard/pagamentos")}
+          className="w-full sm:w-auto"
+        >
           Criar minha loja
         </Button>
       </div>

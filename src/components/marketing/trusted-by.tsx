@@ -1,21 +1,24 @@
 // Tira de "confiado por" — mesma posição/fundo cinza da faixa de logos da perk.com.
-// Sem clientes reais cadastrados ainda, então as marcas abaixo são fictícias (pedido
-// explícito do usuário) — trocar por logos reais assim que houver lojas entregues.
+// Marcas fictícias (pedido explícito do usuário, nomes que ele mandou) — as imagens
+// originais enviadas no chat não puderam ser salvas como arquivo (sem link/anexo
+// acessível), então ficam como wordmark de texto pequeno por enquanto. Trocar pelos
+// arquivos reais se o usuário enviar por link, ou por logos reais quando houver
+// lojas entregues.
 
-const marcas = ["Nortex", "Velvra", "Órbita", "Kaimã Co.", "Ludus"];
+const marcas = ["VANASKI", "useSezo", "ZEVIME", "GRIVANY", "posthure", "Hauzzia", "CAZZARI"];
 
 export function TrustedBy() {
   return (
-    <section className="bg-ash px-6 py-8 sm:px-10 lg:px-16">
-      <div className="mx-auto flex w-full max-w-[1800px] flex-col items-center gap-8 md:flex-row md:justify-between">
-        <p className="text-caption font-medium uppercase text-off-black-ink/70">
-          Confiado por lojistas em todo o Brasil
+    <section className="bg-ash px-6 py-3 sm:px-10 lg:px-16">
+      <div className="mx-auto flex w-full max-w-[1800px] flex-col items-center gap-3 md:flex-row md:justify-between">
+        <p className="text-eyebrow font-medium uppercase text-off-black-ink/70">
+          Confiado por dropshippers em todo o Brasil
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-10">
+        <div className="flex flex-wrap items-center justify-center gap-6">
           {marcas.map((marca) => (
             <span
               key={marca}
-              className="text-subheading font-medium tracking-tight text-off-black-ink/60"
+              className="text-caption font-bold tracking-tight text-off-black-ink/50"
             >
               {marca}
             </span>
