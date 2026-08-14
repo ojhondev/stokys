@@ -90,14 +90,6 @@
      do design system — usar múltiplos diretos (ex.: p-20 = 80px, p-55 = 220px). */
 }
 
-html,
-body {
-  /* Trava scroll horizontal — qualquer conteúdo que force largura além do
-     viewport (ex.: palavra longa sem quebra) não deve deixar a página
-     inteira ser arrastada de lado no mobile. */
-  overflow-x: hidden;
-}
-
 body {
   background: var(--color-pure-white);
   color: var(--color-off-black-ink);

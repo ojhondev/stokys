@@ -45,7 +45,7 @@ const personas = [
 
 export function Personas() {
   return (
-    <section id="como-funciona" className="bg-pure-white px-6 py-14 sm:px-10 md:py-24 lg:px-16">
+    <section className="bg-pure-white px-6 py-14 sm:px-10 md:py-24 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
         <h2 className="mx-auto max-w-[720px] text-center text-heading-lg font-heading font-bold text-off-black-ink">
           O dropshipping evoluiu, e você também precisa evoluir.
