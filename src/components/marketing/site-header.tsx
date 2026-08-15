@@ -18,7 +18,6 @@ const navLinks = [
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#parceiros", label: "Parceiros" },
   { href: "/temas", label: "Temas" },
-  { href: "/blog", label: "Blog e dicas" },
 ];
 
 export function SiteHeader() {
