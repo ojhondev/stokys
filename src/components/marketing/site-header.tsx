@@ -54,7 +54,7 @@ export function SiteHeader() {
           <Image
             src="/logo-stokys.png"
             alt="Stokys"
-            width={100}
+            width={125}
             height={28}
             className="h-7 w-auto"
             priority

@@ -37,14 +37,14 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Image
                 src="/logo-stokys-icon.png"
                 alt="Stokys"
-                width={28}
+                width={31}
                 height={35}
                 className="h-8 w-auto"
               />
             </Link>
           ) : (
             <Link href="/dashboard" className="flex items-center">
-              <Image src="/logo-stokys.png" alt="Stokys" width={100} height={28} className="h-6 w-auto" />
+              <Image src="/logo-stokys.png" alt="Stokys" width={125} height={28} className="h-6 w-auto" />
             </Link>
           )}
           <button
