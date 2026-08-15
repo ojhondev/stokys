@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { LinkButton } from "@/components/ui/button";
+import { linkWhatsapp } from "@/lib/whatsapp";
 
-// Faixa fixa embaixo (desktop e mobile) com a promoção do Customizado — só nas
+// Faixa fixa embaixo (desktop e mobile) com a promoção do Premium — só nas
 // páginas públicas (LP, parceiros), não entra no dashboard pra não brigar com a
 // barra de abas fixa que já existe lá.
 
@@ -15,13 +16,15 @@ export function PromoBar() {
     <div className="fixed inset-x-0 bottom-0 z-30 bg-pure-white px-6 py-3 sm:px-10 lg:px-16">
       <div className="mx-auto flex w-full max-w-[1800px] items-center justify-between gap-4">
         <p className="text-body-sm font-medium text-off-black-ink">
-          Crie um plano Customizado com{" "}
+          Crie um plano Premium com{" "}
           <span className="font-bold underline underline-offset-2">15% de desconto</span> à vista
           no PIX.
         </p>
         <div className="flex shrink-0 items-center gap-3">
           <LinkButton
-            href="/onboarding?plano=customizado"
+            href={linkWhatsapp("Olá! Quero criar minha loja com o plano Premium com desconto no PIX.")}
+            target="_blank"
+            rel="noopener noreferrer"
             variant="dark"
             className="whitespace-nowrap"
           >

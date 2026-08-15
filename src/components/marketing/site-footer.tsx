@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Rodapé — mesma estrutura da perk.com (linha de ajuda + redes, grid de links,
 // faixa com texto gigante em marquee), em lima cheio, conforme referência do
@@ -18,7 +19,8 @@ const colunas = [
     links: [
       { href: "#planos", label: "Planos" },
       { href: "#como-funciona", label: "Como funciona" },
-      { href: "/onboarding", label: "Criar loja" },
+      { href: "/temas", label: "Temas" },
+      { href: linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA), label: "Criar loja", externo: true },
     ],
   },
   {
@@ -81,7 +83,13 @@ export function SiteFooter() {
               <ul className="mt-4 flex flex-col gap-3">
                 {coluna.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-body-sm font-medium text-off-black-ink">
+                    <Link
+                      href={link.href}
+                      className="text-body-sm font-medium text-off-black-ink"
+                      {...("externo" in link && link.externo
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                    >
                       {link.label}
                     </Link>
                   </li>

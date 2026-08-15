@@ -74,7 +74,11 @@ export function StatCallout({
           {contadorAte ? `${numero} ${contadorSufixo ?? ""}` : linha2}
         </h2>
         <p className="mt-6 max-w-[480px] text-body text-graphite">{descricao}</p>
-        <LinkButton href={ctaHref} className="mt-8">
+        <LinkButton
+          href={ctaHref}
+          className="mt-8"
+          {...(ctaHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        >
           {ctaLabel}
         </LinkButton>
       </div>

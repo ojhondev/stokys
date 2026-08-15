@@ -1,5 +1,10 @@
 import { LinkButton } from "@/components/ui/button";
 import { planosConteudo, formatarPreco } from "@/lib/planos-conteudo";
+import { linkWhatsapp } from "@/lib/whatsapp";
+
+function mensagemPlano(nome: string, precoCentavos: number): string {
+  return `Olá! Quero criar minha loja com o plano ${nome} (${formatarPreco(precoCentavos)}).`;
+}
 
 // Cards de preço — desktop segue o "Pick your plan" da perk.com (cards lado a
 // lado). Mobile usa o padrão "With X, you get:" (lista com divisórias) que o
@@ -43,7 +48,9 @@ export function PricingCards() {
               <p className="mt-4 text-body-sm text-graphite">{plano.descricao}</p>
 
               <LinkButton
-                href={`/onboarding?plano=${plano.slug}`}
+                href={linkWhatsapp(mensagemPlano(plano.nome, plano.precoCentavos))}
+                target="_blank"
+                rel="noopener noreferrer"
                 variant={plano.destaque ? "primary" : "outline"}
                 className="mt-8 w-fit"
               >
@@ -82,7 +89,9 @@ export function PricingCards() {
               <p className="mt-3 text-body-sm text-graphite">{plano.descricao}</p>
 
               <LinkButton
-                href={`/onboarding?plano=${plano.slug}`}
+                href={linkWhatsapp(mensagemPlano(plano.nome, plano.precoCentavos))}
+                target="_blank"
+                rel="noopener noreferrer"
                 variant={plano.destaque ? "primary" : "outline"}
                 className="mt-6 gap-2"
               >

@@ -11,7 +11,7 @@ import { Fragment } from "react";
 const colunas: { slug: "zen" | "pro" | "customizado"; nome: string; badge?: string }[] = [
   { slug: "zen", nome: "Zen" },
   { slug: "pro", nome: "Pro", badge: "Mais popular" },
-  { slug: "customizado", nome: "Custom" },
+  { slug: "customizado", nome: "Premium" },
 ];
 
 type Valor = boolean | string;

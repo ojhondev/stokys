@@ -11,7 +11,7 @@ const features = [
   { eyebrow: "Preview em tempo real", heading: "Acompanhe a loja sendo montada", descricao: "Cada snapshot da produção aparece direto no seu dashboard." },
   { eyebrow: "Mensageria direta", heading: "Fale com quem tá produzindo", descricao: "Sem sair da plataforma, sem esperar resposta no WhatsApp." },
   { eyebrow: "Cobrança na plataforma", heading: "PIX, cartão ou boleto", descricao: "Sem link externo, sem intermediário — tudo dentro da Stokys." },
-  { eyebrow: "Escopo fechado", heading: "Você sabe o que está pagando", descricao: "Zen, Pro ou Customizado — sem surpresa depois que o pedido fecha." },
+  { eyebrow: "Escopo fechado", heading: "Você sabe o que está pagando", descricao: "Zen, Pro ou Premium — sem surpresa depois que o pedido fecha." },
   { eyebrow: "Parceiros de tráfego", heading: "Loja pronta é só o começo", descricao: "Vitrine de agências parceiras pra vender depois da entrega." },
   { eyebrow: "Suporte pós-entrega", heading: "Acompanhamento contínuo", descricao: "A loja publicada não é ponto final — a gente continua por perto." },
 ];

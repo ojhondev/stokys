@@ -9,9 +9,9 @@
 :root {
   --color-electric-lime: #beff50;
   --color-off-black-ink: #14140f;
-  /* Pedido do usuário: cinza no site todo, exceto header e seção 1 (hero),
-     que mantêm o verde claro original em --color-hero-canvas. */
-  --color-off-white-canvas: #f9f9f9;
+  /* Rollback do cinza (pedido do usuário, 2026-08-15): fundo predominante do
+     site volta a ser o verde claro, igual ao do header/hero. */
+  --color-off-white-canvas: #f5f5eb;
   --color-hero-canvas: #f5f5eb;
   --color-pure-white: #ffffff;
   --color-ash: #d2d2c8;
@@ -126,9 +126,4 @@ body {
 /* Faixa de marcas rolando devagar pra esquerda (ver trusted-by.tsx). */
 .animate-marquee-slow {
   animation: marquee 60s linear infinite;
-}
-
-/* Stroke lima de 1px em todos os containers (cards) do site. */
-.rounded-3xl {
-  border: 1px solid var(--color-electric-lime);
 }
