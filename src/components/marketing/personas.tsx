@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/button";
+import { linkWhatsapp } from "@/lib/whatsapp";
 
 // Mesmo padrão da seção de personas da perk.com: título centralizado maior, cards
 // com categoria + título + subtexto + CTA à esquerda e imagem à direita, efeito de
@@ -20,8 +21,8 @@ const personas = [
     titulo: "Material desenvolvido do zero, para sua marca",
     subtexto:
       "Banners, categorias e paleta pensados pro seu nicho — não é um template reaproveitado de outro cliente.",
-    ctaLabel: "Conhecer o Customizado",
-    ctaHref: "/onboarding?plano=customizado",
+    ctaLabel: "Conhecer o Premium",
+    ctaHref: linkWhatsapp("Olá! Quero criar minha loja com o plano Premium (R$ 1.997)."),
     imagem: "/persona-2.webp",
   },
   {
@@ -69,7 +70,14 @@ export function Personas() {
                   <p className="mt-3 max-w-[380px] text-body-sm text-graphite">
                     {persona.subtexto}
                   </p>
-                  <LinkButton href={persona.ctaHref} variant="outline" className="mt-6">
+                  <LinkButton
+                    href={persona.ctaHref}
+                    variant="outline"
+                    className="mt-6"
+                    {...(persona.ctaHref.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
                     {persona.ctaLabel}
                   </LinkButton>
                 </div>

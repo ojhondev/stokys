@@ -1,4 +1,5 @@
 import { LinkButton } from "@/components/ui/button";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Faixa de fechamento — mesma posição/fundo branco do banner final da perk.com
 // (lá é o patrocínio F1; aqui não existe claim equivalente, então fica só o CTA).
@@ -11,7 +12,13 @@ export function ClosingCta() {
           A loja pronta. Você só vende.
         </h2>
         <div className="mt-10">
-          <LinkButton href="/onboarding">Criar loja</LinkButton>
+          <LinkButton
+            href={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Criar loja
+          </LinkButton>
         </div>
       </div>
     </section>

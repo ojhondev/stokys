@@ -39,7 +39,7 @@ export const planosConteudo: PlanoConteudo[] = [
   },
   {
     slug: "customizado",
-    nome: "Customizado",
+    nome: "Premium",
     descricao: "Loja sob medida, com mentoria de tráfego inclusa.",
     precoCentavos: 199700,
     itens: [

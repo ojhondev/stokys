@@ -14,6 +14,7 @@ import { NichesMarquee } from "@/components/marketing/niches-marquee";
 import { Faq } from "@/components/marketing/faq";
 import { ClosingCta } from "@/components/marketing/closing-cta";
 import { PromoBar } from "@/components/marketing/promo-bar";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Ordem da página (pedido do usuário): Seção 1 > Como funciona > Loja
 // profissional de verdade > Toda etapa sem você perguntar > Planos e preços
@@ -38,7 +39,7 @@ export default function Home() {
           contadorSufixo="lojas entregues até hoje."
           descricao="Onboarding, pagamento, produção e preview — sem trocar de ferramenta em nenhuma etapa."
           ctaLabel="Criar loja"
-          ctaHref="/onboarding"
+          ctaHref={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
           fundo="pure-white"
         />
 
@@ -50,7 +51,7 @@ export default function Home() {
           linha2="de verdade."
           descricao="Toda decisão do projeto fica registrada — orçamento, acessos, mensagens e pagamento, tudo num histórico só."
           ctaLabel="Começar agora"
-          ctaHref="/onboarding"
+          ctaHref={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
           fundo="off-white-canvas"
         />
 
