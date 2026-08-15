@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 const scrypt = promisify(scryptCallback);
 
-const SESSION_COOKIE = "stokys_session";
+export const SESSION_COOKIE = "stokys_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 dias
 
 function requireSecret(): string {
@@ -35,7 +35,7 @@ export async function verifyPassword(password: string, stored: string): Promise<
 
 // --- Sessão (cookie assinado, sem provedor externo) --------------------
 
-export type Papel = "lead" | "cliente" | "producao" | "admin" | "parceiro";
+export type Papel = "lead" | "cliente" | "producao" | "admin" | "master" | "parceiro";
 
 export type SessionPayload = {
   userId: string;
@@ -61,7 +61,9 @@ async function signSession(payload: SessionPayload): Promise<string> {
   return `${body}.${signature}`;
 }
 
-async function verifySessionToken(token: string): Promise<SessionPayload | null> {
+// Exportado pro middleware (src/middleware.ts) verificar o cookie direto do
+// NextRequest, sem depender de cookies() de next/headers.
+export async function verifySessionToken(token: string): Promise<SessionPayload | null> {
   const [body, signature] = token.split(".");
   if (!body || !signature) return null;
 

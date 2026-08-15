@@ -1,18 +1,35 @@
-"use client";
+import { eq } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { acessosPlataforma } from "@/lib/db/schema";
+import { getSession } from "@/lib/auth";
+import { getProjetoDoCliente } from "@/lib/queries/projetos";
+import { AcessosForm } from "@/components/dashboard/acessos-form";
 
-import { useState } from "react";
+// Acessos da plataforma (Shopify/Nuvemshop) — ver docs/PRD.md 4.2.1: pedidos
+// aqui, dentro do painel, não no onboarding. Nunca decifra/re-exibe o segredo
+// salvo pro cliente — só confirma que já tem um cadastro válido.
 
-// Acessos da plataforma (Shopify/Nuvemshop) — movidos do onboarding pra cá a
-// pedido do usuário: só são pedidos depois que o projeto já existe, dentro do
-// painel. Ver docs/PRD.md, seção 4.2.1 (nota de segurança sobre 2FA e
-// criptografia) — aqui é só o formulário; TODO (Fase 1): salvar via Server
-// Action usando src/lib/credentials.ts (encryptSecret) assim que o Neon e a
-// sessão do cliente estiverem conectados de ponta a ponta.
+export default async function ConfiguracoesPage() {
+  const sessao = await getSession();
+  if (!sessao) return null;
 
-export default function ConfiguracoesPage() {
-  const [usuario, setUsuario] = useState("");
-  const [senha, setSenha] = useState("");
-  const [salvo, setSalvo] = useState(false);
+  const registro = await getProjetoDoCliente(sessao.userId);
+  if (!registro) {
+    return (
+      <div>
+        <span className="text-caption font-medium uppercase text-graphite">Configurações</span>
+        <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
+          Nenhum projeto encontrado
+        </h1>
+      </div>
+    );
+  }
+
+  const [acessos] = await getDb()
+    .select()
+    .from(acessosPlataforma)
+    .where(eq(acessosPlataforma.projetoId, registro.projeto.id))
+    .limit(1);
 
   return (
     <div>
@@ -25,58 +42,14 @@ export default function ConfiguracoesPage() {
         revogados assim que a loja é entregue.
       </p>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          setSalvo(true);
-        }}
-        className="mt-8 flex flex-col gap-4 rounded-3xl bg-pure-white p-6"
-      >
-        <label className="flex flex-col gap-2">
-          <span className="text-body-sm font-medium text-off-black-ink">
-            Usuário / e-mail de acesso
-          </span>
-          <input
-            type="text"
-            value={usuario}
-            onChange={(e) => {
-              setUsuario(e.target.value);
-              setSalvo(false);
-            }}
-            className="rounded-lg border border-ash bg-off-white-canvas px-4 py-3 text-body text-off-black-ink"
-          />
-        </label>
-        <label className="flex flex-col gap-2">
-          <span className="text-body-sm font-medium text-off-black-ink">Senha</span>
-          <input
-            type="password"
-            value={senha}
-            onChange={(e) => {
-              setSenha(e.target.value);
-              setSalvo(false);
-            }}
-            className="rounded-lg border border-ash bg-off-white-canvas px-4 py-3 text-body text-off-black-ink"
-          />
-        </label>
-
-        <p className="text-caption text-graphite">
-          Recomendamos desativar a autenticação de dois fatores durante a implementação, pra não
-          travar a produção — pode reativar assim que a loja for entregue.
+      {acessos && !acessos.revogadoEm && (
+        <p className="mt-4 text-body-sm font-medium text-off-black-ink">
+          Acessos salvos em {acessos.criadoEm.toLocaleDateString("pt-BR")} — usuário{" "}
+          {acessos.usuarioAcesso}. Envie o formulário abaixo de novo se algo mudou.
         </p>
+      )}
 
-        <button
-          type="submit"
-          className="mt-2 w-fit rounded-3xl bg-electric-lime pt-4 pb-4 pl-4 pr-3 text-body font-medium text-off-black-ink"
-        >
-          Salvar acessos
-        </button>
-
-        {salvo && (
-          <p className="text-body-sm font-medium text-off-black-ink">
-            Acessos salvos (mock) — a produção foi avisada.
-          </p>
-        )}
-      </form>
+      <AcessosForm />
     </div>
   );
 }

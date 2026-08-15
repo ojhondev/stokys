@@ -1,27 +1,22 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useActionState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { login, type LoginState } from "@/lib/actions/auth";
 
-// TODO (Fase 0): ligar a um Server Action que usa src/lib/auth.ts
-// (verifyPassword + createSession) assim que o Neon estiver provisionado.
-// Por ora, o submit só simula o login e redireciona pra "next" (ou /dashboard).
+const estadoInicial: LoginState = {};
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next = searchParams.get("next") ?? "";
+  const [estado, formAction, pendente] = useActionState(login, estadoInicial);
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        router.push(next);
-      }}
-      className="mt-8 flex flex-col gap-4"
-    >
+    <form action={formAction} className="mt-8 flex flex-col gap-4">
+      <input type="hidden" name="next" value={next} />
+
       <label className="flex flex-col gap-2">
         <span className="text-caption font-medium uppercase text-graphite">E-mail</span>
         <input
@@ -42,8 +37,10 @@ function LoginForm() {
         />
       </label>
 
-      <Button type="submit" className="mt-4">
-        Entrar
+      {estado.erro && <p className="text-body-sm font-medium text-off-black-ink">{estado.erro}</p>}
+
+      <Button type="submit" disabled={pendente} className="mt-4">
+        {pendente ? "Entrando…" : "Entrar"}
       </Button>
     </form>
   );

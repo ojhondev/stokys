@@ -1,31 +1,90 @@
-// Painel interno (admin / produção) — ver docs/PRD.md, seção 4.5.
-// TODO (Fase 1): gatear por sessão (src/lib/auth.ts -> getSession(), papel
-// "admin" ou "producao") via middleware assim que houver usuários reais no banco.
+import Link from "next/link";
+import { desc, eq } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { projetos, usuarios, planos } from "@/lib/db/schema";
+import { getSession } from "@/lib/auth";
+import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
 
-const modulos = [
-  { titulo: "Esteira de projetos", descricao: "Kanban de todos os projetos em produção." },
-  { titulo: "Planos", descricao: "CRUD de escopo e preço de Zen, Pro e Customizado." },
-  { titulo: "Financeiro", descricao: "Cobranças geradas, status de pagamento, conciliação." },
-  { titulo: "Parceiros", descricao: "Cadastro da vitrine de agências de tráfego pago." },
-];
+const labelStatus = {
+  onboarding: "Onboarding",
+  aguardando_pagamento: "Aguardando pagamento",
+  em_producao: "Em produção",
+  preview_disponivel: "Preview disponível",
+  entregue: "Entregue",
+} as const;
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const sessao = await getSession();
+  if (!sessao) return null;
+
+  const db = getDb();
+  const query = db
+    .select({
+      id: projetos.id,
+      status: projetos.status,
+      plataforma: projetos.plataforma,
+      precoCentavos: projetos.precoNoMomentoDaCompraCentavos,
+      criadoEm: projetos.criadoEm,
+      clienteNome: usuarios.nome,
+      clienteEmail: usuarios.email,
+      planoNome: planos.nome,
+    })
+    .from(projetos)
+    .innerJoin(usuarios, eq(projetos.clienteId, usuarios.id))
+    .innerJoin(planos, eq(projetos.planoId, planos.id))
+    .orderBy(desc(projetos.criadoEm));
+
+  const lista =
+    sessao.papel === "producao"
+      ? await query.where(eq(projetos.responsavelId, sessao.userId))
+      : await query;
+
   return (
-    <main className="flex flex-1 flex-col bg-pure-white px-6 py-14 sm:px-10 lg:px-16">
-      <div className="mx-auto w-full max-w-[1800px]">
-        <span className="text-caption font-medium uppercase text-graphite">Painel interno</span>
-        <h1 className="mt-3 text-heading font-heading font-bold text-off-black-ink">Stokys — Operação</h1>
+    <div>
+      <span className="text-caption font-medium uppercase text-graphite">Painel interno</span>
+      <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">Projetos</h1>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
-          {modulos.map((modulo) => (
-            <div key={modulo.titulo} className="rounded-3xl bg-off-white-canvas p-8">
-              <h2 className="text-subheading font-heading font-bold text-off-black-ink">{modulo.titulo}</h2>
-              <p className="mt-2 text-body-sm text-graphite">{modulo.descricao}</p>
-              <p className="mt-4 text-caption font-medium uppercase text-stone">Em construção</p>
-            </div>
-          ))}
-        </div>
+      {lista.length === 0 && (
+        <p className="mt-6 text-body-sm text-graphite">Nenhum projeto por aqui ainda.</p>
+      )}
+
+      <div className="mt-8 overflow-x-auto rounded-3xl bg-pure-white">
+        {lista.length > 0 && (
+          <table className="w-full min-w-[720px] border-collapse text-body-sm">
+            <thead>
+              <tr className="border-b border-ash text-left text-caption font-medium uppercase text-graphite">
+                <th className="px-6 py-4">Cliente</th>
+                <th className="px-4 py-4">Plano</th>
+                <th className="px-4 py-4">Plataforma</th>
+                <th className="px-4 py-4">Status</th>
+                <th className="px-4 py-4">Valor</th>
+                <th className="px-4 py-4">Criado em</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lista.map((p) => (
+                <tr key={p.id} className="border-b border-ash last:border-b-0">
+                  <td className="px-6 py-4">
+                    <Link href={`/admin/projetos/${p.id}`} className="font-bold text-off-black-ink underline underline-offset-4">
+                      {p.clienteNome}
+                    </Link>
+                    <p className="text-caption text-graphite">{p.clienteEmail}</p>
+                  </td>
+                  <td className="px-4 py-4 text-off-black-ink">{nomeExibicaoPlano(p.planoNome)}</td>
+                  <td className="px-4 py-4 text-off-black-ink">{p.plataforma}</td>
+                  <td className="px-4 py-4">
+                    <span className="rounded-full bg-off-white-canvas px-3 py-1 text-caption font-medium text-off-black-ink">
+                      {labelStatus[p.status]}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 text-off-black-ink">{formatarPreco(p.precoCentavos)}</td>
+                  <td className="px-4 py-4 text-graphite">{p.criadoEm.toLocaleDateString("pt-BR")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
-    </main>
+    </div>
   );
 }

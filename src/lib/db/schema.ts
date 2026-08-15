@@ -11,17 +11,26 @@ import {
 
 // Ver docs/PRD.md, seção 5 (Modelo de dados) e seção 3 (Planos).
 
+// Hierarquia da equipe Stokys: master (dono, único que gerencia contas de
+// equipe) > admin (gestor operacional, vê/opera todos os projetos) > producao
+// (só os projetos atribuídos via projetos.responsavelId). cliente e parceiro
+// são papéis externos; lead fica reservado (sem uso ainda nesta fase).
 export const papelUsuarioEnum = pgEnum("papel_usuario", [
   "lead",
   "cliente",
   "producao",
   "admin",
+  "master",
   "parceiro",
 ]);
 
 export const nomePlanoEnum = pgEnum("nome_plano", ["zen", "pro", "customizado"]);
 
 export const plataformaEnum = pgEnum("plataforma", ["shopify", "nuvemshop"]);
+
+// Só relevante para planos Zen/Pro — Customizado usa personalizacoes.mercadoAlvo
+// pra definir o template em vez de um tema pronto (ver docs/PRD.md seção 3).
+export const temaEnum = pgEnum("tema", ["spark", "quart"]);
 
 export const mercadoAlvoEnum = pgEnum("mercado_alvo", ["brasil", "global", "latam"]);
 
@@ -74,6 +83,11 @@ export const projetos = pgTable("projetos", {
   precoNoMomentoDaCompraCentavos: integer("preco_no_momento_da_compra_centavos").notNull(),
   plataforma: plataformaEnum("plataforma").notNull(),
   status: statusProjetoEnum("status").notNull().default("onboarding"),
+  tema: temaEnum("tema"),
+  nicho: text("nicho").notNull(),
+  referencias: jsonb("referencias").$type<string[]>().notNull(),
+  // Membro da produção responsável — define o que um usuário papel "producao" enxerga.
+  responsavelId: uuid("responsavel_id").references(() => usuarios.id),
   mentoriaViscaleAgendadaEm: timestamp("mentoria_viscale_agendada_em", {
     withTimezone: true,
   }),

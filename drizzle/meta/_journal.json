@@ -8,6 +8,13 @@
       "when": 1786644467467,
       "tag": "0000_plain_solo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786817444077,
+      "tag": "0001_smiling_alex_power",
+      "breakpoints": true
     }
   ]
 }

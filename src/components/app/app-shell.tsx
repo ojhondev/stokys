@@ -5,29 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { clienteNavItems } from "./nav-items";
-import {
-  IconVisaoGeral,
-  IconPreview,
-  IconMensagens,
-  IconPagamentos,
-  IconConfiguracoes,
-  IconPerfil,
-  IconAjuda,
-} from "./icons";
+import { IconMensagens, IconPagamentos, IconConfiguracoes, IconAjuda, IconSair } from "./icons";
+import { logout } from "@/lib/actions/auth";
 
 const icones = {
-  visaoGeral: IconVisaoGeral,
-  preview: IconPreview,
   mensagens: IconMensagens,
   pagamentos: IconPagamentos,
   configuracoes: IconConfiguracoes,
-  perfil: IconPerfil,
 } as const;
 
 // Casca do app do cliente — mobile first: barra de abas fixa embaixo no celular
 // (estilo app nativo), vira sidebar (com/sem rótulo, colapsável) a partir de md,
-// no mesmo padrão do app da perk.com (logo + toggle no topo, Ajuda/Perfil fixos
-// embaixo). Ver docs/PRD.md 4.4.
+// no mesmo padrão do app da perk.com (logo + toggle no topo, Ajuda/Sair fixos
+// embaixo). Escopo do cliente é só Pagamentos/Mensagens/Configurações — ver
+// docs/PRD.md 4.4 e nav-items.ts.
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -42,7 +33,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         <div className="flex items-center justify-between">
           {colapsado ? (
-            <Link href="/" className="flex h-9 w-9 items-center justify-center">
+            <Link href="/dashboard" className="flex h-9 w-9 items-center justify-center">
               <Image
                 src="/logo-stokys-icon.png"
                 alt="Stokys"
@@ -52,7 +43,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               />
             </Link>
           ) : (
-            <Link href="/" className="flex items-center">
+            <Link href="/dashboard" className="flex items-center">
               <Image src="/logo-stokys.png" alt="Stokys" width={100} height={28} className="h-6 w-auto" />
             </Link>
           )}
@@ -98,31 +89,33 @@ export function AppShell({ children }: { children: ReactNode }) {
             <IconAjuda className="h-5 w-5 shrink-0" />
             {!colapsado && <span>Ajuda</span>}
           </Link>
-          <Link
-            href="/dashboard/perfil"
-            title={colapsado ? "Perfil" : undefined}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-off-black-ink hover:bg-off-white-canvas"
-          >
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-electric-lime text-caption font-bold">
-              S
-            </span>
-            {!colapsado && <span>Perfil</span>}
-          </Link>
+          <form action={logout}>
+            <button
+              type="submit"
+              title={colapsado ? "Sair" : undefined}
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-off-white-canvas"
+            >
+              <IconSair className="h-5 w-5 shrink-0" />
+              {!colapsado && <span>Sair</span>}
+            </button>
+          </form>
         </div>
       </aside>
 
       <div className="flex flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-ash bg-pure-white px-6 py-4 md:hidden">
-          <Link href="/" className="text-body font-heading font-bold text-off-black-ink">
+          <Link href="/dashboard" className="text-body font-heading font-bold text-off-black-ink">
             Stokys
           </Link>
-          <Link
-            href="/dashboard/perfil"
-            aria-label="Perfil"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-off-white-canvas text-off-black-ink"
-          >
-            <IconPerfil className="h-5 w-5" />
-          </Link>
+          <form action={logout}>
+            <button
+              type="submit"
+              aria-label="Sair"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-off-white-canvas text-off-black-ink"
+            >
+              <IconSair className="h-5 w-5" />
+            </button>
+          </form>
         </header>
 
         <main className="flex-1 px-6 pb-24 pt-6 sm:px-10 md:px-10 md:py-10 md:pb-10">

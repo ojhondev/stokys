@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Worktrees criados por agentes isolados (ver Agent tool, isolation: "worktree")
+    // ficam aninhados dentro do projeto — nunca lintar o build deles.
+    ".claude/worktrees/**",
   ]),
 ]);
 

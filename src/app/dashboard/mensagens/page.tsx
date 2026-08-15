@@ -1,17 +1,38 @@
-const mensagens = [
-  {
-    autor: "Produção Stokys",
-    texto: "Banners aprovados, seguindo pro cadastro dos produtos restantes.",
-    quando: "Hoje",
-  },
-  {
-    autor: "Produção Stokys",
-    texto: "Recebemos os acessos da plataforma, começando a implementação.",
-    quando: "Ontem",
-  },
-];
+import { asc, eq } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { mensagens, usuarios } from "@/lib/db/schema";
+import { getSession } from "@/lib/auth";
+import { getProjetoDoCliente } from "@/lib/queries/projetos";
+import { MensagemForm } from "@/components/dashboard/mensagem-form";
 
-export default function MensagensPage() {
+export default async function MensagensPage() {
+  const sessao = await getSession();
+  if (!sessao) return null;
+
+  const registro = await getProjetoDoCliente(sessao.userId);
+  if (!registro) {
+    return (
+      <div>
+        <span className="text-caption font-medium uppercase text-graphite">Mensagens</span>
+        <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
+          Nenhum projeto encontrado
+        </h1>
+      </div>
+    );
+  }
+
+  const lista = await getDb()
+    .select({
+      id: mensagens.id,
+      texto: mensagens.texto,
+      criadoEm: mensagens.criadoEm,
+      autorPapel: usuarios.papel,
+    })
+    .from(mensagens)
+    .innerJoin(usuarios, eq(mensagens.autorId, usuarios.id))
+    .where(eq(mensagens.projetoId, registro.projeto.id))
+    .orderBy(asc(mensagens.criadoEm));
+
   return (
     <div>
       <span className="text-caption font-medium uppercase text-graphite">Mensagens</span>
@@ -20,30 +41,25 @@ export default function MensagensPage() {
       </h1>
 
       <div className="mt-8 flex flex-col gap-4">
-        {mensagens.map((m, i) => (
-          <div key={i} className="rounded-3xl bg-pure-white p-6">
+        {lista.length === 0 && (
+          <p className="text-body-sm text-graphite">
+            Nenhuma mensagem ainda — mande um oi pra produção.
+          </p>
+        )}
+        {lista.map((m) => (
+          <div key={m.id} className="rounded-3xl bg-pure-white p-6">
             <div className="flex items-center justify-between">
-              <p className="text-caption font-medium uppercase text-graphite">{m.autor}</p>
-              <p className="text-caption text-graphite">{m.quando}</p>
+              <p className="text-caption font-medium uppercase text-graphite">
+                {m.autorPapel === "cliente" ? "Você" : "Produção Stokys"}
+              </p>
+              <p className="text-caption text-graphite">{m.criadoEm.toLocaleDateString("pt-BR")}</p>
             </div>
             <p className="mt-2 text-body-sm text-off-black-ink">{m.texto}</p>
           </div>
         ))}
       </div>
 
-      <form className="mt-6 flex items-center gap-3 rounded-full bg-pure-white p-2">
-        <input
-          type="text"
-          placeholder="Escreva uma mensagem…"
-          className="flex-1 bg-transparent px-4 py-2 text-body text-off-black-ink outline-none"
-        />
-        <button
-          type="submit"
-          className="rounded-full bg-electric-lime px-5 py-2.5 text-body-sm font-medium text-off-black-ink"
-        >
-          Enviar
-        </button>
-      </form>
+      <MensagemForm />
     </div>
   );
 }

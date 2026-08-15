@@ -52,6 +52,13 @@ export const planosConteudo: PlanoConteudo[] = [
   },
 ];
 
+// planos.nome no banco é o slug (enum "zen"|"pro"|"customizado"), não um nome
+// de exibição — usado por telas que leem o projeto/plano real do banco
+// (dashboard, admin), diferente de planosConteudo que é conteúdo estático da LP.
+export function nomeExibicaoPlano(slug: PlanoConteudo["slug"]): string {
+  return planosConteudo.find((p) => p.slug === slug)?.nome ?? slug;
+}
+
 export function formatarPreco(centavos: number): string {
   return (centavos / 100).toLocaleString("pt-BR", {
     style: "currency",

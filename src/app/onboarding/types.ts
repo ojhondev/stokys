@@ -16,6 +16,11 @@ export type DadosOnboarding = {
   paletaCores: string[];
   nicho: string;
   referencias: string[];
+  // Coletados no fim da Revisão, junto com "Criar minha loja" — cria a conta
+  // que já sai logada, sem precisar de outro passo em /login (ver PRD Fase 1).
+  nome: string;
+  email: string;
+  senha: string;
 };
 
 export const dadosIniciais: DadosOnboarding = {
@@ -27,6 +32,9 @@ export const dadosIniciais: DadosOnboarding = {
   paletaCores: [],
   nicho: "",
   referencias: Array(TOTAL_REFERENCIAS).fill(""),
+  nome: "",
+  email: "",
+  senha: "",
 };
 
 export type StepProps = {
