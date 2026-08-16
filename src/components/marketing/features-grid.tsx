@@ -7,13 +7,26 @@ import { useRef, useState } from "react";
 // navegação por pontos + setas). Mockup genérico por enquanto, a pedido do usuário.
 
 const features = [
-  { eyebrow: "Acessos protegidos", heading: "Credenciais tratadas como segredo", descricao: "Criptografadas em repouso e revogadas assim que a loja é entregue." },
-  { eyebrow: "Preview em tempo real", heading: "Acompanhe a loja sendo montada", descricao: "Cada snapshot da produção aparece direto no seu dashboard." },
-  { eyebrow: "Mensageria direta", heading: "Fale com quem tá produzindo", descricao: "Sem sair da plataforma, sem esperar resposta no WhatsApp." },
-  { eyebrow: "Cobrança na plataforma", heading: "PIX, cartão ou boleto", descricao: "Sem link externo, sem intermediário — tudo dentro da Stokys." },
-  { eyebrow: "Escopo fechado", heading: "Você sabe o que está pagando", descricao: "Zen, Pro ou Premium — sem surpresa depois que o pedido fecha." },
-  { eyebrow: "Parceiros de tráfego", heading: "Loja pronta é só o começo", descricao: "Vitrine de agências parceiras pra vender depois da entrega." },
-  { eyebrow: "Suporte pós-entrega", heading: "Acompanhamento contínuo", descricao: "A loja publicada não é ponto final — a gente continua por perto." },
+  {
+    eyebrow: "Transparência",
+    heading: "Orçamento fechado antes de pagar",
+    descricao: "O plano já define o que está incluso — sem surpresa de escopo depois que o pagamento cai.",
+  },
+  {
+    eyebrow: "Acompanhamento",
+    heading: "Suporte real, nada de chatbot",
+    descricao: "Cada etapa da produção aparece no seu dashboard assim que muda de status.",
+  },
+  {
+    eyebrow: "Simplicidade",
+    heading: "Tudo dentro da mesma plataforma",
+    descricao: "Onboarding, pagamento, mensagens e preview — sem alternar entre 5 ferramentas.",
+  },
+  {
+    eyebrow: "Resultado",
+    heading: "Loja pronta pra vender",
+    descricao: "Produtos cadastrados, tema aplicado e checkout funcionando na entrega.",
+  },
 ];
 
 function FeatureMockup() {

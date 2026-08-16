@@ -6,7 +6,6 @@ import { TrustedBy } from "@/components/marketing/trusted-by";
 import { StatCallout } from "@/components/marketing/stat-callout";
 import { PricingCards } from "@/components/marketing/pricing-cards";
 import { ComparisonTable } from "@/components/marketing/comparison-table";
-import { ValueGrid } from "@/components/marketing/value-grid";
 import { FeaturesGrid } from "@/components/marketing/features-grid";
 import { Personas } from "@/components/marketing/personas";
 import { CaseStudies } from "@/components/marketing/case-studies";
@@ -18,10 +17,10 @@ import { PromoBar } from "@/components/marketing/promo-bar";
 import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Ordem da página (pedido do usuário): Seção 1 > Como funciona > Loja
-// profissional de verdade > Toda etapa sem você perguntar > Planos e preços
-// > Resultados > FAQ > CTA final. As seções de apoio (marcas, nichos,
-// diferenciais, personas) ficam encaixadas perto do bloco com que mais se
-// relacionam, em vez de removidas.
+// profissional de verdade > Depoimentos > Planos e preços > Resultados >
+// FAQ > CTA final. ValueGrid foi absorvida pelo "Por dentro da plataforma"
+// (mesma copy, uma seção só) e a StatCallout "Toda etapa..." virou a seção
+// de Depoimentos, no mesmo lugar.
 
 export default function Home() {
   return (
@@ -45,7 +44,6 @@ export default function Home() {
         />
 
         <FeaturesGrid />
-        <ValueGrid />
 
         <StatCallout
           linha1="Loja profissional"
@@ -57,22 +55,11 @@ export default function Home() {
         />
 
         <Personas />
-
-        <div className="hidden md:block">
-          <StatCallout
-            linha1="Toda etapa,"
-            linha2="sem você perguntar “como tá indo”."
-            descricao="Status atualizado e preview disponível assim que a produção avança."
-            ctaLabel="Ver como funciona"
-            ctaHref="#como-funciona"
-            fundo="off-white-canvas"
-          />
-        </div>
+        <Depoimentos />
 
         <PricingCards />
         <ComparisonTable />
         <CaseStudies />
-        <Depoimentos />
         <Faq />
         <ClosingCta />
       </main>

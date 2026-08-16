@@ -72,7 +72,7 @@
   --text-heading--line-height: 1.2;
   --text-heading--letter-spacing: -0.03em;
 
-  --text-heading-lg: clamp(28px, 8vw + 6px, 46px);
+  --text-heading-lg: 32px;
   --text-heading-lg--line-height: 1.12;
   --text-heading-lg--letter-spacing: -0.03em;
 
