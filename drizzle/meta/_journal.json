@@ -15,6 +15,13 @@
       "when": 1786817444077,
       "tag": "0001_smiling_alex_power",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1786914201487,
+      "tag": "0002_curious_thunderbird",
+      "breakpoints": true
     }
   ]
 }

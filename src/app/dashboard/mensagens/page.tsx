@@ -25,6 +25,7 @@ export default async function MensagensPage() {
     .select({
       id: mensagens.id,
       texto: mensagens.texto,
+      anexoUrl: mensagens.anexoUrl,
       criadoEm: mensagens.criadoEm,
       autorPapel: usuarios.papel,
     })
@@ -54,7 +55,17 @@ export default async function MensagensPage() {
               </p>
               <p className="text-caption text-graphite">{m.criadoEm.toLocaleDateString("pt-BR")}</p>
             </div>
-            <p className="mt-2 text-body-sm text-off-black-ink">{m.texto}</p>
+            {m.texto && <p className="mt-2 text-body-sm text-off-black-ink">{m.texto}</p>}
+            {m.anexoUrl && (
+              <a
+                href={m.anexoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block text-body-sm font-medium text-off-black-ink underline"
+              >
+                Ver anexo
+              </a>
+            )}
           </div>
         ))}
       </div>

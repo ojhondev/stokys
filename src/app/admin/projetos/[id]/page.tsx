@@ -43,6 +43,7 @@ export default async function ProjetoDetalhePage({
     .select({
       id: mensagens.id,
       texto: mensagens.texto,
+      anexoUrl: mensagens.anexoUrl,
       criadoEm: mensagens.criadoEm,
       autorNome: usuarios.nome,
     })
@@ -130,7 +131,17 @@ export default async function ProjetoDetalhePage({
                   <p className="text-caption font-medium uppercase text-graphite">{m.autorNome}</p>
                   <p className="text-caption text-graphite">{m.criadoEm.toLocaleDateString("pt-BR")}</p>
                 </div>
-                <p className="mt-2 text-body-sm text-off-black-ink">{m.texto}</p>
+                {m.texto && <p className="mt-2 text-body-sm text-off-black-ink">{m.texto}</p>}
+                {m.anexoUrl && (
+                  <a
+                    href={m.anexoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-body-sm font-medium text-off-black-ink underline"
+                  >
+                    Ver anexo
+                  </a>
+                )}
               </div>
             ))}
           </div>

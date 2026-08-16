@@ -1,5 +1,6 @@
 import {
   boolean,
+  date,
   integer,
   jsonb,
   pgEnum,
@@ -51,12 +52,38 @@ export const statusCobrancaEnum = pgEnum("status_cobranca", [
   "estornado",
 ]);
 
+export const tipoTokenEnum = pgEnum("tipo_token", ["verificacao_email", "reset_senha"]);
+
+export const tipoItemProjetoEnum = pgEnum("tipo_item_projeto", ["plano_base", "upsell"]);
+
 export const usuarios = pgTable("usuarios", {
   id: uuid("id").primaryKey().defaultRandom(),
   papel: papelUsuarioEnum("papel").notNull(),
   nome: text("nome").notNull(),
   email: text("email").notNull().unique(),
   senhaHash: text("senha_hash"),
+  // Verificação por e-mail — nunca vai pro cookie de sessão (ver src/lib/auth.ts),
+  // é lido do banco nas telas/ações que importam (dashboard, pagamento).
+  emailVerificado: boolean("email_verificado").notNull().default(false),
+  // Id estável do Google (sub do id_token) — login social vincula por aqui,
+  // não só por e-mail (ver src/lib/oauth/google.ts).
+  googleSub: text("google_sub").unique(),
+  avatarUrl: text("avatar_url"),
+  ultimoEnvioVerificacaoEm: timestamp("ultimo_envio_verificacao_em", { withTimezone: true }),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Token de verificação de e-mail / reset de senha — guarda só o hash SHA-256
+// (ver src/lib/verificacao.ts), nunca o token em texto puro.
+export const tokensVerificacao = pgTable("tokens_verificacao", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  usuarioId: uuid("usuario_id")
+    .notNull()
+    .references(() => usuarios.id),
+  tipo: tipoTokenEnum("tipo").notNull(),
+  tokenHash: text("token_hash").notNull().unique(),
+  expiraEm: timestamp("expira_em", { withTimezone: true }).notNull(),
+  usadoEm: timestamp("usado_em", { withTimezone: true }),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -158,12 +185,69 @@ export const mensagens = pgTable("mensagens", {
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
-// Vitrine pública de parceiros — sem vínculo com Projeto (ver PRD seção 4.6).
+// Vitrine de parceiros, agora dentro do dashboard autenticado — sem vínculo
+// com Projeto, só vitrine + WhatsApp (ver PRD seção 4.6 e 10.6: sem rastreio
+// de lead dentro da plataforma). usuarioId é nullable pra não quebrar linhas
+// cadastradas manualmente pelo admin antes do cadastro de parceiro existir.
 export const parceiros = pgTable("parceiros", {
   id: uuid("id").primaryKey().defaultRandom(),
+  usuarioId: uuid("usuario_id")
+    .unique()
+    .references(() => usuarios.id),
   nome: text("nome").notNull(),
   especialidade: text("especialidade").notNull(),
+  descricao: text("descricao"),
   fotoUrl: text("foto_url"),
   linkWhatsapp: text("link_whatsapp").notNull(),
   ativo: boolean("ativo").notNull().default(true),
+  aprovadoEm: timestamp("aprovado_em", { withTimezone: true }),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Upsells administráveis pelo admin/master — mesmo padrão de `planos` (não
+// hardcoded no código). Ver docs do plano V1, "Pagamentos com upsells".
+export const catalogoUpsells = pgTable("catalogo_upsells", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  nome: text("nome").notNull(),
+  descricao: text("descricao"),
+  valorCentavos: integer("valor_centavos").notNull(),
+  ativo: boolean("ativo").notNull().default(true),
+  ordem: integer("ordem").notNull().default(0),
+});
+
+// Itens de um projeto (plano base + upsells comprados). Saldo em aberto =
+// soma dos itens com cobrancaId nulo. O plano base também vira uma linha
+// aqui na criação do projeto, pra upsell e plano base seguirem o mesmo
+// caminho de código em vez de um caso especial.
+export const projetoItens = pgTable("projeto_itens", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  projetoId: uuid("projeto_id")
+    .notNull()
+    .references(() => projetos.id),
+  tipo: tipoItemProjetoEnum("tipo").notNull(),
+  catalogoUpsellId: uuid("catalogo_upsell_id").references(() => catalogoUpsells.id),
+  descricao: text("descricao").notNull(),
+  // Cópia do valor no momento — mesma regra do precoNoMomentoDaCompraCentavos.
+  valorCentavos: integer("valor_centavos").notNull(),
+  cobrancaId: uuid("cobranca_id").references(() => cobrancas.id),
+  criadoPorId: uuid("criado_por_id")
+    .notNull()
+    .references(() => usuarios.id),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Curadoria semanal do admin/master — mostrado no dashboard do cliente.
+export const produtosVencedores = pgTable("produtos_vencedores", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  semanaInicio: date("semana_inicio").notNull().unique(),
+  nome: text("nome").notNull(),
+  imagemUrl: text("imagem_url"),
+  nicho: text("nicho"),
+  porqueVence: text("porque_vence").notNull(),
+  linkFornecedor: text("link_fornecedor"),
+  publicado: boolean("publicado").notNull().default(false),
+  criadoPorId: uuid("criado_por_id")
+    .notNull()
+    .references(() => usuarios.id),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });

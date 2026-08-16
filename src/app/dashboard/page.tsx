@@ -22,6 +22,14 @@ const labelStatus = {
   entregue: "Entregue",
 } as const;
 
+const descricaoEtapaAtual = {
+  onboarding: "Recebemos os dados da sua loja — falta só o pagamento pra produção começar.",
+  aguardando_pagamento: "Falta confirmar o pagamento pra produção começar a montar sua loja.",
+  em_producao: "A produção está montando sua loja com base no que você enviou no onboarding.",
+  preview_disponivel: "Sua loja tem um preview disponível — a produção vai te avisar pelo chat.",
+  entregue: "Sua loja foi entregue. Qualquer ajuste, fale com a produção pelo chat.",
+} as const;
+
 export default async function DashboardPage() {
   const sessao = await getSession();
   if (!sessao) return null;
@@ -83,6 +91,13 @@ export default async function DashboardPage() {
               )}
             </div>
           ))}
+        </div>
+
+        <div className="mt-6 flex flex-col gap-1 border-t border-ash pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-body-sm text-off-black-ink">{descricaoEtapaAtual[projeto.status]}</p>
+          <p className="whitespace-nowrap text-caption text-graphite">
+            Atualizado em {projeto.atualizadoEm.toLocaleDateString("pt-BR")}
+          </p>
         </div>
       </div>
 

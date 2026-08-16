@@ -14,7 +14,9 @@ const loginSchema = z.object({
 });
 
 function destinoPadrao(papel: Papel): string {
-  return papel === "cliente" || papel === "parceiro" ? "/dashboard" : "/admin";
+  if (papel === "cliente") return "/dashboard";
+  if (papel === "parceiro") return "/parceiro";
+  return "/admin";
 }
 
 export type LoginState = { erro?: string };

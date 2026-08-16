@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Button, LinkButton } from "@/components/ui/button";
-import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
-import { EmBreveModal } from "@/components/marketing/em-breve-modal";
+import { LinkButton } from "@/components/ui/button";
 
 // Header: no topo da página é uma barra cheia; ao rolar, encolhe pra uma pill
 // flutuante arredondada — mesmo comportamento da perk.com. Lado direito segue
@@ -23,7 +21,6 @@ const navLinks = [
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
-  const [modalAberto, setModalAberto] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -75,20 +72,13 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <div className="hidden items-center gap-3 sm:flex">
-            <LinkButton
-              href={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Criar loja
-            </LinkButton>
-            <Button variant="outline" onClick={() => setModalAberto(true)}>
+            <LinkButton href="/cadastro?tipo=cliente">Criar loja</LinkButton>
+            <LinkButton href="/login" variant="outline">
               Entrar
-            </Button>
+            </LinkButton>
           </div>
-          <button
-            type="button"
-            onClick={() => setModalAberto(true)}
+          <Link
+            href="/login"
             aria-label="Minha conta"
             className="flex h-10 w-10 items-center justify-center rounded-full text-off-black-ink"
           >
@@ -101,7 +91,7 @@ export function SiteHeader() {
                 strokeLinecap="round"
               />
             </svg>
-          </button>
+          </Link>
           <button
             type="button"
             onClick={() => setMenuAberto((v) => !v)}
@@ -128,21 +118,16 @@ export function SiteHeader() {
                 {link.label}
               </Link>
             ))}
-            <button
-              type="button"
-              onClick={() => {
-                setMenuAberto(false);
-                setModalAberto(true);
-              }}
+            <Link
+              href="/login"
+              onClick={() => setMenuAberto(false)}
               className="rounded-2xl px-4 py-3 text-left text-body font-medium text-off-black-ink hover:bg-hero-canvas sm:hidden"
             >
               Entrar
-            </button>
+            </Link>
           </nav>
         </div>
       )}
-
-      <EmBreveModal aberto={modalAberto} onFechar={() => setModalAberto(false)} />
     </header>
   );
 }

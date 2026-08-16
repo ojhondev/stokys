@@ -1,10 +1,11 @@
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { getDb } from "@/lib/db";
-import { cobrancas } from "@/lib/db/schema";
+import { cobrancas, catalogoUpsells, projetoItens } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { getProjetoDoCliente } from "@/lib/queries/projetos";
-import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
+import { formatarPreco } from "@/lib/planos-conteudo";
 import { PagamentoForm } from "@/components/dashboard/pagamento-form";
+import { UpsellsCatalogo } from "@/components/dashboard/upsells-catalogo";
 
 const labelPlataforma = { shopify: "Shopify", nuvemshop: "Nuvemshop" } as const;
 const labelMetodo = { pix: "PIX", cartao: "Cartão", boleto: "Boleto" } as const;
@@ -34,8 +35,9 @@ export default async function PagamentosPage() {
     );
   }
 
-  const { projeto, plano } = registro;
-  const historico = await getDb()
+  const { projeto } = registro;
+  const db = getDb();
+  const historico = await db
     .select()
     .from(cobrancas)
     .where(eq(cobrancas.projetoId, projeto.id))
@@ -43,6 +45,49 @@ export default async function PagamentosPage() {
 
   const jaPago = projeto.status !== "aguardando_pagamento" && projeto.status !== "onboarding";
   const cobrancaPendente = historico.find((c) => c.status === "pendente") ?? null;
+
+  // Com cobrança pendente, os itens já estão vinculados a ela (cobrancaId
+  // preenchido) — mostra esses em vez dos "em aberto" (que ficariam vazios).
+  const itensAbertosRaw = jaPago
+    ? []
+    : await db
+        .select({
+          id: projetoItens.id,
+          tipo: projetoItens.tipo,
+          descricao: projetoItens.descricao,
+          valorCentavos: projetoItens.valorCentavos,
+          catalogoUpsellId: projetoItens.catalogoUpsellId,
+        })
+        .from(projetoItens)
+        .where(
+          cobrancaPendente
+            ? and(eq(projetoItens.projetoId, projeto.id), eq(projetoItens.cobrancaId, cobrancaPendente.id))
+            : and(eq(projetoItens.projetoId, projeto.id), isNull(projetoItens.cobrancaId)),
+        );
+
+  const itensAbertos = itensAbertosRaw.map(({ id, tipo, descricao, valorCentavos }) => ({
+    id,
+    tipo,
+    descricao,
+    valorCentavos,
+  }));
+  const idsUpsellsNoPedido = new Set(
+    itensAbertosRaw.map((item) => item.catalogoUpsellId).filter((id): id is string => !!id),
+  );
+  const upsellsDisponiveis =
+    jaPago || cobrancaPendente
+      ? []
+      : (
+          await db
+            .select({
+              id: catalogoUpsells.id,
+              nome: catalogoUpsells.nome,
+              descricao: catalogoUpsells.descricao,
+              valorCentavos: catalogoUpsells.valorCentavos,
+            })
+            .from(catalogoUpsells)
+            .where(eq(catalogoUpsells.ativo, true))
+        ).filter((upsell) => !idsUpsellsNoPedido.has(upsell.id));
 
   return (
     <div>
@@ -53,22 +98,15 @@ export default async function PagamentosPage() {
 
       {!jaPago && (
         <>
-          <div className="mt-6 flex flex-col gap-2 rounded-3xl bg-pure-white p-6">
-            <div className="flex items-center justify-between text-body-sm text-off-black-ink">
-              <span>Plano</span>
-              <span className="font-bold">{nomeExibicaoPlano(plano.nome)}</span>
-            </div>
-            <div className="flex items-center justify-between text-body-sm text-off-black-ink">
-              <span>Plataforma</span>
-              <span className="font-bold">{labelPlataforma[projeto.plataforma]}</span>
-            </div>
-            <div className="flex items-center justify-between text-body-sm text-off-black-ink">
-              <span>Valor</span>
-              <span className="font-bold">
-                {formatarPreco(projeto.precoNoMomentoDaCompraCentavos)}
-              </span>
-            </div>
-          </div>
+          <p className="mt-6 text-body-sm text-off-black-ink">
+            Plataforma <span className="font-bold">{labelPlataforma[projeto.plataforma]}</span>
+          </p>
+
+          <UpsellsCatalogo
+            itensAbertos={itensAbertos}
+            disponiveis={upsellsDisponiveis}
+            bloqueado={!!cobrancaPendente}
+          />
 
           <PagamentoForm
             cobrancaPendente={

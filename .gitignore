@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# upload mock local (sem BLOB_READ_WRITE_TOKEN) — ver src/lib/storage/blob.ts
+/public/uploads
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

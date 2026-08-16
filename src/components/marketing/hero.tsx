@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/button";
-import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // TODO: a imagem abaixo (public/hero-mockup.png) é um screenshot real do produto da
 // Perk (competidora) — ver conversa com o usuário sobre trocar por um mockup próprio
@@ -24,13 +23,7 @@ export function Hero() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6">
-          <LinkButton
-            href={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Criar loja
-          </LinkButton>
+          <LinkButton href="/cadastro?tipo=cliente">Criar loja</LinkButton>
           <LinkButton href="#como-funciona" variant="ghost">
             Ver como funciona
           </LinkButton>

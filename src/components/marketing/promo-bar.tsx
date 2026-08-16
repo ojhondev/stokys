@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { LinkButton } from "@/components/ui/button";
-import { linkWhatsapp } from "@/lib/whatsapp";
 
 // Faixa fixa embaixo (desktop e mobile) com a promoção do Premium — só nas
 // páginas públicas (LP, parceiros), não entra no dashboard pra não brigar com a
@@ -22,9 +21,7 @@ export function PromoBar() {
         </p>
         <div className="flex shrink-0 items-center gap-3">
           <LinkButton
-            href={linkWhatsapp("Olá! Quero criar minha loja com o plano Premium com desconto no PIX.")}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/cadastro?tipo=cliente&plano=customizado"
             variant="dark"
             className="whitespace-nowrap"
           >

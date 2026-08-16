@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Rodapé — mesma estrutura da perk.com (linha de ajuda + redes, grid de links,
 // faixa com texto gigante em marquee), em lima cheio, conforme referência do
@@ -20,7 +19,7 @@ const colunas = [
       { href: "#planos", label: "Planos" },
       { href: "#como-funciona", label: "Como funciona" },
       { href: "/temas", label: "Temas" },
-      { href: linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA), label: "Criar loja", externo: true },
+      { href: "/cadastro?tipo=cliente", label: "Criar loja" },
     ],
   },
   {

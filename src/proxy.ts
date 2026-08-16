@@ -5,10 +5,19 @@ import { SESSION_COOKIE, verifySessionToken, type Papel } from "@/lib/auth";
 // setar `runtime` no config, como era feito com middleware, agora dá erro).
 // Ver node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md.
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*"],
+  matcher: ["/dashboard/:path*", "/parceiro/:path*", "/admin/:path*"],
 };
 
 const PAPEIS_EQUIPE: Papel[] = ["master", "admin", "producao"];
+
+// Cada papel tem sua própria área — quem cai fora dela é redirecionado pra
+// área correta, não só bloqueado (ver plano V1, "proxy.ts — separa área de
+// cliente e parceiro").
+function destinoPadrao(papel: Papel): string {
+  if (papel === "cliente") return "/dashboard";
+  if (papel === "parceiro") return "/parceiro";
+  return "/admin";
+}
 
 export async function proxy(request: NextRequest) {
   const token = request.cookies.get(SESSION_COOKIE)?.value;
@@ -20,8 +29,16 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (request.nextUrl.pathname.startsWith("/admin") && !PAPEIS_EQUIPE.includes(sessao.papel)) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/admin") && !PAPEIS_EQUIPE.includes(sessao.papel)) {
+    return NextResponse.redirect(new URL(destinoPadrao(sessao.papel), request.url));
+  }
+  if (pathname.startsWith("/dashboard") && sessao.papel !== "cliente") {
+    return NextResponse.redirect(new URL(destinoPadrao(sessao.papel), request.url));
+  }
+  if (pathname.startsWith("/parceiro") && sessao.papel !== "parceiro") {
+    return NextResponse.redirect(new URL(destinoPadrao(sessao.papel), request.url));
   }
 
   return NextResponse.next();

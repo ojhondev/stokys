@@ -5,13 +5,26 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { clienteNavItems } from "./nav-items";
-import { IconMensagens, IconPagamentos, IconConfiguracoes, IconAjuda, IconSair } from "./icons";
+import {
+  IconMensagens,
+  IconPagamentos,
+  IconConfiguracoes,
+  IconVencedor,
+  IconComunidade,
+  IconParceiros,
+  IconAjuda,
+  IconSair,
+} from "./icons";
 import { logout } from "@/lib/actions/auth";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 const icones = {
   mensagens: IconMensagens,
   pagamentos: IconPagamentos,
   configuracoes: IconConfiguracoes,
+  vencedor: IconVencedor,
+  comunidade: IconComunidade,
+  parceiros: IconParceiros,
 } as const;
 
 // Casca do app do cliente — mobile first: barra de abas fixa embaixo no celular
@@ -81,14 +94,16 @@ export function AppShell({ children }: { children: ReactNode }) {
         </nav>
 
         <div className="mt-auto flex flex-col gap-1 border-t border-ash pt-4">
-          <Link
-            href="/parceiros"
+          <a
+            href={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
+            target="_blank"
+            rel="noopener noreferrer"
             title={colapsado ? "Ajuda" : undefined}
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-off-white-canvas"
           >
             <IconAjuda className="h-5 w-5 shrink-0" />
             {!colapsado && <span>Ajuda</span>}
-          </Link>
+          </a>
           <form action={logout}>
             <button
               type="submit"

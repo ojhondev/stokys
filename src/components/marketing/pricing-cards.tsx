@@ -3,11 +3,6 @@
 import { useState } from "react";
 import { LinkButton } from "@/components/ui/button";
 import { planosConteudo, formatarPreco, type PlanoConteudo } from "@/lib/planos-conteudo";
-import { linkWhatsapp } from "@/lib/whatsapp";
-
-function mensagemPlano(nome: string, precoCentavos: number): string {
-  return `Olá! Quero criar minha loja com o plano ${nome} (${formatarPreco(precoCentavos)}).`;
-}
 
 // Cards de preço — desktop segue o "Pick your plan" da perk.com (cards lado a
 // lado), mobile empilha. Em ambos, "Detalhes do plano" abre uma vitrine com
@@ -45,9 +40,7 @@ function Vitrine({ plano, onFechar }: { plano: PlanoConteudo; onFechar: () => vo
       </ul>
 
       <LinkButton
-        href={linkWhatsapp(mensagemPlano(plano.nome, plano.precoCentavos))}
-        target="_blank"
-        rel="noopener noreferrer"
+        href={`/cadastro?tipo=cliente&plano=${plano.slug}`}
         variant="primary"
         className="mt-4 w-fit"
       >

@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { getDb } from "@/lib/db";
-import { cobrancas, projetos, usuarios } from "@/lib/db/schema";
+import { cobrancas, projetos, projetoItens, usuarios } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { getProjetoDoCliente } from "@/lib/queries/projetos";
 import { criarCobrancaAsaas, type MetodoCobranca } from "@/lib/payments/asaas";
@@ -24,30 +24,60 @@ export async function criarCobranca(metodo: MetodoCobranca): Promise<PagamentoSt
   const { projeto } = registro;
 
   const [usuario] = await db
-    .select({ nome: usuarios.nome, email: usuarios.email })
+    .select({ nome: usuarios.nome, email: usuarios.email, emailVerificado: usuarios.emailVerificado })
     .from(usuarios)
     .where(eq(usuarios.id, sessao.userId))
     .limit(1);
   if (!usuario) {
     return { erro: "Sessão inválida — faça login novamente." };
   }
+  // emailVerificado nunca vai pro cookie de sessão (ver src/lib/auth.ts) —
+  // por isso é lido do banco aqui, no único ponto que precisa travar por causa disso.
+  if (!usuario.emailVerificado) {
+    return { erro: "Confirme seu e-mail antes de pagar — veja o aviso no topo do painel." };
+  }
+
+  // Cobrança soma tudo que ainda não foi cobrado — plano base + upsells
+  // adicionados (ver schema.ts, projeto_itens).
+  const itensAbertos = await db
+    .select({ id: projetoItens.id, valorCentavos: projetoItens.valorCentavos })
+    .from(projetoItens)
+    .where(and(eq(projetoItens.projetoId, projeto.id), isNull(projetoItens.cobrancaId)));
+
+  const valorTotalCentavos = itensAbertos.reduce((soma, item) => soma + item.valorCentavos, 0);
+  if (itensAbertos.length === 0 || valorTotalCentavos <= 0) {
+    return { erro: "Nenhum item em aberto pra cobrar." };
+  }
 
   const resultadoAsaas = await criarCobrancaAsaas({
-    valorCentavos: projeto.precoNoMomentoDaCompraCentavos,
+    valorCentavos: valorTotalCentavos,
     metodo,
     clienteNome: usuario.nome,
     clienteEmail: usuario.email,
     projetoId: projeto.id,
   });
 
-  await db.insert(cobrancas).values({
-    projetoId: projeto.id,
-    metodo,
-    status: "pendente",
-    valorCentavos: projeto.precoNoMomentoDaCompraCentavos,
-    asaasId: resultadoAsaas.asaasId,
-    linkOuQrCode: resultadoAsaas.linkOuQrCode,
-  });
+  const [cobranca] = await db
+    .insert(cobrancas)
+    .values({
+      projetoId: projeto.id,
+      metodo,
+      status: "pendente",
+      valorCentavos: valorTotalCentavos,
+      asaasId: resultadoAsaas.asaasId,
+      linkOuQrCode: resultadoAsaas.linkOuQrCode,
+    })
+    .returning({ id: cobrancas.id });
+
+  await db
+    .update(projetoItens)
+    .set({ cobrancaId: cobranca.id })
+    .where(
+      inArray(
+        projetoItens.id,
+        itensAbertos.map((item) => item.id),
+      ),
+    );
 
   revalidatePath("/dashboard/pagamentos");
   return {};

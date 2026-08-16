@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getSession } from "@/lib/auth";
 import { OnboardingWizard } from "./onboarding-wizard";
 import type { DadosOnboarding } from "./types";
 
@@ -11,6 +13,15 @@ export default async function OnboardingPage({
 }) {
   const { plano } = await searchParams;
   const inicial = slugsValidos.find((slug) => slug === plano);
+
+  const sessao = await getSession();
+  if (!sessao) {
+    const next = `/onboarding${inicial ? `?plano=${inicial}` : ""}`;
+    redirect(`/cadastro?tipo=cliente&next=${encodeURIComponent(next)}`);
+  }
+  if (sessao.papel !== "cliente") {
+    redirect("/dashboard");
+  }
 
   return (
     <main className="flex flex-1 flex-col bg-pure-white px-6 py-14 sm:px-10 lg:px-16">

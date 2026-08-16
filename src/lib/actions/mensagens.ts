@@ -17,12 +17,13 @@ export type MensagemState = { erro?: string };
 export async function enviarMensagem(
   texto: string,
   projetoIdParaEquipe?: string,
+  anexoUrl?: string,
 ): Promise<MensagemState> {
   const sessao = await getSession();
   if (!sessao) return { erro: "Sessão inválida." };
 
   const conteudo = texto.trim();
-  if (!conteudo) return { erro: "Escreva uma mensagem." };
+  if (!conteudo && !anexoUrl) return { erro: "Escreva uma mensagem ou anexe um arquivo." };
 
   let projetoId: string;
 
@@ -46,7 +47,9 @@ export async function enviarMensagem(
     return { erro: "Sessão inválida." };
   }
 
-  await getDb().insert(mensagens).values({ projetoId, autorId: sessao.userId, texto: conteudo });
+  await getDb()
+    .insert(mensagens)
+    .values({ projetoId, autorId: sessao.userId, texto: conteudo, anexoUrl: anexoUrl || null });
 
   revalidatePath("/dashboard/mensagens");
   revalidatePath(`/admin/projetos/${projetoId}`);

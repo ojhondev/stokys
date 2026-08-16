@@ -26,6 +26,22 @@ export default async function AdminLayout({ children }: { children: ReactNode })
             >
               Projetos
             </Link>
+            {["master", "admin"].includes(sessao.papel) && (
+              <Link
+                href="/admin/upsells"
+                className="text-body-sm font-medium text-graphite hover:text-off-black-ink"
+              >
+                Upsells
+              </Link>
+            )}
+            {["master", "admin"].includes(sessao.papel) && (
+              <Link
+                href="/admin/vencedor-da-semana"
+                className="text-body-sm font-medium text-graphite hover:text-off-black-ink"
+              >
+                Vencedor da Semana
+              </Link>
+            )}
             {sessao.papel === "master" && (
               <Link
                 href="/admin/equipe"

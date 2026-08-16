@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/button";
-import { linkWhatsapp } from "@/lib/whatsapp";
 
 // Mesmo padrão da seção de personas da perk.com: título centralizado maior, cards
 // com categoria + título + subtexto + CTA à esquerda e imagem à direita, efeito de
@@ -22,7 +21,7 @@ const personas = [
     subtexto:
       "Banners, categorias e paleta pensados pro seu nicho — não é um template reaproveitado de outro cliente.",
     ctaLabel: "Conhecer o Premium",
-    ctaHref: linkWhatsapp("Olá! Quero criar minha loja com o plano Premium (R$ 1.997)."),
+    ctaHref: "/cadastro?tipo=cliente&plano=customizado",
     imagem: "/persona-2.png",
   },
   {

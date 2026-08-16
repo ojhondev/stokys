@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
-import { usuarios, planos, projetos, personalizacoes } from "@/lib/db/schema";
-import { hashPassword, createSession } from "@/lib/auth";
+import { planos, projetos, personalizacoes, projetoItens } from "@/lib/db/schema";
+import { getSession } from "@/lib/auth";
+import { nomeExibicaoPlano } from "@/lib/planos-conteudo";
 import type { DadosOnboarding } from "@/app/onboarding/types";
 
 // Revalida tudo no servidor — nunca confia que o estado client do wizard
@@ -18,14 +19,19 @@ const dadosSchema = z.object({
   paletaCores: z.array(z.string()),
   nicho: z.string().min(1, "Informe o nicho da loja."),
   referencias: z.array(z.string().min(1)).length(5, "Liste as 5 referências antes de continuar."),
-  nome: z.string().min(1, "Informe seu nome."),
-  email: z.string().email("E-mail inválido."),
-  senha: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
 });
 
 export type OnboardingState = { erro?: string };
 
-export async function criarContaEProjeto(dados: DadosOnboarding): Promise<OnboardingState> {
+// Cadastro (conta) e onboarding (loja) são passos separados — a conta já
+// existe e está logada antes de chegar aqui (ver /cadastro,
+// lib/actions/cadastro.ts). Esta action só cria o projeto.
+export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingState> {
+  const sessao = await getSession();
+  if (!sessao || sessao.papel !== "cliente") {
+    redirect("/cadastro?tipo=cliente&next=/onboarding");
+  }
+
   const parsed = dadosSchema.safeParse(dados);
   if (!parsed.success) {
     return { erro: parsed.error.issues[0]?.message ?? "Revise os dados antes de continuar." };
@@ -40,37 +46,18 @@ export async function criarContaEProjeto(dados: DadosOnboarding): Promise<Onboar
   }
 
   const db = getDb();
-  const email = d.email.toLowerCase();
-
-  const [existente] = await db
-    .select({ id: usuarios.id })
-    .from(usuarios)
-    .where(eq(usuarios.email, email))
-    .limit(1);
-  if (existente) {
-    return { erro: "Esse e-mail já tem conta — faça login em vez de criar outra loja." };
-  }
 
   const [planoRow] = await db.select().from(planos).where(eq(planos.nome, d.plano)).limit(1);
   if (!planoRow || !planoRow.ativo || planoRow.precoCentavos == null) {
     return { erro: "Esse plano não está disponível no momento." };
   }
 
-  const senhaHash = await hashPassword(d.senha);
-
   // Sem db.transaction() de propósito — o driver neon-http (HTTP stateless,
   // mais simples que o pool via WebSocket) não suporta transações reais.
-  // Inserts sequenciais bastam aqui: risco aceitável de usuário órfão se um
-  // passo tardio falhar, contra a complexidade de trocar de driver agora.
-  const [usuario] = await db
-    .insert(usuarios)
-    .values({ papel: "cliente", nome: d.nome, email, senhaHash })
-    .returning({ id: usuarios.id });
-
   const [projeto] = await db
     .insert(projetos)
     .values({
-      clienteId: usuario.id,
+      clienteId: sessao.userId,
       planoId: planoRow.id,
       precoNoMomentoDaCompraCentavos: planoRow.precoCentavos!,
       plataforma: d.plataforma,
@@ -90,8 +77,15 @@ export async function criarContaEProjeto(dados: DadosOnboarding): Promise<Onboar
     });
   }
 
-  const usuarioId = usuario.id;
+  // O plano base também vira uma linha em projeto_itens — upsell e plano
+  // base seguem o mesmo caminho de cobrança (ver lib/actions/pagamentos.ts).
+  await db.insert(projetoItens).values({
+    projetoId: projeto.id,
+    tipo: "plano_base",
+    descricao: `Plano ${nomeExibicaoPlano(d.plano)}`,
+    valorCentavos: planoRow.precoCentavos!,
+    criadoPorId: sessao.userId,
+  });
 
-  await createSession(usuarioId, "cliente");
   redirect("/dashboard/pagamentos");
 }
