@@ -93,7 +93,7 @@ export function ComparisonTable() {
   return (
     <section className="bg-pure-white px-6 py-14 sm:px-10 md:py-16 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
-        <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink">
+        <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           Entenda os planos
         </h2>
 

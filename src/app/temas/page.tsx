@@ -58,7 +58,7 @@ export default function TemasPage() {
       <main className="flex flex-1 flex-col bg-off-white-canvas px-6 py-14 sm:px-10 lg:px-16">
         <div className="mx-auto w-full max-w-[1800px]">
           <span className="text-caption font-medium uppercase text-graphite">Temas</span>
-          <h1 className="mt-3 max-w-[640px] text-heading-lg font-heading font-bold text-off-black-ink">
+          <h1 className="mt-3 max-w-[640px] text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
             Temas com o essencial de conversão já pronto.
           </h1>
           <p className="mt-4 max-w-[480px] text-body-sm text-graphite">

@@ -127,3 +127,22 @@ body {
 .animate-marquee-slow {
   animation: marquee 60s linear infinite;
 }
+
+/* Mockup "Simplicidade" (ver features-grid.tsx): 4 blocos convergindo pro
+   centro, representando várias ferramentas virando uma só. --dx/--dy definem
+   a direção de cada bloco (setados inline por instância). */
+@keyframes converge {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(var(--dx, 0), var(--dy, 0)) scale(0.55);
+    opacity: 0.45;
+  }
+}
+
+.animate-converge {
+  animation: converge 2.6s ease-in-out infinite;
+}

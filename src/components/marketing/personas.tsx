@@ -14,7 +14,7 @@ const personas = [
       "Sua loja sai com cara de marca que já vende de verdade — nada de tema genérico mal ajustado.",
     ctaLabel: "Ver planos",
     ctaHref: "#planos",
-    imagem: "/persona-1.webp",
+    imagem: "/persona-1.png",
   },
   {
     categoria: "Identidade",
@@ -23,7 +23,7 @@ const personas = [
       "Banners, categorias e paleta pensados pro seu nicho — não é um template reaproveitado de outro cliente.",
     ctaLabel: "Conhecer o Premium",
     ctaHref: linkWhatsapp("Olá! Quero criar minha loja com o plano Premium (R$ 1.997)."),
-    imagem: "/persona-2.webp",
+    imagem: "/persona-2.png",
   },
   {
     categoria: "Acompanhamento",
@@ -32,7 +32,7 @@ const personas = [
       "Da produção ao pós-entrega, você fala direto com quem tá montando sua loja — sem fila de suporte genérico.",
     ctaLabel: "Ver mensageria",
     ctaHref: "/dashboard/mensagens",
-    imagem: "/persona-3.webp",
+    imagem: "/persona-3.png",
   },
   {
     categoria: "Painel",
@@ -48,7 +48,7 @@ export function Personas() {
   return (
     <section className="bg-pure-white px-6 py-14 sm:px-10 md:py-24 lg:px-16">
       <div className="mx-auto w-full max-w-[1800px]">
-        <h2 className="mx-auto max-w-[720px] text-center text-heading-lg font-heading font-bold text-off-black-ink">
+        <h2 className="mx-auto max-w-[720px] text-center text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           O dropshipping evoluiu, e você também precisa evoluir.
         </h2>
 
@@ -56,20 +56,18 @@ export function Personas() {
           {personas.map((persona, i) => (
             <div
               key={persona.titulo}
-              className="sticky top-20 flex min-h-[46vh] items-center"
+              className="sticky top-20 flex min-h-[36vh] items-center"
               style={{ zIndex: i + 1 }}
             >
               <div className="grid w-full items-center gap-8 rounded-3xl bg-off-white-canvas p-8 transition-transform duration-200 hover:scale-[1.015] md:grid-cols-2 md:p-10">
                 <div>
-                  <span className="text-caption font-bold uppercase text-graphite">
+                  <span className="text-body-sm font-bold uppercase text-graphite">
                     {persona.categoria}
                   </span>
-                  <h3 className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
+                  <h3 className="mt-2 text-heading font-heading font-bold text-off-black-ink">
                     {persona.titulo}
                   </h3>
-                  <p className="mt-3 max-w-[380px] text-body-sm text-graphite">
-                    {persona.subtexto}
-                  </p>
+                  <p className="mt-3 max-w-[380px] text-body text-graphite">{persona.subtexto}</p>
                   <LinkButton
                     href={persona.ctaHref}
                     variant="outline"
@@ -81,7 +79,7 @@ export function Personas() {
                     {persona.ctaLabel}
                   </LinkButton>
                 </div>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <div className="relative aspect-square overflow-hidden rounded-2xl">
                   <Image
                     src={persona.imagem}
                     alt={persona.titulo}

@@ -52,7 +52,7 @@ export function Depoimentos() {
   return (
     <section className="bg-pure-white py-14 md:py-16">
       <div className="mx-auto w-full max-w-[1800px] px-6 sm:px-10 lg:px-16">
-        <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink">
+        <h2 className="text-center text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           Histórias reais de quem já vende com a Stokys
         </h2>
       </div>
