@@ -10,6 +10,7 @@ import { ValueGrid } from "@/components/marketing/value-grid";
 import { FeaturesGrid } from "@/components/marketing/features-grid";
 import { Personas } from "@/components/marketing/personas";
 import { CaseStudies } from "@/components/marketing/case-studies";
+import { Depoimentos } from "@/components/marketing/depoimentos";
 import { NichesMarquee } from "@/components/marketing/niches-marquee";
 import { Faq } from "@/components/marketing/faq";
 import { ClosingCta } from "@/components/marketing/closing-cta";
@@ -71,6 +72,7 @@ export default function Home() {
         <PricingCards />
         <ComparisonTable />
         <CaseStudies />
+        <Depoimentos />
         <Faq />
         <ClosingCta />
       </main>

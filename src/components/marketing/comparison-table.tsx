@@ -21,34 +21,52 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
     label: "Plataforma (Shopify ou Nuvemshop)",
     valores: { zen: true, pro: true, customizado: true },
   },
-  { label: "Banners", valores: { zen: "4", pro: "4", customizado: "4" } },
   {
-    label: "Capas",
-    valores: {
-      zen: "Capa de categorias",
-      pro: "Até 8 capas de categorias",
-      customizado: "8 capas de coleções",
-    },
+    label: "Tema",
+    valores: { zen: "Spark ou Quart", pro: "Spark ou Quart", customizado: "Spark ou Quart" },
   },
+  {
+    label: "Banners",
+    valores: { zen: "3", pro: "4 desktop + 4 mobile", customizado: "4 desktop + 4 mobile" },
+  },
+  { label: "Capas de categoria", valores: { zen: "5", pro: "5", customizado: "5" } },
   {
     label: "Produtos cadastrados",
     valores: { zen: "15", pro: "15", customizado: "35" },
   },
   {
-    label: "Tema",
-    valores: {
-      zen: "Spark ou Quart",
-      pro: "Spark ou Quart",
-      customizado: "Template por mercado (Brasil, Global ou Latam)",
-    },
+    label: "Página de política e rastreio",
+    valores: { zen: false, pro: true, customizado: true },
+  },
+  { label: "Video commerce", valores: { zen: false, pro: true, customizado: true } },
+  {
+    label: "Tabela de medidas",
+    valores: { zen: false, pro: "Premium", customizado: "Nativa" },
+  },
+  { label: "Parcelamento dinâmico", valores: { zen: false, pro: true, customizado: true } },
+  { label: "Barra de menu estilo app", valores: { zen: false, pro: true, customizado: true } },
+  { label: "Tag de avisos na PDP", valores: { zen: false, pro: false, customizado: true } },
+  { label: "Filtro de busca dinâmico", valores: { zen: false, pro: false, customizado: true } },
+  {
+    label: "Barra de adição ao carrinho fixa",
+    valores: { zen: false, pro: false, customizado: true },
+  },
+  { label: "Stories commerce", valores: { zen: false, pro: false, customizado: true } },
+  {
+    label: "Barra dinâmica de frete no carrinho",
+    valores: { zen: false, pro: false, customizado: true },
   },
   {
     label: "Logotipo e paleta de cores personalizados",
     valores: { zen: false, pro: false, customizado: true },
   },
   {
-    label: "Página de política e rastreio",
-    valores: { zen: false, pro: true, customizado: false },
+    label: "Template para mercado (Brasil, Global ou Latam)",
+    valores: { zen: false, pro: false, customizado: true },
+  },
+  {
+    label: "Comunidade Sem Estoque no Discord",
+    valores: { zen: false, pro: false, customizado: true },
   },
   {
     label: "Mentoria estratégica com a Viscale Assessoria",

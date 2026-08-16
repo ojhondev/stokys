@@ -18,12 +18,13 @@ export function PricingCards() {
           Planos que cabem no bolso
         </h2>
 
-        {/* Desktop */}
+        {/* Desktop — ao passar o mouse, o card revela uma "vitrine" com tudo
+            que está incluso no plano (efeito pedido pelo usuário). */}
         <div className="mt-14 hidden gap-6 md:grid md:grid-cols-3">
           {planosConteudo.map((plano) => (
             <div
               key={plano.slug}
-              className={`flex flex-col rounded-3xl p-8 transition-transform duration-200 hover:scale-[1.02] ${
+              className={`group relative flex h-[420px] flex-col overflow-hidden rounded-3xl p-8 transition-transform duration-200 hover:scale-[1.02] ${
                 plano.destaque ? "bg-off-white-canvas" : "border border-ash bg-pure-white"
               }`}
             >
@@ -56,6 +57,38 @@ export function PricingCards() {
               >
                 {plano.slug === "zen" ? "Começar" : `Escolher ${plano.nome}`}
               </LinkButton>
+
+              {/* Vitrine — some no hover, mostrando tudo que está incluso */}
+              <div className="pointer-events-none absolute inset-0 flex flex-col rounded-3xl bg-off-black-ink p-8 opacity-0 transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100">
+                <h3 className="text-subheading font-heading font-bold text-electric-lime">
+                  {plano.nome}
+                </h3>
+                <p className="mt-1 text-caption font-medium uppercase text-ash">
+                  Tudo incluso no plano
+                </p>
+                <ul className="mt-4 flex flex-1 flex-col gap-2 overflow-y-auto pr-1">
+                  {plano.itens.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 text-body-sm text-off-white-canvas"
+                    >
+                      <span className="mt-0.5 shrink-0 text-electric-lime" aria-hidden>
+                        ✓
+                      </span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <LinkButton
+                  href={linkWhatsapp(mensagemPlano(plano.nome, plano.precoCentavos))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="primary"
+                  className="mt-4 w-fit"
+                >
+                  {plano.slug === "zen" ? "Começar" : `Escolher ${plano.nome}`}
+                </LinkButton>
+              </div>
             </div>
           ))}
         </div>
