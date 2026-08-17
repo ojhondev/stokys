@@ -60,6 +60,9 @@ export const usuarios = pgTable("usuarios", {
   id: uuid("id").primaryKey().defaultRandom(),
   papel: papelUsuarioEnum("papel").notNull(),
   nome: text("nome").notNull(),
+  // Só preenchido por clientes (coletado no cadastro) — usado pra exibir
+  // "sua loja" pelo nome em vez de só o nome do plano dentro do app.
+  nomeDaLoja: text("nome_da_loja"),
   email: text("email").notNull().unique(),
   senhaHash: text("senha_hash"),
   // Verificação por e-mail — nunca vai pro cookie de sessão (ver src/lib/auth.ts),

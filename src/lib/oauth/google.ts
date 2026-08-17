@@ -16,6 +16,13 @@ export type GoogleOAuthState = {
   exp: number; // epoch seconds
 };
 
+// As credenciais só existem depois que alguém cria um app OAuth de verdade
+// no Google Cloud Console (passo manual, só o usuário pode fazer — ver
+// .env.local.example). Sem isso, o botão precisa avisar em vez de quebrar.
+export function googleOAuthConfigurado(): boolean {
+  return !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
+}
+
 function requireEnv(nome: string): string {
   const valor = process.env[nome];
   if (!valor) {

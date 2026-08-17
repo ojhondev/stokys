@@ -1,0 +1,1 @@
+ALTER TABLE "usuarios" ADD COLUMN "nome_da_loja" text;

@@ -11,17 +11,19 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // emailVerificado nunca vai pro cookie de sessão (ver src/lib/auth.ts) —
   // lido do banco aqui pra decidir se mostra o aviso.
   let emailVerificado = true;
+  let nomeDaLoja: string | null = null;
   if (sessao) {
     const [usuario] = await getDb()
-      .select({ emailVerificado: usuarios.emailVerificado })
+      .select({ emailVerificado: usuarios.emailVerificado, nomeDaLoja: usuarios.nomeDaLoja })
       .from(usuarios)
       .where(eq(usuarios.id, sessao.userId))
       .limit(1);
     emailVerificado = usuario?.emailVerificado ?? true;
+    nomeDaLoja = usuario?.nomeDaLoja ?? null;
   }
 
   return (
-    <AppShell>
+    <AppShell nomeDaLoja={nomeDaLoja}>
       {!emailVerificado && (
         <div className="mb-6 flex flex-col items-start gap-3 rounded-2xl bg-off-white-canvas p-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-body-sm font-medium text-off-black-ink">

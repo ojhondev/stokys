@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CadastroForm } from "./cadastro-form";
 
@@ -14,13 +15,21 @@ export default async function CadastroPage({
     return (
       <main className="flex flex-1 items-center justify-center bg-off-white-canvas px-6 py-14 sm:px-10 lg:px-16">
         <div className="w-full max-w-[480px] rounded-3xl bg-pure-white p-10">
-          <Link href="/" className="text-body font-medium text-off-black-ink">
-            Stokys
-          </Link>
-          <h1 className="mt-8 text-heading font-heading font-bold text-off-black-ink">
-            Criar conta
-          </h1>
-          <p className="mt-2 text-body-sm text-graphite">Como você quer entrar?</p>
+          <div className="flex flex-col items-center text-center">
+            <Link href="/">
+              <Image
+                src="/logo-stokys.png"
+                alt="Stokys"
+                width={125}
+                height={28}
+                className="h-7 w-auto"
+              />
+            </Link>
+            <h1 className="mt-8 text-heading-lg font-heading font-bold text-off-black-ink">
+              Criar conta grátis
+            </h1>
+            <p className="mt-2 text-body-sm text-graphite">Como você quer entrar?</p>
+          </div>
 
           <div className="mt-8 flex flex-col gap-3">
             <Link
@@ -48,7 +57,7 @@ export default async function CadastroPage({
             </Link>
           </div>
 
-          <p className="mt-8 text-body-sm text-graphite">
+          <p className="mt-8 text-center text-body-sm text-graphite">
             Já tem conta?{" "}
             <Link href="/login" className="font-medium text-off-black-ink underline">
               Entrar
@@ -66,18 +75,20 @@ export default async function CadastroPage({
 
   return (
     <main className="flex flex-1 items-center justify-center bg-off-white-canvas px-6 py-14 sm:px-10 lg:px-16">
-      <div className="w-full max-w-[400px] rounded-3xl bg-pure-white p-10">
-        <Link href="/" className="text-body font-medium text-off-black-ink">
-          Stokys
-        </Link>
-        <h1 className="mt-8 text-heading font-heading font-bold text-off-black-ink">
-          {tipo === "parceiro" ? "Cadastro de parceiro" : "Criar minha conta"}
-        </h1>
-        <p className="mt-2 text-body-sm text-graphite">
-          {tipo === "parceiro"
-            ? "Depois de criar a conta, seu perfil passa por aprovação antes de aparecer na vitrine."
-            : "Depois de criar a conta, você confirma o e-mail e começa o onboarding da loja."}
-        </p>
+      <div className="w-full max-w-[440px] rounded-3xl bg-pure-white p-10">
+        <div className="flex flex-col items-center text-center">
+          <Link href="/">
+            <Image src="/logo-stokys.png" alt="Stokys" width={125} height={28} className="h-7 w-auto" />
+          </Link>
+          <h1 className="mt-8 text-heading-lg font-heading font-bold text-off-black-ink">
+            {tipo === "parceiro" ? "Cadastro de parceiro" : "Criar conta grátis"}
+          </h1>
+          <p className="mt-2 text-body-sm text-graphite">
+            {tipo === "parceiro"
+              ? "Depois de criar a conta, seu perfil passa por aprovação antes de aparecer na vitrine."
+              : "Crie sua loja com a Stokys — confirme o e-mail e comece o onboarding em seguida."}
+          </p>
+        </div>
 
         <CadastroForm tipo={tipo as "cliente" | "parceiro"} next={nextEfetivo} />
 

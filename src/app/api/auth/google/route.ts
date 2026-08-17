@@ -5,10 +5,15 @@ import {
   assinarEstadoOAuth,
   gerarPkce,
   gerarState,
+  googleOAuthConfigurado,
   montarUrlAutorizacao,
 } from "@/lib/oauth/google";
 
 export async function GET(request: NextRequest) {
+  if (!googleOAuthConfigurado()) {
+    return NextResponse.redirect(new URL("/login?erro=google_nao_configurado", request.url));
+  }
+
   const tipoParam = request.nextUrl.searchParams.get("tipo");
   const tipo = tipoParam === "parceiro" ? "parceiro" : "cliente";
   const nextParam = request.nextUrl.searchParams.get("next") ?? "";

@@ -1,3 +1,6 @@
+import { eq } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { usuarios } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { getProjetoDoCliente } from "@/lib/queries/projetos";
 import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
@@ -52,13 +55,19 @@ export default async function DashboardPage() {
   const { projeto, plano } = registro;
   const etapaAtualIndex = etapas.findIndex((e) => e.chave === projeto.status);
 
+  const [usuario] = await getDb()
+    .select({ nomeDaLoja: usuarios.nomeDaLoja })
+    .from(usuarios)
+    .where(eq(usuarios.id, sessao.userId))
+    .limit(1);
+
   return (
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <span className="text-caption font-medium uppercase text-graphite">Seu projeto</span>
           <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
-            Loja {nomeExibicaoPlano(plano.nome)}
+            {usuario?.nomeDaLoja || `Loja ${nomeExibicaoPlano(plano.nome)}`}
           </h1>
         </div>
         <span className="w-fit rounded-full bg-electric-lime px-4 py-2 text-body-sm font-medium text-off-black-ink">

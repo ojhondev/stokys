@@ -33,7 +33,13 @@ const icones = {
 // embaixo). Escopo do cliente é só Pagamentos/Mensagens/Configurações — ver
 // docs/PRD.md 4.4 e nav-items.ts.
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({
+  children,
+  nomeDaLoja,
+}: {
+  children: ReactNode;
+  nomeDaLoja?: string | null;
+}) {
   const pathname = usePathname();
   const [colapsado, setColapsado] = useState(false);
 
@@ -72,6 +78,12 @@ export function AppShell({ children }: { children: ReactNode }) {
             </svg>
           </button>
         </div>
+
+        {!colapsado && nomeDaLoja && (
+          <p className="mt-3 truncate text-caption font-medium uppercase text-graphite">
+            {nomeDaLoja}
+          </p>
+        )}
 
         <nav className="mt-10 flex flex-1 flex-col gap-1">
           {clienteNavItems.map((item) => {
@@ -119,8 +131,11 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="flex flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-ash bg-pure-white px-6 py-4 md:hidden">
-          <Link href="/dashboard" className="text-body font-heading font-bold text-off-black-ink">
-            Stokys
+          <Link href="/dashboard" className="flex flex-col">
+            <span className="text-body font-heading font-bold text-off-black-ink">Stokys</span>
+            {nomeDaLoja && (
+              <span className="truncate text-caption text-graphite">{nomeDaLoja}</span>
+            )}
           </Link>
           <form action={logout}>
             <button

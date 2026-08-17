@@ -10,13 +10,24 @@ import { gerarToken } from "@/lib/verificacao";
 import { enviarEmail } from "@/lib/email/enviar";
 import { templateVerificacaoEmail } from "@/lib/email/templates";
 
-const cadastroSchema = z.object({
-  nome: z.string().min(1, "Informe seu nome."),
-  email: z.string().email("E-mail inválido."),
-  senha: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
-  tipo: z.enum(["cliente", "parceiro"]),
-  next: z.string().optional(),
-});
+const cadastroSchema = z
+  .object({
+    nome: z.string().min(1, "Informe seu nome."),
+    email: z.string().email("E-mail inválido."),
+    senha: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
+    confirmarSenha: z.string(),
+    tipo: z.enum(["cliente", "parceiro"]),
+    nomeDaLoja: z.string().optional(),
+    next: z.string().optional(),
+  })
+  .refine((d) => d.senha === d.confirmarSenha, {
+    message: "As senhas não coincidem.",
+    path: ["confirmarSenha"],
+  })
+  .refine((d) => d.tipo !== "cliente" || !!d.nomeDaLoja?.trim(), {
+    message: "Informe o nome da loja.",
+    path: ["nomeDaLoja"],
+  });
 
 export type CadastroState = { erro?: string };
 
@@ -28,7 +39,9 @@ export async function criarConta(
     nome: formData.get("nome"),
     email: formData.get("email"),
     senha: formData.get("senha"),
+    confirmarSenha: formData.get("confirmarSenha"),
     tipo: formData.get("tipo"),
+    nomeDaLoja: formData.get("nomeDaLoja") ?? undefined,
     next: formData.get("next") ?? undefined,
   });
   if (!parsed.success) {
@@ -55,7 +68,14 @@ export async function criarConta(
 
   const [usuario] = await db
     .insert(usuarios)
-    .values({ papel, nome: d.nome, email, senhaHash, emailVerificado: false })
+    .values({
+      papel,
+      nome: d.nome,
+      nomeDaLoja: d.tipo === "cliente" ? d.nomeDaLoja?.trim() : null,
+      email,
+      senhaHash,
+      emailVerificado: false,
+    })
     .returning({ id: usuarios.id });
 
   if (d.tipo === "parceiro") {
