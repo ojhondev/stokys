@@ -7,7 +7,13 @@ import { formatarPreco } from "@/lib/planos-conteudo";
 import { PagamentoForm } from "@/components/dashboard/pagamento-form";
 import { UpsellsCatalogo } from "@/components/dashboard/upsells-catalogo";
 
-const labelPlataforma = { shopify: "Shopify", nuvemshop: "Nuvemshop" } as const;
+const labelPlataforma = {
+  shopify: "Shopify",
+  nuvemshop: "Nuvemshop",
+  tray: "Tray",
+  bagy: "Bagy",
+  outra: "Outra",
+} as const;
 const labelMetodo = { pix: "PIX", cartao: "Cartão", boleto: "Boleto" } as const;
 const labelStatus = {
   pendente: "Pendente",
@@ -99,7 +105,12 @@ export default async function PagamentosPage() {
       {!jaPago && (
         <>
           <p className="mt-6 text-body-sm text-off-black-ink">
-            Plataforma <span className="font-bold">{labelPlataforma[projeto.plataforma]}</span>
+            Plataforma{" "}
+            <span className="font-bold">
+              {projeto.plataforma === "outra"
+                ? projeto.plataformaOutraNome
+                : labelPlataforma[projeto.plataforma]}
+            </span>
           </p>
 
           <UpsellsCatalogo

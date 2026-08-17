@@ -1,0 +1,1 @@
+ALTER TABLE "projetos" ADD COLUMN "objetivo_cliente" text;

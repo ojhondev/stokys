@@ -17,6 +17,8 @@ import {
 } from "./icons";
 import { logout } from "@/lib/actions/auth";
 import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
+import { ReenviarVerificacaoButton } from "@/components/auth/reenviar-verificacao-button";
+import { FaixaYoutube } from "@/components/app/faixa-youtube";
 
 const icones = {
   mensagens: IconMensagens,
@@ -36,16 +38,29 @@ const icones = {
 export function AppShell({
   children,
   nomeDaLoja,
+  emailVerificado = true,
 }: {
   children: ReactNode;
   nomeDaLoja?: string | null;
+  emailVerificado?: boolean;
 }) {
   const pathname = usePathname();
   const [colapsado, setColapsado] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-off-white-canvas">
-      <aside
+    <div className="flex min-h-screen flex-col bg-off-white-canvas">
+      {!emailVerificado && (
+        <div className="sticky top-0 z-40 flex flex-col items-start gap-3 bg-gradient-to-r from-electric-lime to-electric-lime/40 px-6 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+          <p className="text-body-sm font-medium text-off-black-ink">
+            Confirme seu e-mail pra liberar o pagamento — mandamos um link pra sua caixa de
+            entrada.
+          </p>
+          <ReenviarVerificacaoButton className="flex shrink-0 items-center gap-3" />
+        </div>
+      )}
+
+      <div className="flex flex-1">
+        <aside
         className={`hidden flex-col border-r border-ash bg-pure-white py-6 transition-all duration-300 md:flex ${
           colapsado ? "w-20 px-3" : "w-64 px-4"
         }`}
@@ -151,6 +166,8 @@ export function AppShell({
         <main className="flex-1 px-6 pb-24 pt-6 sm:px-10 md:px-10 md:py-10 md:pb-10">
           {children}
         </main>
+
+        <FaixaYoutube />
       </div>
 
       <nav className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ash bg-pure-white py-2 md:hidden">
@@ -173,6 +190,7 @@ export function AppShell({
           );
         })}
       </nav>
+      </div>
     </div>
   );
 }

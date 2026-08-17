@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import { TOTAL_REFERENCIAS, type StepProps } from "../types";
 
 export function ReferenciasStep({ dados, setDados, onContinuar, onVoltar }: StepProps) {
-  const podeContinuar = dados.referencias.every((r) => r.trim().length > 0);
+  const podeContinuar =
+    dados.referencias.every((r) => r.trim().length > 0) && dados.objetivoCliente.trim().length > 0;
 
   function atualizarReferencia(index: number, valor: string) {
     setDados((d) => {
@@ -38,6 +39,19 @@ export function ReferenciasStep({ dados, setDados, onContinuar, onVoltar }: Step
           </label>
         ))}
       </div>
+
+      <label className="mt-6 flex flex-col gap-2">
+        <span className="text-caption font-medium uppercase text-graphite">
+          O que você deseja pro seu projeto, com base nessas referências?
+        </span>
+        <textarea
+          value={dados.objetivoCliente}
+          onChange={(e) => setDados((d) => ({ ...d, objetivoCliente: e.target.value }))}
+          rows={4}
+          placeholder="Ex.: quero um visual clean parecido com a referência 1, mas com mais destaque pra promoções"
+          className="rounded-lg border border-ash bg-off-white-canvas px-4 py-3 text-body text-off-black-ink"
+        />
+      </label>
 
       <div className="mt-8 flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Button type="button" onClick={onVoltar} variant="ghost">

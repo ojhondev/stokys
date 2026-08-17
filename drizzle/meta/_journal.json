@@ -29,6 +29,20 @@
       "when": 1786975333468,
       "tag": "0003_tired_magus",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1786990159617,
+      "tag": "0004_rainy_darkhawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1786990440930,
+      "tag": "0005_zippy_randall_flagg",
+      "breakpoints": true
     }
   ]
 }

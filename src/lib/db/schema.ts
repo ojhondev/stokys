@@ -27,7 +27,13 @@ export const papelUsuarioEnum = pgEnum("papel_usuario", [
 
 export const nomePlanoEnum = pgEnum("nome_plano", ["zen", "pro", "customizado"]);
 
-export const plataformaEnum = pgEnum("plataforma", ["shopify", "nuvemshop"]);
+export const plataformaEnum = pgEnum("plataforma", [
+  "shopify",
+  "nuvemshop",
+  "tray",
+  "bagy",
+  "outra",
+]);
 
 // Só relevante para planos Zen/Pro — Customizado usa personalizacoes.mercadoAlvo
 // pra definir o template em vez de um tema pronto (ver docs/PRD.md seção 3).
@@ -112,10 +118,14 @@ export const projetos = pgTable("projetos", {
   // (mudar o preço do plano depois não afeta projetos já fechados).
   precoNoMomentoDaCompraCentavos: integer("preco_no_momento_da_compra_centavos").notNull(),
   plataforma: plataformaEnum("plataforma").notNull(),
+  // Só preenchido quando plataforma = "outra" — nome livre digitado pelo cliente.
+  plataformaOutraNome: text("plataforma_outra_nome"),
   status: statusProjetoEnum("status").notNull().default("onboarding"),
   tema: temaEnum("tema"),
   nicho: text("nicho").notNull(),
   referencias: jsonb("referencias").$type<string[]>().notNull(),
+  // O que o cliente quer pro projeto, com base nas referências que ele listou.
+  objetivoCliente: text("objetivo_cliente"),
   // Membro da produção responsável — define o que um usuário papel "producao" enxerga.
   responsavelId: uuid("responsavel_id").references(() => usuarios.id),
   mentoriaViscaleAgendadaEm: timestamp("mentoria_viscale_agendada_em", {

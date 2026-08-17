@@ -1,11 +1,16 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
+import { getDb } from "@/lib/db";
+import { usuarios } from "@/lib/db/schema";
 import { OnboardingWizard } from "./onboarding-wizard";
 import type { DadosOnboarding } from "./types";
 
 const slugsValidos: NonNullable<DadosOnboarding["plano"]>[] = ["zen", "pro", "customizado"];
 
+// O wrapper de layout (container centralizado vs. split-screen full-bleed da
+// Revisão) fica dentro do OnboardingWizard — ele sabe qual etapa está ativa,
+// esta página só resolve sessão/plano inicial.
 export default async function OnboardingPage({
   searchParams,
 }: {
@@ -23,17 +28,19 @@ export default async function OnboardingPage({
     redirect("/dashboard");
   }
 
-  return (
-    <main className="flex flex-1 flex-col bg-pure-white px-6 py-14 sm:px-10 lg:px-16">
-      <div className="mx-auto w-full max-w-[900px]">
-        <Link href="/" className="text-body font-medium text-off-black-ink">
-          Stokys
-        </Link>
+  const [usuario] = await getDb()
+    .select({ nome: usuarios.nome, email: usuarios.email })
+    .from(usuarios)
+    .where(eq(usuarios.id, sessao.userId))
+    .limit(1);
 
-        <div className="mt-10">
-          <OnboardingWizard planoInicial={inicial} />
-        </div>
-      </div>
+  return (
+    <main className="flex flex-1 flex-col bg-pure-white">
+      <OnboardingWizard
+        planoInicial={inicial}
+        nome={usuario?.nome ?? ""}
+        email={usuario?.email ?? ""}
+      />
     </main>
   );
 }

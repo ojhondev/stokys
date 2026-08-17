@@ -73,7 +73,11 @@ export default async function ProjetoDetalhePage({
           <div className="flex flex-col gap-2 rounded-3xl bg-pure-white p-6 text-body-sm">
             <div className="flex items-center justify-between">
               <span className="text-graphite">Plataforma</span>
-              <span className="font-bold text-off-black-ink">{projeto.plataforma}</span>
+              <span className="font-bold text-off-black-ink">
+                {projeto.plataforma === "outra"
+                  ? projeto.plataformaOutraNome
+                  : projeto.plataforma}
+              </span>
             </div>
             {projeto.tema && (
               <div className="flex items-center justify-between">

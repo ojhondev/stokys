@@ -11,15 +11,22 @@ import type { DadosOnboarding } from "@/app/onboarding/types";
 
 // Revalida tudo no servidor — nunca confia que o estado client do wizard
 // chegou íntegro (ver docs/PRD.md 4.2, fluxo do onboarding).
-const dadosSchema = z.object({
-  plano: z.enum(["zen", "pro", "customizado"]),
-  plataforma: z.enum(["shopify", "nuvemshop"]),
-  tema: z.enum(["spark", "quart"]).nullable(),
-  mercadoAlvo: z.enum(["brasil", "global", "latam"]).nullable(),
-  paletaCores: z.array(z.string()),
-  nicho: z.string().min(1, "Informe o nicho da loja."),
-  referencias: z.array(z.string().min(1)).length(5, "Liste as 5 referências antes de continuar."),
-});
+const dadosSchema = z
+  .object({
+    plano: z.enum(["zen", "pro", "customizado"]),
+    plataforma: z.enum(["shopify", "nuvemshop", "tray", "bagy", "outra"]),
+    plataformaOutraNome: z.string().optional(),
+    tema: z.enum(["spark", "quart"]).nullable(),
+    mercadoAlvo: z.enum(["brasil", "global", "latam"]).nullable(),
+    paletaCores: z.array(z.string()),
+    nicho: z.string().min(1, "Informe o nicho da loja."),
+    referencias: z.array(z.string().min(1)).length(3, "Liste as 3 referências antes de continuar."),
+    objetivoCliente: z.string().min(1, "Conte o que você deseja pro seu projeto."),
+  })
+  .refine((d) => d.plataforma !== "outra" || !!d.plataformaOutraNome?.trim(), {
+    message: "Informe o nome da plataforma.",
+    path: ["plataformaOutraNome"],
+  });
 
 export type OnboardingState = { erro?: string };
 
@@ -61,10 +68,12 @@ export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingSt
       planoId: planoRow.id,
       precoNoMomentoDaCompraCentavos: planoRow.precoCentavos!,
       plataforma: d.plataforma,
+      plataformaOutraNome: d.plataforma === "outra" ? d.plataformaOutraNome?.trim() : null,
       status: "aguardando_pagamento",
       tema: d.tema,
       nicho: d.nicho,
       referencias: d.referencias,
+      objetivoCliente: d.objetivoCliente,
     })
     .returning({ id: projetos.id });
 

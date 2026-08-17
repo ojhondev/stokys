@@ -1,4 +1,6 @@
 import { eq } from "drizzle-orm";
+import Image from "next/image";
+import Link from "next/link";
 import { getDb } from "@/lib/db";
 import { usuarios } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
@@ -109,6 +111,21 @@ export default async function DashboardPage() {
           </p>
         </div>
       </div>
+
+      {plano.nome !== "customizado" && (
+        <Link
+          href="/dashboard/pagamentos"
+          className="mt-6 block overflow-hidden rounded-3xl transition-transform duration-200 hover:scale-[1.01]"
+        >
+          <Image
+            src="/banner-upsell-plano.png"
+            alt="Precisa de mais recursos? Dê um upgrade no seu plano."
+            width={2721}
+            height={930}
+            className="h-auto w-full"
+          />
+        </Link>
+      )}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <div className="rounded-3xl bg-pure-white p-6">
