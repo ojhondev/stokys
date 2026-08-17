@@ -1,10 +1,6 @@
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/button";
 
-// TODO: a imagem abaixo (public/hero-mockup.png) é um screenshot real do produto da
-// Perk (competidora) — ver conversa com o usuário sobre trocar por um mockup próprio
-// da Stokys antes de publicar em produção.
-
 export function Hero() {
   return (
     <section className="bg-hero-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
@@ -34,8 +30,8 @@ export function Hero() {
         <Image
           src="/hero-mockup.png"
           alt="Preview da plataforma Stokys"
-          width={6197}
-          height={1795}
+          width={6222}
+          height={1800}
           className="h-auto w-full"
           priority
         />
