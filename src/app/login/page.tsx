@@ -5,24 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { GoogleButton } from "@/components/auth/google-button";
 import { CampoSenha } from "@/components/auth/campo-senha";
 import { login, type LoginState } from "@/lib/actions/auth";
 
 const estadoInicial: LoginState = {};
 
-const labelErroGoogle: Record<string, string> = {
-  google: "Não foi possível entrar com o Google. Tente de novo.",
-  google_expirado: "Essa tentativa de login expirou. Tente de novo.",
-  google_email_nao_verificado:
-    "Já existe conta com esse e-mail. Entre com sua senha e confirme o e-mail antes de usar o Google.",
-  google_nao_configurado: "Login com Google ainda não está disponível — entre com e-mail e senha.",
-};
-
 function LoginForm() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "";
-  const erroGoogle = searchParams.get("erro");
   const [estado, formAction, pendente] = useActionState(login, estadoInicial);
 
   return (
@@ -43,23 +33,10 @@ function LoginForm() {
       <CampoSenha label="Senha" name="senha" autoComplete="current-password" />
 
       {estado.erro && <p className="text-body-sm font-medium text-off-black-ink">{estado.erro}</p>}
-      {!estado.erro && erroGoogle && (
-        <p className="text-body-sm font-medium text-off-black-ink">
-          {labelErroGoogle[erroGoogle] ?? "Não foi possível entrar com o Google."}
-        </p>
-      )}
 
       <Button type="submit" disabled={pendente} className="mt-2 w-full justify-center">
         {pendente ? "Entrando…" : "Entrar"}
       </Button>
-
-      <div className="flex items-center gap-3 text-caption uppercase text-graphite">
-        <span className="h-px flex-1 bg-ash" />
-        ou
-        <span className="h-px flex-1 bg-ash" />
-      </div>
-
-      <GoogleButton next={next} />
 
       <p className="mt-2 text-center text-body-sm text-graphite">
         Ainda não tem conta?{" "}

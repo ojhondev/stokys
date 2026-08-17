@@ -2,7 +2,6 @@
 
 import { useActionState, useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { GoogleButton } from "@/components/auth/google-button";
 import { CampoSenha } from "@/components/auth/campo-senha";
 import { criarConta, type CadastroState } from "@/lib/actions/cadastro";
 
@@ -98,14 +97,6 @@ export function CadastroForm({
       <Button type="submit" disabled={pendente} className="mt-2 w-full justify-center">
         {pendente ? "Criando conta…" : "Cadastrar"}
       </Button>
-
-      <div className="flex items-center gap-3 text-caption uppercase text-graphite">
-        <span className="h-px flex-1 bg-ash" />
-        ou
-        <span className="h-px flex-1 bg-ash" />
-      </div>
-
-      <GoogleButton tipo={tipo} next={next} />
     </form>
   );
 }
