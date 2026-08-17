@@ -1,61 +1,56 @@
-"use client";
-
-import { useState } from "react";
 import { LinkButton } from "@/components/ui/button";
 import { planosConteudo, formatarPreco, type PlanoConteudo } from "@/lib/planos-conteudo";
 
 // Cards de preço — desktop segue o "Pick your plan" da perk.com (cards lado a
-// lado), mobile empilha. Em ambos, "Detalhes do plano" abre uma vitrine com
-// tudo que está incluso (clique, não hover — hover não existe em touch).
+// lado), mobile empilha. "Detalhes do plano" é um dropdown nativo
+// (<details>/<summary>), mesmo padrão do FAQ — clique explícito em vez de
+// hover, que não estava intuitivo o suficiente (feedback do usuário).
 
-function Vitrine({ plano, onFechar }: { plano: PlanoConteudo; onFechar: () => void }) {
+function DetalhesDropdown({
+  plano,
+  resumoClassName,
+}: {
+  plano: PlanoConteudo;
+  resumoClassName: string;
+}) {
   return (
-    <div className="absolute inset-0 flex flex-col rounded-3xl bg-off-black-ink p-6 sm:p-8">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <h3 className="text-subheading font-heading font-bold text-electric-lime">
-            {plano.nome}
-          </h3>
-          <p className="mt-1 text-caption font-medium uppercase text-ash">Tudo incluso no plano</p>
-        </div>
-        <button
-          type="button"
-          onClick={onFechar}
-          aria-label="Fechar"
-          className="shrink-0 text-body text-off-white-canvas/70"
-        >
-          ✕
-        </button>
-      </div>
-
-      <ul className="mt-4 flex flex-1 flex-col gap-2 overflow-y-auto pr-1">
-        {plano.itens.map((item) => (
-          <li key={item} className="flex items-start gap-2 text-body-sm text-off-white-canvas">
-            <span className="mt-0.5 shrink-0 text-electric-lime" aria-hidden>
-              ✓
-            </span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-
-      <LinkButton
-        href={`/cadastro?tipo=cliente&plano=${plano.slug}`}
-        variant="primary"
-        className="mt-4 w-fit"
+    <details className="group mt-6">
+      <summary
+        className={`flex cursor-pointer list-none items-center gap-2 text-body font-bold text-off-black-ink transition-opacity hover:opacity-70 ${resumoClassName}`}
       >
-        {plano.slug === "zen" ? "Começar" : `Escolher ${plano.nome}`}
-      </LinkButton>
-    </div>
+        Detalhes do plano
+        <span className="shrink-0 text-heading transition-transform duration-200 group-open:rotate-45">
+          +
+        </span>
+      </summary>
+      <div className="mt-4 flex flex-col gap-4 rounded-3xl bg-off-black-ink p-6">
+        <p className="text-caption font-medium uppercase text-ash">Tudo incluso no plano</p>
+        <ul className="flex flex-col gap-2">
+          {plano.itens.map((item) => (
+            <li key={item} className="flex items-start gap-2 text-body-sm text-off-white-canvas">
+              <span className="mt-0.5 shrink-0 text-electric-lime" aria-hidden>
+                ✓
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <LinkButton
+          href={`/cadastro?tipo=cliente&plano=${plano.slug}`}
+          variant="primary"
+          className="w-fit"
+        >
+          {plano.slug === "zen" ? "Começar" : `Escolher ${plano.nome}`}
+        </LinkButton>
+      </div>
+    </details>
   );
 }
 
 function CardDesktop({ plano }: { plano: PlanoConteudo }) {
-  const [aberto, setAberto] = useState(false);
-
   return (
     <div
-      className={`relative flex h-[420px] flex-col overflow-hidden rounded-3xl p-8 transition-transform duration-200 hover:scale-[1.02] ${
+      className={`flex flex-col rounded-3xl p-8 transition-transform duration-200 hover:scale-[1.02] ${
         plano.destaque ? "bg-off-white-canvas" : "border border-ash bg-pure-white"
       }`}
     >
@@ -75,27 +70,20 @@ function CardDesktop({ plano }: { plano: PlanoConteudo }) {
 
       <p className="mt-4 text-body-sm text-graphite">{plano.descricao}</p>
 
-      <button
-        type="button"
-        onClick={() => setAberto(true)}
-        className={`mt-8 w-fit rounded-3xl pt-4 pb-4 pl-4 pr-3 text-body font-bold transition-opacity hover:opacity-70 ${
-          plano.destaque ? "bg-pure-white text-off-black-ink" : "bg-off-white-canvas text-off-black-ink"
+      <DetalhesDropdown
+        plano={plano}
+        resumoClassName={`w-fit rounded-3xl pt-4 pb-4 pl-4 pr-3 ${
+          plano.destaque ? "bg-pure-white" : "bg-off-white-canvas"
         }`}
-      >
-        Detalhes do plano
-      </button>
-
-      {aberto && <Vitrine plano={plano} onFechar={() => setAberto(false)} />}
+      />
     </div>
   );
 }
 
 function CardMobile({ plano }: { plano: PlanoConteudo }) {
-  const [aberto, setAberto] = useState(false);
-
   return (
     <div
-      className={`relative min-h-[280px] overflow-hidden rounded-3xl p-6 ${
+      className={`rounded-3xl p-6 ${
         plano.destaque ? "bg-off-white-canvas" : "border border-ash bg-pure-white"
       }`}
     >
@@ -115,15 +103,10 @@ function CardMobile({ plano }: { plano: PlanoConteudo }) {
 
       <p className="mt-3 text-body-sm text-graphite">{plano.descricao}</p>
 
-      <button
-        type="button"
-        onClick={() => setAberto(true)}
-        className="mt-6 w-full rounded-3xl bg-pure-white pt-4 pb-4 pl-4 pr-3 text-center text-body font-bold text-off-black-ink"
-      >
-        Detalhes do plano
-      </button>
-
-      {aberto && <Vitrine plano={plano} onFechar={() => setAberto(false)} />}
+      <DetalhesDropdown
+        plano={plano}
+        resumoClassName="w-full justify-center rounded-3xl bg-pure-white pt-4 pb-4 pl-4 pr-3"
+      />
     </div>
   );
 }
@@ -137,7 +120,7 @@ export function PricingCards() {
         </h2>
 
         {/* Desktop */}
-        <div className="mt-14 hidden gap-6 md:grid md:grid-cols-3">
+        <div className="mt-14 hidden items-start gap-6 md:grid md:grid-cols-3">
           {planosConteudo.map((plano) => (
             <CardDesktop key={plano.slug} plano={plano} />
           ))}

@@ -16,11 +16,17 @@ const colunas: { slug: "zen" | "pro" | "customizado"; nome: string; badge?: stri
 
 type Valor = boolean | string;
 
+// Ordem pensada pra facilitar a leitura vertical (feedback do usuário): tudo
+// que os 3 planos têm primeiro, depois os campos com valor variável, depois
+// os recursos que só entram a partir do Pro, e por fim os exclusivos do
+// Premium — assim os ✓ e ✕ ficam agrupados em vez de espalhados.
 const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"], Valor> }[] = [
   {
     label: "Plataforma (Shopify ou Nuvemshop)",
     valores: { zen: true, pro: true, customizado: true },
   },
+  { label: "Cobrança PIX, cartão ou boleto", valores: { zen: true, pro: true, customizado: true } },
+  { label: "Preview em tempo real", valores: { zen: true, pro: true, customizado: true } },
   {
     label: "Tema",
     valores: { zen: "Spark ou Quart", pro: "Spark ou Quart", customizado: "Spark ou Quart" },
@@ -41,7 +47,7 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
   { label: "Video commerce", valores: { zen: false, pro: true, customizado: true } },
   {
     label: "Tabela de medidas",
-    valores: { zen: false, pro: "Premium", customizado: "Nativa" },
+    valores: { zen: false, pro: true, customizado: "Nativa" },
   },
   { label: "Parcelamento dinâmico", valores: { zen: false, pro: true, customizado: true } },
   { label: "Barra de menu estilo app", valores: { zen: false, pro: true, customizado: true } },
@@ -72,10 +78,6 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
     label: "Mentoria estratégica com a Viscale Assessoria",
     valores: { zen: false, pro: false, customizado: true },
   },
-  { label: "Cobrança PIX, cartão ou boleto", valores: { zen: true, pro: true, customizado: true } },
-  { label: "Preview em tempo real", valores: { zen: true, pro: true, customizado: true } },
-  { label: "Mensageria com a produção", valores: { zen: true, pro: true, customizado: true } },
-  { label: "Acessos criptografados", valores: { zen: true, pro: true, customizado: true } },
 ];
 
 function Celula({ valor }: { valor: Valor }) {
