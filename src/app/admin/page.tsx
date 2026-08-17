@@ -4,14 +4,7 @@ import { getDb } from "@/lib/db";
 import { projetos, usuarios, planos } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
-
-const labelStatus = {
-  onboarding: "Onboarding",
-  aguardando_pagamento: "Aguardando pagamento",
-  em_producao: "Em produção",
-  preview_disponivel: "Preview disponível",
-  entregue: "Entregue",
-} as const;
+import { labelStatusProjeto as labelStatus } from "@/lib/status-projeto";
 
 export default async function AdminPage() {
   const sessao = await getSession();

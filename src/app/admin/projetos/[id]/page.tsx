@@ -1,10 +1,25 @@
 import { notFound } from "next/navigation";
-import { asc, eq } from "drizzle-orm";
+import { asc, desc, eq, inArray } from "drizzle-orm";
 import { getDb } from "@/lib/db";
-import { projetos, usuarios, planos, acessosPlataforma, mensagens } from "@/lib/db/schema";
+import {
+  projetos,
+  usuarios,
+  planos,
+  acessosPlataforma,
+  mensagens,
+  tarefas,
+  solicitacoes,
+  revisoes,
+  revisaoComentarios,
+} from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
+import { labelPlataforma } from "@/lib/labels-projeto";
 import { ProjetoControls } from "@/components/admin/projeto-controls";
+import { VisaoGeralControls } from "@/components/admin/visao-geral-controls";
+import { TarefasEquipe } from "@/components/admin/tarefas-equipe";
+import { SolicitacoesEquipe } from "@/components/admin/solicitacoes-equipe";
+import { RevisoesEquipe } from "@/components/admin/revisoes-equipe";
 import { MensagemForm } from "@/components/dashboard/mensagem-form";
 
 export default async function ProjetoDetalhePage({
@@ -38,6 +53,45 @@ export default async function ProjetoDetalhePage({
     .from(acessosPlataforma)
     .where(eq(acessosPlataforma.projetoId, projeto.id))
     .limit(1);
+
+  const tarefasDoProjeto = await db
+    .select()
+    .from(tarefas)
+    .where(eq(tarefas.projetoId, projeto.id))
+    .orderBy(asc(tarefas.criadoEm));
+
+  const solicitacoesDoProjeto = await db
+    .select()
+    .from(solicitacoes)
+    .where(eq(solicitacoes.projetoId, projeto.id))
+    .orderBy(desc(solicitacoes.criadoEm));
+
+  const revisoesDoProjeto = await db
+    .select()
+    .from(revisoes)
+    .where(eq(revisoes.projetoId, projeto.id))
+    .orderBy(desc(revisoes.criadoEm));
+
+  const idsRevisoes = revisoesDoProjeto.map((r) => r.id);
+  const comentariosDasRevisoes = idsRevisoes.length
+    ? await db
+        .select({
+          id: revisaoComentarios.id,
+          revisaoId: revisaoComentarios.revisaoId,
+          texto: revisaoComentarios.texto,
+          criadoEm: revisaoComentarios.criadoEm,
+          autorNome: usuarios.nome,
+        })
+        .from(revisaoComentarios)
+        .innerJoin(usuarios, eq(revisaoComentarios.autorId, usuarios.id))
+        .where(inArray(revisaoComentarios.revisaoId, idsRevisoes))
+        .orderBy(asc(revisaoComentarios.criadoEm))
+    : [];
+
+  const revisoesComComentarios = revisoesDoProjeto.map((r) => ({
+    ...r,
+    comentarios: comentariosDasRevisoes.filter((c) => c.revisaoId === r.id),
+  }));
 
   const thread = await db
     .select({
@@ -76,7 +130,7 @@ export default async function ProjetoDetalhePage({
               <span className="font-bold text-off-black-ink">
                 {projeto.plataforma === "outra"
                   ? projeto.plataformaOutraNome
-                  : projeto.plataforma}
+                  : labelPlataforma[projeto.plataforma]}
               </span>
             </div>
             {projeto.tema && (
@@ -113,6 +167,45 @@ export default async function ProjetoDetalhePage({
               ))}
             </ul>
           </div>
+
+          <div className="flex flex-col gap-2 rounded-3xl bg-pure-white p-6 text-body-sm">
+            <p className="text-caption font-medium uppercase text-graphite">Briefing</p>
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-graphite">Identidade (Drive)</span>
+              {projeto.identidadeDriveUrl ? (
+                <a
+                  href={projeto.identidadeDriveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-off-black-ink underline"
+                >
+                  Abrir link
+                </a>
+              ) : (
+                <span className="font-bold text-off-black-ink">Pendente</span>
+              )}
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-graphite">Público</span>
+              <span className="font-medium text-off-black-ink">{projeto.publico || "—"}</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              <span className="text-graphite">Posicionamento</span>
+              <span className="font-medium text-off-black-ink">{projeto.posicionamento || "—"}</span>
+            </div>
+          </div>
+
+          <VisaoGeralControls
+            projetoId={projeto.id}
+            prazoEstimadoDias={projeto.prazoEstimadoDias}
+            proximaAcao={projeto.proximaAcao}
+          />
+
+          <TarefasEquipe projetoId={projeto.id} tarefas={tarefasDoProjeto} />
+
+          <SolicitacoesEquipe solicitacoes={solicitacoesDoProjeto} />
+
+          <RevisoesEquipe projetoId={projeto.id} revisoes={revisoesComComentarios} />
 
           <ProjetoControls
             projetoId={projeto.id}

@@ -6,14 +6,8 @@ import { getProjetoDoCliente } from "@/lib/queries/projetos";
 import { formatarPreco } from "@/lib/planos-conteudo";
 import { PagamentoForm } from "@/components/dashboard/pagamento-form";
 import { UpsellsCatalogo } from "@/components/dashboard/upsells-catalogo";
+import { labelPlataforma } from "@/lib/labels-projeto";
 
-const labelPlataforma = {
-  shopify: "Shopify",
-  nuvemshop: "Nuvemshop",
-  tray: "Tray",
-  bagy: "Bagy",
-  outra: "Outra",
-} as const;
 const labelMetodo = { pix: "PIX", cartao: "Cartão", boleto: "Boleto" } as const;
 const labelStatus = {
   pendente: "Pendente",

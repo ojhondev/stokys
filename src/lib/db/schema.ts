@@ -62,6 +62,26 @@ export const tipoTokenEnum = pgEnum("tipo_token", ["verificacao_email", "reset_s
 
 export const tipoItemProjetoEnum = pgEnum("tipo_item_projeto", ["plano_base", "upsell"]);
 
+export const responsavelTarefaEnum = pgEnum("responsavel_tarefa", ["cliente", "stokys"]);
+
+export const tipoSolicitacaoEnum = pgEnum("tipo_solicitacao", [
+  "alteracao",
+  "informacao",
+  "conteudo",
+]);
+
+export const statusSolicitacaoEnum = pgEnum("status_solicitacao", [
+  "aberta",
+  "em_andamento",
+  "concluida",
+]);
+
+export const statusRevisaoEnum = pgEnum("status_revisao", [
+  "pendente",
+  "aprovado",
+  "mudancas_solicitadas",
+]);
+
 export const usuarios = pgTable("usuarios", {
   id: uuid("id").primaryKey().defaultRandom(),
   papel: papelUsuarioEnum("papel").notNull(),
@@ -131,6 +151,15 @@ export const projetos = pgTable("projetos", {
   mentoriaViscaleAgendadaEm: timestamp("mentoria_viscale_agendada_em", {
     withTimezone: true,
   }),
+  // Visão geral — setados pela equipe, não pelo cliente (ver admin/projetos/[id]).
+  prazoEstimadoDias: integer("prazo_estimado_dias"),
+  proximaAcao: text("proxima_acao"),
+  // Briefing — editados pelo cliente depois do onboarding (dashboard/briefing).
+  identidadeDriveUrl: text("identidade_drive_url"),
+  publico: text("publico"),
+  posicionamento: text("posicionamento"),
+  // Informações da loja — editado pelo cliente em dashboard/configuracoes.
+  dominio: text("dominio"),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
   atualizadoEm: timestamp("atualizado_em", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -246,6 +275,77 @@ export const projetoItens = pgTable("projeto_itens", {
   criadoPorId: uuid("criado_por_id")
     .notNull()
     .references(() => usuarios.id),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Módulo Tarefas — pendências do cliente e da Stokys, cada uma marcada como
+// concluída só pelo lado a quem ela pertence.
+export const tarefas = pgTable("tarefas", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  projetoId: uuid("projeto_id")
+    .notNull()
+    .references(() => projetos.id),
+  titulo: text("titulo").notNull(),
+  responsavel: responsavelTarefaEnum("responsavel").notNull(),
+  concluida: boolean("concluida").notNull().default(false),
+  criadoPorId: uuid("criado_por_id")
+    .notNull()
+    .references(() => usuarios.id),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Módulo Solicitações — separado do chat livre (mensagens) porque precisa de
+// tipo+status próprios pra virar uma lista rastreável.
+export const solicitacoes = pgTable("solicitacoes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  projetoId: uuid("projeto_id")
+    .notNull()
+    .references(() => projetos.id),
+  tipo: tipoSolicitacaoEnum("tipo").notNull(),
+  texto: text("texto").notNull(),
+  status: statusSolicitacaoEnum("status").notNull().default("aberta"),
+  criadoPorId: uuid("criado_por_id")
+    .notNull()
+    .references(() => usuarios.id),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Módulo Revisões — versões entregues pela equipe, aprovadas ou com mudança
+// pedida pelo cliente. Reusa o mesmo seam de upload das mensagens.
+export const revisoes = pgTable("revisoes", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  projetoId: uuid("projeto_id")
+    .notNull()
+    .references(() => projetos.id),
+  titulo: text("titulo").notNull(),
+  linkOuArquivoUrl: text("link_ou_arquivo_url").notNull(),
+  status: statusRevisaoEnum("status").notNull().default("pendente"),
+  criadoPorId: uuid("criado_por_id")
+    .notNull()
+    .references(() => usuarios.id),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const revisaoComentarios = pgTable("revisao_comentarios", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  revisaoId: uuid("revisao_id")
+    .notNull()
+    .references(() => revisoes.id),
+  autorId: uuid("autor_id")
+    .notNull()
+    .references(() => usuarios.id),
+  texto: text("texto").notNull(),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// Módulo Histórico — log cronológico simples, só leitura. Populado por
+// registrarEvento() a partir de mudança de status, tarefa, solicitação e revisão.
+export const eventos = pgTable("eventos", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  projetoId: uuid("projeto_id")
+    .notNull()
+    .references(() => projetos.id),
+  descricao: text("descricao").notNull(),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 

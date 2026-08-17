@@ -6,26 +6,13 @@ import { usuarios } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { getProjetoDoCliente } from "@/lib/queries/projetos";
 import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
+import { etapasProjeto as etapas, labelStatusProjeto as labelStatus } from "@/lib/status-projeto";
 
 // Tela raiz do dashboard — só leitura, contexto rápido do projeto (não é um
 // "módulo" de interação; o cliente só interage de fato em Pagamentos,
-// Mensagens e Configurações — ver docs/PRD.md 4.4 e nav-items.ts).
-
-const etapas = [
-  { chave: "onboarding", label: "Onboarding" },
-  { chave: "aguardando_pagamento", label: "Pagamento" },
-  { chave: "em_producao", label: "Produção" },
-  { chave: "preview_disponivel", label: "Preview" },
-  { chave: "entregue", label: "Entregue" },
-] as const;
-
-const labelStatus = {
-  onboarding: "Onboarding",
-  aguardando_pagamento: "Aguardando pagamento",
-  em_producao: "Em produção",
-  preview_disponivel: "Preview disponível",
-  entregue: "Entregue",
-} as const;
+// Mensagens e Configurações — ver docs/PRD.md 4.4 e nav-items.ts). Enriquecida
+// (Fase 2) com % de conclusão, prazo estimado e próxima ação — os dois
+// últimos setados pela equipe em admin/projetos/[id].
 
 const descricaoEtapaAtual = {
   onboarding: "Recebemos os dados da sua loja — falta só o pagamento pra produção começar.",
@@ -56,6 +43,7 @@ export default async function DashboardPage() {
 
   const { projeto, plano } = registro;
   const etapaAtualIndex = etapas.findIndex((e) => e.chave === projeto.status);
+  const percentualConclusao = Math.round(((etapaAtualIndex + 1) / etapas.length) * 100);
 
   const [usuario] = await getDb()
     .select({ nomeDaLoja: usuarios.nomeDaLoja })
@@ -110,6 +98,17 @@ export default async function DashboardPage() {
             Atualizado em {projeto.atualizadoEm.toLocaleDateString("pt-BR")}
           </p>
         </div>
+
+        {projeto.proximaAcao && (
+          <div className="mt-4 rounded-2xl bg-off-white-canvas p-4">
+            <p className="text-caption font-medium uppercase text-graphite">
+              Próxima ação necessária
+            </p>
+            <p className="mt-1 text-body-sm font-medium text-off-black-ink">
+              {projeto.proximaAcao}
+            </p>
+          </div>
+        )}
       </div>
 
       {plano.nome !== "customizado" && (
@@ -127,7 +126,7 @@ export default async function DashboardPage() {
         </Link>
       )}
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-3xl bg-pure-white p-6">
           <p className="text-caption font-medium uppercase text-graphite">Plano</p>
           <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
@@ -135,15 +134,23 @@ export default async function DashboardPage() {
           </p>
         </div>
         <div className="rounded-3xl bg-pure-white p-6">
+          <p className="text-caption font-medium uppercase text-graphite">Conclusão</p>
+          <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
+            {percentualConclusao}%
+          </p>
+        </div>
+        {projeto.prazoEstimadoDias != null && (
+          <div className="rounded-3xl bg-pure-white p-6">
+            <p className="text-caption font-medium uppercase text-graphite">Prazo estimado</p>
+            <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
+              {projeto.prazoEstimadoDias} dias
+            </p>
+          </div>
+        )}
+        <div className="rounded-3xl bg-pure-white p-6">
           <p className="text-caption font-medium uppercase text-graphite">Valor</p>
           <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
             {formatarPreco(projeto.precoNoMomentoDaCompraCentavos)}
-          </p>
-        </div>
-        <div className="rounded-3xl bg-pure-white p-6">
-          <p className="text-caption font-medium uppercase text-graphite">Criado em</p>
-          <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
-            {projeto.criadoEm.toLocaleDateString("pt-BR")}
           </p>
         </div>
       </div>

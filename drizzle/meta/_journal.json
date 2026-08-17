@@ -43,6 +43,13 @@
       "when": 1786990440930,
       "tag": "0005_zippy_randall_flagg",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1786992113928,
+      "tag": "0006_rare_hannibal_king",
+      "breakpoints": true
     }
   ]
 }

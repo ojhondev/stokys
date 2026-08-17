@@ -5,6 +5,8 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { projetos, statusProjetoEnum } from "@/lib/db/schema";
 import { getSession, type Papel } from "@/lib/auth";
+import { registrarEvento } from "@/lib/eventos";
+import { labelStatusProjeto } from "@/lib/status-projeto";
 
 const PAPEIS_EQUIPE: Papel[] = ["master", "admin", "producao"];
 const statusValidos = statusProjetoEnum.enumValues;
@@ -35,9 +37,12 @@ export async function atualizarStatusProjeto(
   }
 
   await db.update(projetos).set({ status, atualizadoEm: new Date() }).where(eq(projetos.id, projetoId));
+  await registrarEvento(projetoId, `Status mudou para ${labelStatusProjeto[status]}.`);
 
   revalidatePath("/admin");
   revalidatePath(`/admin/projetos/${projetoId}`);
+  revalidatePath("/dashboard/timeline");
+  revalidatePath("/dashboard/historico");
   return {};
 }
 

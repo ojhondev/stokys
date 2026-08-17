@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import { clienteNavItems } from "./nav-items";
+import { clienteNavItems, clienteNavMobilePrimario } from "./nav-items";
 import {
   IconMensagens,
   IconPagamentos,
@@ -14,6 +14,15 @@ import {
   IconParceiros,
   IconAjuda,
   IconSair,
+  IconVisaoGeral,
+  IconBriefing,
+  IconTimeline,
+  IconTarefas,
+  IconSolicitacoes,
+  IconRevisoes,
+  IconHistorico,
+  IconMenu,
+  IconFechar,
 } from "./icons";
 import { logout } from "@/lib/actions/auth";
 import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
@@ -27,6 +36,13 @@ const icones = {
   vencedor: IconVencedor,
   comunidade: IconComunidade,
   parceiros: IconParceiros,
+  visaoGeral: IconVisaoGeral,
+  briefing: IconBriefing,
+  timeline: IconTimeline,
+  tarefas: IconTarefas,
+  solicitacoes: IconSolicitacoes,
+  revisoes: IconRevisoes,
+  historico: IconHistorico,
 } as const;
 
 // Casca do app do cliente — mobile first: barra de abas fixa embaixo no celular
@@ -46,6 +62,7 @@ export function AppShell({
 }) {
   const pathname = usePathname();
   const [colapsado, setColapsado] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <div className="flex min-h-screen flex-col bg-off-white-canvas">
@@ -171,25 +188,80 @@ export function AppShell({
       </div>
 
       <nav className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ash bg-pure-white py-2 md:hidden">
-        {clienteNavItems.map((item) => {
-          const ativo = pathname === item.href;
-          const Icone = icones[item.icone];
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex flex-col items-center gap-1 px-2 py-1"
-            >
-              <Icone className={`h-5 w-5 ${ativo ? "text-off-black-ink" : "text-graphite"}`} />
-              <span
-                className={`text-eyebrow ${ativo ? "font-bold text-off-black-ink" : "text-graphite"}`}
+        {clienteNavItems
+          .filter((item) => (clienteNavMobilePrimario as readonly string[]).includes(item.href))
+          .map((item) => {
+            const ativo = pathname === item.href;
+            const Icone = icones[item.icone];
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex flex-col items-center gap-1 px-2 py-1"
               >
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
+                <Icone className={`h-5 w-5 ${ativo ? "text-off-black-ink" : "text-graphite"}`} />
+                <span
+                  className={`text-eyebrow ${ativo ? "font-bold text-off-black-ink" : "text-graphite"}`}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            );
+          })}
+        <button
+          type="button"
+          onClick={() => setMenuAberto(true)}
+          className="flex flex-col items-center gap-1 px-2 py-1"
+        >
+          <IconMenu className="h-5 w-5 text-graphite" />
+          <span className="text-eyebrow text-graphite">Menu</span>
+        </button>
       </nav>
+
+      {menuAberto && (
+        <div className="fixed inset-0 z-30 flex flex-col justify-end md:hidden">
+          <button
+            type="button"
+            aria-label="Fechar menu"
+            onClick={() => setMenuAberto(false)}
+            className="absolute inset-0 bg-off-black-ink/40"
+          />
+          <div className="relative max-h-[75vh] overflow-y-auto rounded-t-3xl bg-pure-white p-6 pb-8">
+            <div className="flex items-center justify-between">
+              <p className="text-body font-heading font-bold text-off-black-ink">Menu</p>
+              <button
+                type="button"
+                onClick={() => setMenuAberto(false)}
+                aria-label="Fechar"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-off-white-canvas text-off-black-ink"
+              >
+                <IconFechar className="h-4 w-4" />
+              </button>
+            </div>
+            <nav className="mt-4 grid grid-cols-3 gap-3">
+              {clienteNavItems.map((item) => {
+                const ativo = pathname === item.href;
+                const Icone = icones[item.icone];
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuAberto(false)}
+                    className="flex flex-col items-center gap-2 rounded-2xl bg-off-white-canvas p-4 text-center"
+                  >
+                    <Icone className={`h-5 w-5 ${ativo ? "text-off-black-ink" : "text-graphite"}`} />
+                    <span
+                      className={`text-caption ${ativo ? "font-bold text-off-black-ink" : "font-medium text-graphite"}`}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );

@@ -34,3 +34,21 @@ export async function uploadAnexoMensagem(arquivo: File): Promise<UploadState> {
   const { url } = await uploadArquivo(arquivo, "mensagens");
   return { url };
 }
+
+const PAPEIS_EQUIPE: Papel[] = ["master", "admin", "producao"];
+
+export async function uploadArquivoRevisao(arquivo: File): Promise<UploadState> {
+  const sessao = await getSession();
+  if (!sessao || !PAPEIS_EQUIPE.includes(sessao.papel)) {
+    return { erro: "Sessão inválida." };
+  }
+
+  if (arquivo.size === 0) return { erro: "Arquivo vazio." };
+  if (arquivo.size > TAMANHO_MAXIMO_BYTES) return { erro: "Arquivo maior que 10MB." };
+  if (!TIPOS_PERMITIDOS.includes(arquivo.type)) {
+    return { erro: "Tipo de arquivo não aceito — envie imagem, PDF ou documento." };
+  }
+
+  const { url } = await uploadArquivo(arquivo, "revisoes");
+  return { url };
+}

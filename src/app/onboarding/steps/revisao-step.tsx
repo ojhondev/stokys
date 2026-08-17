@@ -6,17 +6,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { planosConteudo, formatarPreco } from "@/lib/planos-conteudo";
 import { criarProjeto } from "@/lib/actions/onboarding";
+import { labelPlataforma, labelTema, labelMercado } from "@/lib/labels-projeto";
 import type { DadosOnboarding } from "../types";
-
-const labelPlataforma = {
-  shopify: "Shopify",
-  nuvemshop: "Nuvemshop",
-  tray: "Tray",
-  bagy: "Bagy",
-  outra: "Outra",
-} as const;
-const labelTema = { spark: "Spark", quart: "Quart" } as const;
-const labelMercado = { brasil: "Brasil", global: "Global", latam: "Latam" } as const;
 
 // Pagamento não faz parte do onboarding — só acontece depois, dentro do dashboard
 // (ver docs/PRD.md 4.3). A conta já existe e está logada antes de chegar aqui
