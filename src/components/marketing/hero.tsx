@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { LinkButton } from "@/components/ui/button";
+import { ProjetosMarquee } from "@/components/marketing/projetos-marquee";
 
 export function Hero() {
   return (
-    <section className="bg-hero-canvas px-6 pb-0 pt-12 sm:px-10 md:pt-16 lg:px-16">
+    <section className="bg-hero-canvas px-6 pb-14 pt-12 sm:px-10 md:pb-16 md:pt-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
         <h1 className="text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
           Loja pronta e profissional. Você só vende.
@@ -26,15 +26,8 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 w-full max-w-[960px]">
-        <Image
-          src="/hero-mockup.png"
-          alt="Preview da plataforma Stokys"
-          width={6222}
-          height={1800}
-          className="h-auto w-full"
-          priority
-        />
+      <div className="-mx-6 mt-10 sm:-mx-10 lg:-mx-16">
+        <ProjetosMarquee />
       </div>
     </section>
   );
