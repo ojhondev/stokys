@@ -11,6 +11,8 @@ const variants = {
   dark: `${base} rounded-3xl bg-off-black-ink pt-4 pb-4 pl-4 pr-3 text-electric-lime hover:opacity-90`,
   // Igual a "outline", mas em branco — pra usar sobre fundo escuro (ver depoimentos.tsx).
   "outline-light": `${base} rounded-full border border-pure-white pt-4 pb-4 pl-4 pr-3 text-pure-white hover:opacity-70`,
+  // Pílula branca preenchida — pra usar sobre fundos coloridos/degradês (ver faixa-youtube.tsx).
+  white: `${base} rounded-3xl bg-pure-white pt-4 pb-4 pl-4 pr-3 text-off-black-ink hover:opacity-90`,
 } as const;
 
 type Variant = keyof typeof variants;

@@ -9,24 +9,21 @@ import { LinkButton } from "@/components/ui/button";
 // dashboard/comunidade/page.tsx). Fica sticky dentro da coluna de conteúdo
 // do AppShell (não cobre a sidebar) — só desktop, pra não brigar com a
 // barra de abas fixa do mobile (mesmo motivo do PromoBar não entrar no
-// dashboard, ver app-shell.tsx).
+// dashboard, ver app-shell.tsx). Cartão flutuante com degradê branco→lima
+// (esquerda→direita), batendo com a referência de UI do painel.
 
 export function FaixaYoutube() {
   const [visivel, setVisivel] = useState(true);
   if (!visivel) return null;
 
   return (
-    <div className="sticky inset-x-0 bottom-0 z-20 hidden border-t border-ash bg-electric-lime px-6 py-3 md:flex sm:px-10">
-      <div className="flex w-full items-center justify-between gap-4">
+    <div className="sticky inset-x-0 bottom-0 z-20 hidden md:block">
+      <div className="mx-6 mb-4 flex items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-pure-white via-electric-lime/70 to-electric-lime px-4 py-3 shadow-sm sm:mx-10">
         <div className="flex min-w-0 items-center gap-3">
-          <Image
-            src="/icon.png"
-            alt=""
-            width={32}
-            height={32}
-            className="h-8 w-8 shrink-0 rounded-full"
-          />
-          <p className="truncate text-body-sm font-medium text-off-black-ink">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-electric-lime">
+            <Image src="/logo-stokys-icon.png" alt="" width={20} height={22} className="h-5 w-auto" />
+          </div>
+          <p className="truncate text-body-sm text-off-black-ink">
             Inscreva-se no canal da <span className="font-bold">Comunidade Sem Estoque</span>
           </p>
         </div>
@@ -35,7 +32,7 @@ export function FaixaYoutube() {
             href="https://www.youtube.com/@comunidadesemestoque"
             target="_blank"
             rel="noopener noreferrer"
-            variant="dark"
+            variant="white"
             className="whitespace-nowrap"
           >
             Ir para o Canal

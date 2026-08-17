@@ -55,7 +55,7 @@ export default async function TimelinePage() {
               <span
                 className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-caption font-medium ${
                   situacao === "futura"
-                    ? "bg-off-white-canvas text-graphite"
+                    ? "bg-app-canvas text-graphite"
                     : "bg-electric-lime text-off-black-ink"
                 }`}
               >

@@ -19,6 +19,9 @@
   --color-deep-charcoal: #30302a;
   --color-stone: #919183;
   --color-smoke: #b9b9b7;
+  /* Fundo do app autenticado (dashboard/admin) — cinza neutro, distinto do
+     bege da LP (off-white-canvas), pedido explícito do usuário. */
+  --color-app-canvas: #f9f9f9;
 
   --background: var(--color-pure-white);
   --foreground: var(--color-off-black-ink);
@@ -39,6 +42,7 @@
   --color-deep-charcoal: var(--color-deep-charcoal);
   --color-stone: var(--color-stone);
   --color-smoke: var(--color-smoke);
+  --color-app-canvas: var(--color-app-canvas);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -93,6 +97,8 @@
 body {
   background: var(--color-pure-white);
   color: var(--color-off-black-ink);
+  /* Sem flash azul ao tocar em links/botões no mobile — sensação de app nativo. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Faixa de texto rolando no rodapé (ver site-footer.tsx). */

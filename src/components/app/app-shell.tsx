@@ -63,19 +63,10 @@ export function AppShell({
   const pathname = usePathname();
   const [colapsado, setColapsado] = useState(false);
   const [menuAberto, setMenuAberto] = useState(false);
+  const [bannerFechado, setBannerFechado] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col bg-off-white-canvas">
-      {!emailVerificado && (
-        <div className="sticky top-0 z-40 flex flex-col items-start gap-3 bg-gradient-to-r from-electric-lime to-electric-lime/40 px-6 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-          <p className="text-body-sm font-medium text-off-black-ink">
-            Confirme seu e-mail pra liberar o pagamento — mandamos um link pra sua caixa de
-            entrada.
-          </p>
-          <ReenviarVerificacaoButton className="flex shrink-0 items-center gap-3" />
-        </div>
-      )}
-
+    <div className="flex min-h-screen flex-col bg-app-canvas">
       <div className="flex flex-1">
         <aside
         className={`hidden flex-col border-r border-ash bg-pure-white py-6 transition-all duration-300 md:flex ${
@@ -102,7 +93,7 @@ export function AppShell({
             type="button"
             onClick={() => setColapsado((v) => !v)}
             aria-label={colapsado ? "Expandir menu" : "Recolher menu"}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-graphite hover:bg-off-white-canvas"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-graphite hover:bg-app-canvas"
           >
             <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5">
               <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
@@ -126,7 +117,7 @@ export function AppShell({
                 key={item.href}
                 href={item.href}
                 title={colapsado ? item.label : undefined}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm transition-colors hover:bg-off-white-canvas ${
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm transition-colors hover:bg-app-canvas ${
                   ativo ? "font-bold text-off-black-ink" : "font-medium text-graphite"
                 }`}
               >
@@ -143,7 +134,7 @@ export function AppShell({
             target="_blank"
             rel="noopener noreferrer"
             title={colapsado ? "Ajuda" : undefined}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-off-white-canvas"
+            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-app-canvas"
           >
             <IconAjuda className="h-5 w-5 shrink-0" />
             {!colapsado && <span>Ajuda</span>}
@@ -152,7 +143,7 @@ export function AppShell({
             <button
               type="submit"
               title={colapsado ? "Sair" : undefined}
-              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-off-white-canvas"
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-body-sm font-medium text-graphite hover:bg-app-canvas"
             >
               <IconSair className="h-5 w-5 shrink-0" />
               {!colapsado && <span>Sair</span>}
@@ -173,21 +164,40 @@ export function AppShell({
             <button
               type="submit"
               aria-label="Sair"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-off-white-canvas text-off-black-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-app-canvas text-off-black-ink"
             >
               <IconSair className="h-5 w-5" />
             </button>
           </form>
         </header>
 
-        <main className="flex-1 px-6 pb-24 pt-6 sm:px-10 md:px-10 md:py-10 md:pb-10">
+        <main className="flex-1 px-6 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-6 sm:px-10 md:px-10 md:py-10 md:pb-10">
+          {!emailVerificado && !bannerFechado && (
+            <div className="mb-6 flex flex-col items-start gap-3 rounded-2xl bg-gradient-to-r from-electric-lime via-electric-lime/50 to-pure-white px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-body-sm font-medium text-off-black-ink">
+                Confirme seu e-mail pra liberar o pagamento — mandamos um link pra sua caixa de
+                entrada.
+              </p>
+              <div className="flex shrink-0 items-center gap-3">
+                <ReenviarVerificacaoButton className="flex items-center gap-3" />
+                <button
+                  type="button"
+                  onClick={() => setBannerFechado(true)}
+                  aria-label="Fechar"
+                  className="flex h-7 w-7 shrink-0 items-center justify-center text-off-black-ink/60"
+                >
+                  <IconFechar className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          )}
           {children}
         </main>
 
         <FaixaYoutube />
       </div>
 
-      <nav className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ash bg-pure-white py-2 md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-around border-t border-ash bg-pure-white pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 md:hidden">
         {clienteNavItems
           .filter((item) => (clienteNavMobilePrimario as readonly string[]).includes(item.href))
           .map((item) => {
@@ -226,14 +236,14 @@ export function AppShell({
             onClick={() => setMenuAberto(false)}
             className="absolute inset-0 bg-off-black-ink/40"
           />
-          <div className="relative max-h-[75vh] overflow-y-auto rounded-t-3xl bg-pure-white p-6 pb-8">
+          <div className="relative max-h-[75vh] overflow-y-auto rounded-t-3xl bg-pure-white p-6 pb-[calc(2rem+env(safe-area-inset-bottom))]">
             <div className="flex items-center justify-between">
               <p className="text-body font-heading font-bold text-off-black-ink">Menu</p>
               <button
                 type="button"
                 onClick={() => setMenuAberto(false)}
                 aria-label="Fechar"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-off-white-canvas text-off-black-ink"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-app-canvas text-off-black-ink"
               >
                 <IconFechar className="h-4 w-4" />
               </button>
@@ -247,7 +257,7 @@ export function AppShell({
                     key={item.href}
                     href={item.href}
                     onClick={() => setMenuAberto(false)}
-                    className="flex flex-col items-center gap-2 rounded-2xl bg-off-white-canvas p-4 text-center"
+                    className="flex flex-col items-center gap-2 rounded-2xl bg-app-canvas p-4 text-center"
                   >
                     <Icone className={`h-5 w-5 ${ativo ? "text-off-black-ink" : "text-graphite"}`} />
                     <span

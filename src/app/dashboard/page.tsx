@@ -5,14 +5,14 @@ import { getDb } from "@/lib/db";
 import { usuarios } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { getProjetoDoCliente } from "@/lib/queries/projetos";
-import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
+import { nomeExibicaoPlano } from "@/lib/planos-conteudo";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 import { etapasProjeto as etapas, labelStatusProjeto as labelStatus } from "@/lib/status-projeto";
 
-// Tela raiz do dashboard — só leitura, contexto rápido do projeto (não é um
-// "módulo" de interação; o cliente só interage de fato em Pagamentos,
-// Mensagens e Configurações — ver docs/PRD.md 4.4 e nav-items.ts). Enriquecida
-// (Fase 2) com % de conclusão, prazo estimado e próxima ação — os dois
-// últimos setados pela equipe em admin/projetos/[id].
+// Tela raiz do dashboard — visão geral do projeto em formato bento (cards
+// variados, não só uma grade plana de números), batendo com a referência de
+// UI do painel. "Preview" e "Faturamento" são mockados por enquanto (não
+// existe integração real ainda) — os demais cards usam dados reais.
 
 const descricaoEtapaAtual = {
   onboarding: "Recebemos os dados da sua loja — falta só o pagamento pra produção começar.",
@@ -21,6 +21,9 @@ const descricaoEtapaAtual = {
   preview_disponivel: "Sua loja tem um preview disponível — a produção vai te avisar pelo chat.",
   entregue: "Sua loja foi entregue. Qualquer ajuste, fale com a produção pelo chat.",
 } as const;
+
+const pillLima =
+  "shrink-0 whitespace-nowrap rounded-full bg-electric-lime px-4 py-2 text-caption font-bold text-off-black-ink transition-opacity hover:opacity-90";
 
 export default async function DashboardPage() {
   const sessao = await getSession();
@@ -43,7 +46,7 @@ export default async function DashboardPage() {
 
   const { projeto, plano } = registro;
   const etapaAtualIndex = etapas.findIndex((e) => e.chave === projeto.status);
-  const percentualConclusao = Math.round(((etapaAtualIndex + 1) / etapas.length) * 100);
+  const previewDisponivel = projeto.status === "preview_disponivel" || projeto.status === "entregue";
 
   const [usuario] = await getDb()
     .select({ nomeDaLoja: usuarios.nomeDaLoja })
@@ -74,7 +77,7 @@ export default async function DashboardPage() {
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-caption font-medium ${
                     i <= etapaAtualIndex
                       ? "bg-electric-lime text-off-black-ink"
-                      : "bg-off-white-canvas text-graphite"
+                      : "bg-app-canvas text-graphite"
                   }`}
                 >
                   {i + 1}
@@ -84,7 +87,7 @@ export default async function DashboardPage() {
               {i < etapas.length - 1 && (
                 <div
                   className={`mx-2 h-0.5 flex-1 rounded-full ${
-                    i < etapaAtualIndex ? "bg-electric-lime" : "bg-off-white-canvas"
+                    i < etapaAtualIndex ? "bg-electric-lime" : "bg-app-canvas"
                   }`}
                 />
               )}
@@ -98,60 +101,113 @@ export default async function DashboardPage() {
             Atualizado em {projeto.atualizadoEm.toLocaleDateString("pt-BR")}
           </p>
         </div>
+      </div>
 
-        {projeto.proximaAcao && (
-          <div className="mt-4 rounded-2xl bg-off-white-canvas p-4">
-            <p className="text-caption font-medium uppercase text-graphite">
-              Próxima ação necessária
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <div className="flex flex-col rounded-3xl bg-pure-white p-6 lg:row-span-2">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-body-sm font-bold text-off-black-ink">Preview</p>
+            <div className="flex items-center gap-1.5">
+              {etapas.map((etapa, i) => (
+                <span
+                  key={etapa.chave}
+                  className={`h-1.5 w-6 rounded-full ${
+                    i <= etapaAtualIndex ? "bg-electric-lime" : "bg-app-canvas"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-1 flex-col items-center justify-center gap-6 rounded-2xl bg-app-canvas px-6 py-10">
+            <div className="w-full max-w-[220px] rounded-[2rem] border-[6px] border-off-black-ink bg-pure-white p-3">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-app-canvas" />
+                <span className="h-2 flex-1 rounded-full bg-app-canvas" />
+              </div>
+              <div className="mt-3 h-20 rounded-xl bg-app-canvas" />
+              <div className="mt-2 h-2.5 w-2/3 rounded-full bg-app-canvas" />
+              <div className="mt-2 h-2.5 w-1/2 rounded-full bg-app-canvas" />
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="h-12 rounded-lg bg-app-canvas" />
+                <div className="h-12 rounded-lg bg-app-canvas" />
+              </div>
+            </div>
+            <p className="max-w-[260px] text-center text-body-sm text-graphite">
+              {previewDisponivel
+                ? "Preview disponível — confira o link no chat com a produção."
+                : "Sua loja aparece aqui assim que o preview estiver disponível."}
             </p>
-            <p className="mt-1 text-body-sm font-medium text-off-black-ink">
-              {projeto.proximaAcao}
+          </div>
+        </div>
+
+        <div className="rounded-3xl bg-pure-white p-6">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-caption font-medium uppercase text-graphite">Faturamento da sua loja</p>
+            <Link href="/dashboard/configuracoes" className={pillLima}>
+              Integrar dados
+            </Link>
+          </div>
+          <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">R$ 0,00</p>
+          <div className="mt-4 flex h-24 items-center justify-center rounded-2xl bg-app-canvas">
+            <p className="text-caption text-stone">Conecte sua plataforma pra ver os números aqui</p>
+          </div>
+        </div>
+
+        {plano.nome !== "customizado" ? (
+          <Link
+            href="/dashboard/pagamentos"
+            className="group relative block overflow-hidden rounded-3xl transition-transform duration-200 hover:scale-[1.01]"
+          >
+            <Image
+              src="/banner-upsell-plano.png"
+              alt="Precisa de mais recursos? Dê um upgrade no seu plano."
+              width={2721}
+              height={930}
+              className="h-full w-full object-cover"
+            />
+          </Link>
+        ) : (
+          <div className="flex flex-col justify-center rounded-3xl bg-off-black-ink p-6">
+            <p className="w-fit rounded-full bg-electric-lime px-3 py-1 text-caption font-bold text-off-black-ink">
+              Plano Premium
+            </p>
+            <p className="mt-3 text-subheading font-heading font-bold text-pure-white">
+              Sua loja é 100% customizada
+            </p>
+            <p className="mt-1 text-body-sm text-pure-white/70">
+              Qualquer ajuste de escopo, fale direto com a produção pelo chat.
             </p>
           </div>
         )}
       </div>
 
-      {plano.nome !== "customizado" && (
-        <Link
-          href="/dashboard/pagamentos"
-          className="mt-6 block overflow-hidden rounded-3xl transition-transform duration-200 hover:scale-[1.01]"
-        >
-          <Image
-            src="/banner-upsell-plano.png"
-            alt="Precisa de mais recursos? Dê um upgrade no seu plano."
-            width={2721}
-            height={930}
-            className="h-auto w-full"
-          />
-        </Link>
-      )}
-
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <div className="rounded-3xl bg-pure-white p-6">
-          <p className="text-caption font-medium uppercase text-graphite">Plano</p>
-          <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
-            {nomeExibicaoPlano(plano.nome)}
-          </p>
-        </div>
-        <div className="rounded-3xl bg-pure-white p-6">
-          <p className="text-caption font-medium uppercase text-graphite">Conclusão</p>
-          <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
-            {percentualConclusao}%
-          </p>
-        </div>
-        {projeto.prazoEstimadoDias != null && (
-          <div className="rounded-3xl bg-pure-white p-6">
-            <p className="text-caption font-medium uppercase text-graphite">Prazo estimado</p>
-            <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
-              {projeto.prazoEstimadoDias} dias
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-caption font-medium uppercase text-graphite">
+              O que está em andamento
             </p>
+            <a href={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)} target="_blank" rel="noopener noreferrer" className={pillLima}>
+              Falar com time
+            </a>
           </div>
-        )}
-        <div className="rounded-3xl bg-pure-white p-6">
-          <p className="text-caption font-medium uppercase text-graphite">Valor</p>
           <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
-            {formatarPreco(projeto.precoNoMomentoDaCompraCentavos)}
+            {projeto.proximaAcao || labelStatus[projeto.status]}
           </p>
+        </div>
+
+        <div className="rounded-3xl bg-pure-white p-6">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-caption font-medium uppercase text-graphite">Prazo estimado</p>
+            <Link href="/dashboard/timeline" className={pillLima}>
+              Ver etapas
+            </Link>
+          </div>
+          <p className="mt-2 text-subheading font-heading font-bold text-off-black-ink">
+            {projeto.prazoEstimadoDias != null ? `${projeto.prazoEstimadoDias} dias` : "A definir"}
+          </p>
+          <p className="mt-1 text-body-sm text-graphite">{labelStatus[projeto.status]}</p>
         </div>
       </div>
     </div>

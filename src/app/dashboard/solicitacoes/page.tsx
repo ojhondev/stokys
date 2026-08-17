@@ -60,7 +60,7 @@ export default async function SolicitacoesPage() {
                 className={`rounded-full px-3 py-1 text-caption font-medium ${
                   s.status === "concluida"
                     ? "bg-electric-lime text-off-black-ink"
-                    : "bg-off-white-canvas text-graphite"
+                    : "bg-app-canvas text-graphite"
                 }`}
               >
                 {labelStatus[s.status]}
