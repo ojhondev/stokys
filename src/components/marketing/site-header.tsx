@@ -14,7 +14,7 @@ import { LinkButton } from "@/components/ui/button";
 const navLinks = [
   { href: "#planos", label: "Planos" },
   { href: "#como-funciona", label: "Como funciona" },
-  { href: "#parceiros", label: "Parceiros" },
+  { href: "/parcerias", label: "Parcerias" },
   { href: "/temas", label: "Temas" },
 ];
 

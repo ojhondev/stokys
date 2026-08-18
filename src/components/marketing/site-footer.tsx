@@ -24,7 +24,10 @@ const colunas = [
   },
   {
     titulo: "Parceiros",
-    links: [{ href: "/parceiros", label: "Vitrine de parceiros" }],
+    links: [
+      { href: "/parcerias", label: "Parceria com influenciadores" },
+      { href: "/parceiros", label: "Vitrine de parceiros" },
+    ],
   },
   {
     titulo: "Conta",

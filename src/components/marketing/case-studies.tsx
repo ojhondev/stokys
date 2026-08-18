@@ -29,7 +29,7 @@ export function CaseStudies() {
     <section className="overflow-hidden bg-off-white-canvas py-14 md:py-16">
       <div className="mx-auto w-full max-w-[1800px] px-6 sm:px-10 lg:px-16">
         <span className="text-caption font-medium uppercase text-graphite">Resultados</span>
-        <h2 className="mt-3 max-w-[720px] text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
+        <h2 className="mt-3 max-w-[900px] text-heading-lg font-heading font-bold text-off-black-ink">
           +40 cases de sucesso com lojas profissionais rodando pelo mundo
         </h2>
       </div>

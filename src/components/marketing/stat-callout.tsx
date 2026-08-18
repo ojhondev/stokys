@@ -12,6 +12,7 @@ export function StatCallout({
   linha1,
   linha2,
   contadorAte,
+  contadorPrefixo,
   contadorSufixo,
   descricao,
   ctaLabel,
@@ -21,6 +22,7 @@ export function StatCallout({
   linha1: string;
   linha2?: string;
   contadorAte?: number;
+  contadorPrefixo?: string;
   contadorSufixo?: string;
   descricao: string;
   ctaLabel: string;
@@ -71,7 +73,7 @@ export function StatCallout({
         >
           {linha1}
           <br />
-          {contadorAte ? `${numero} ${contadorSufixo ?? ""}` : linha2}
+          {contadorAte ? `${contadorPrefixo ?? ""}${numero} ${contadorSufixo ?? ""}` : linha2}
         </h2>
         <p className="mt-6 max-w-[480px] text-body text-graphite">{descricao}</p>
         <LinkButton

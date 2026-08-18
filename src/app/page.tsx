@@ -33,9 +33,10 @@ export default function Home() {
         <NichesMarquee />
 
         <StatCallout
-          linha1="Uma plataforma."
+          linha1="Uma agência com plataforma própria."
           contadorAte={600}
-          contadorSufixo="lojas entregues até hoje."
+          contadorPrefixo="+"
+          contadorSufixo="lojas entregues."
           descricao="Onboarding, pagamento, produção e preview — sem trocar de ferramenta em nenhuma etapa."
           ctaLabel="Criar loja"
           ctaHref="/cadastro?tipo=cliente"

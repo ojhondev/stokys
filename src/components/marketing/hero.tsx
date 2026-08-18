@@ -6,7 +6,7 @@ export function Hero() {
     <section className="bg-hero-canvas px-6 pb-14 pt-12 sm:px-10 md:pb-16 md:pt-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-[900px] flex-col items-center text-center">
         <h1 className="text-heading-lg font-heading font-bold text-off-black-ink md:text-display">
-          Loja pronta e profissional. Você só vende.
+          Lojas prontas e profissionais. Você só vende.
         </h1>
 
         <div className="mt-6 flex items-center gap-2 rounded-full bg-pure-white px-4 py-2">
