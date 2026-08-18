@@ -1,0 +1,1 @@
+ALTER TABLE "leads" ADD COLUMN "contatado" boolean DEFAULT false NOT NULL;

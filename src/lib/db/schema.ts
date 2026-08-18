@@ -356,6 +356,7 @@ export const leads = pgTable("leads", {
   nome: text("nome").notNull(),
   whatsapp: text("whatsapp").notNull(),
   email: text("email").notNull(),
+  contatado: boolean("contatado").notNull().default(false),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
