@@ -50,6 +50,13 @@
       "when": 1786992113928,
       "tag": "0006_rare_hannibal_king",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1787077417414,
+      "tag": "0007_woozy_silvermane",
+      "breakpoints": true
     }
   ]
 }

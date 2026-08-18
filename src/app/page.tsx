@@ -14,6 +14,7 @@ import { NichesMarquee } from "@/components/marketing/niches-marquee";
 import { Faq } from "@/components/marketing/faq";
 import { ClosingCta } from "@/components/marketing/closing-cta";
 import { PromoBar } from "@/components/marketing/promo-bar";
+import { VideoPopup } from "@/components/marketing/video-popup";
 
 // Ordem da página (pedido do usuário): Seção 1 > Como funciona > Loja
 // profissional de verdade > Depoimentos > Planos e preços > Resultados >
@@ -67,6 +68,7 @@ export default function Home() {
       <SiteFooter />
       <div className="h-20" aria-hidden />
       <PromoBar />
+      <VideoPopup />
     </>
   );
 }

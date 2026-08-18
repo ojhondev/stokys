@@ -2,6 +2,7 @@ import { LinkButton } from "@/components/ui/button";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { PromoBar } from "@/components/marketing/promo-bar";
+import { VideoPopup } from "@/components/marketing/video-popup";
 import { linkWhatsapp } from "@/lib/whatsapp";
 
 // Programa de indicação pra influenciadores — página própria (não é o mesmo
@@ -118,6 +119,7 @@ export default function ParceriasPage() {
       <SiteFooter />
       <div className="h-20" aria-hidden />
       <PromoBar />
+      <VideoPopup />
     </>
   );
 }

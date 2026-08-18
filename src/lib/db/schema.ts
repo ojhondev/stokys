@@ -349,6 +349,16 @@ export const eventos = pgTable("eventos", {
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
+// Leads do pop-up de vídeo da LP (ver components/marketing/video-popup.tsx)
+// — captura simples de contato, sem fluxo de aprovação/conta associada.
+export const leads = pgTable("leads", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  nome: text("nome").notNull(),
+  whatsapp: text("whatsapp").notNull(),
+  email: text("email").notNull(),
+  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
+});
+
 // Curadoria semanal do admin/master — mostrado no dashboard do cliente.
 export const produtosVencedores = pgTable("produtos_vencedores", {
   id: uuid("id").primaryKey().defaultRandom(),

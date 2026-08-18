@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { PromoBar } from "@/components/marketing/promo-bar";
+import { VideoPopup } from "@/components/marketing/video-popup";
 
 // Vitrine de temas — mesmo espírito de listagem da Shopify Theme Store: cada
 // tema com nome, posicionamento e o pacote de recursos que ele carrega. Ainda
@@ -114,6 +115,7 @@ export default function TemasPage() {
       <SiteFooter />
       <div className="h-20" aria-hidden />
       <PromoBar />
+      <VideoPopup />
     </>
   );
 }
