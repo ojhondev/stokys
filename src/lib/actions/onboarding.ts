@@ -16,7 +16,7 @@ const dadosSchema = z
     plano: z.enum(["zen", "pro", "customizado"]),
     plataforma: z.enum(["shopify", "nuvemshop", "tray", "bagy", "outra"]),
     plataformaOutraNome: z.string().optional(),
-    tema: z.enum(["spark", "quart"]).nullable(),
+    tema: z.enum(["spark", "quant"]).nullable(),
     mercadoAlvo: z.enum(["brasil", "global", "latam"]).nullable(),
     paletaCores: z.array(z.string()),
     nicho: z.string().min(1, "Informe o nicho da loja."),

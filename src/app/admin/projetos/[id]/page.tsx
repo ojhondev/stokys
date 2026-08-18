@@ -14,7 +14,7 @@ import {
 } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
-import { labelPlataforma } from "@/lib/labels-projeto";
+import { labelPlataforma, labelTema } from "@/lib/labels-projeto";
 import { ProjetoControls } from "@/components/admin/projeto-controls";
 import { VisaoGeralControls } from "@/components/admin/visao-geral-controls";
 import { TarefasEquipe } from "@/components/admin/tarefas-equipe";
@@ -136,7 +136,7 @@ export default async function ProjetoDetalhePage({
             {projeto.tema && (
               <div className="flex items-center justify-between">
                 <span className="text-graphite">Tema</span>
-                <span className="font-bold text-off-black-ink">{projeto.tema}</span>
+                <span className="font-bold text-off-black-ink">{labelTema[projeto.tema]}</span>
               </div>
             )}
             <div className="flex items-center justify-between">

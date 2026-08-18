@@ -39,7 +39,7 @@ export const planosConteudo: PlanoConteudo[] = [
     prazoDiasUteis: 15,
     destaque: true,
     itens: [
-      "Tema Spark ou Quart",
+      "Tema Spark ou Quant",
       "4 banners desktop",
       "4 banners mobile",
       "8 capas de categorias",
@@ -59,7 +59,7 @@ export const planosConteudo: PlanoConteudo[] = [
     precoCentavos: 199700,
     prazoDiasUteis: 15,
     itens: [
-      "Tema Spark ou Quart",
+      "Tema Spark ou Quant",
       "Logotipo e paleta de cores personalizados",
       "4 banners desktop + 4 banners mobile",
       "5 capas de categoria",

@@ -7,10 +7,11 @@ import { linkWhatsapp } from "@/lib/whatsapp";
 
 // Pop-up de vídeo com captura de lead — abre sozinho na primeira visita
 // (localStorage guarda que já foi visto, pra não repetir a cada navegação).
-// Depois de fechado, vira um mini player flutuante no lado esquerdo (só
-// desktop) que reabre o pop-up ao clicar — no mobile isso não cabe, então
-// quem reabre é a barra fixa de baixo (ver promo-bar.tsx), que dispara o
-// evento "stokys:abrir-video" ouvido aqui.
+// Depois de fechado, vira um mini player flutuante no canto inferior esquerdo
+// (desktop e mobile, mobile menor pra não atrapalhar a navegação) que reabre
+// o pop-up ao clicar. No mobile o vídeo é 1:2 (estilo story) empilhado com o
+// formulário embaixo, em vez do split lado a lado do desktop. Também escuta
+// o evento "stokys:abrir-video" pra permitir reabrir de outros lugares.
 
 const CHAVE_VISTO = "stokys-video-popup-visto";
 const MENSAGEM_WHATSAPP = "Olá! Vi o vídeo da Stokys e quero saber mais.";
@@ -54,9 +55,9 @@ export function VideoPopup() {
         <button
           type="button"
           onClick={abrir}
-          className="fixed left-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-2 rounded-3xl bg-pure-white p-3 shadow-lg transition-transform duration-200 hover:scale-[1.03] md:flex"
+          className="fixed bottom-20 left-3 z-40 flex flex-col items-center gap-1.5 rounded-2xl bg-pure-white p-2 shadow-lg transition-transform duration-200 hover:scale-[1.03] md:bottom-auto md:left-4 md:top-1/2 md:-translate-y-1/2 md:gap-2 md:rounded-3xl md:p-3"
         >
-          <span className="relative block h-24 w-16 overflow-hidden rounded-2xl">
+          <span className="relative block h-14 w-9 overflow-hidden rounded-xl md:h-24 md:w-16 md:rounded-2xl">
             <video
               src="/video-stokys.mp4"
               autoPlay
@@ -66,7 +67,7 @@ export function VideoPopup() {
               className="h-full w-full object-cover"
             />
           </span>
-          <span className="max-w-[90px] text-center text-caption font-bold leading-tight text-off-black-ink">
+          <span className="max-w-[70px] text-center text-[10px] font-bold leading-tight text-off-black-ink md:max-w-[90px] md:text-caption">
             Entenda o que é a Stokys
           </span>
         </button>
@@ -115,7 +116,7 @@ function VideoModal({ onFechar }: { onFechar: () => void }) {
           ✕
         </button>
 
-        <div className="relative h-[42vh] w-full shrink-0 bg-off-black-ink sm:h-auto sm:w-[42%]">
+        <div className="relative aspect-[1/2] w-full shrink-0 bg-off-black-ink sm:aspect-auto sm:h-auto sm:w-[42%]">
           <video
             src="/video-stokys.mp4"
             autoPlay
@@ -128,7 +129,13 @@ function VideoModal({ onFechar }: { onFechar: () => void }) {
         </div>
 
         <div className="flex flex-1 flex-col justify-center px-6 py-8 sm:px-12 sm:py-10">
-          <Image src="/logo-stokys.png" alt="Stokys" width={125} height={28} className="h-7 w-auto" />
+          <Image
+            src="/logo-stokys.png"
+            alt="Stokys"
+            width={125}
+            height={28}
+            className="h-5 w-auto self-center"
+          />
 
           <h2 className="mt-6 text-heading font-heading font-bold leading-tight text-off-black-ink sm:text-heading-lg">
             Crie sua loja com a Stokys hoje

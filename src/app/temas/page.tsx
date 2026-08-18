@@ -1,13 +1,11 @@
+import Image from "next/image";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { PromoBar } from "@/components/marketing/promo-bar";
 import { VideoPopup } from "@/components/marketing/video-popup";
 
 // Vitrine de temas — mesmo espírito de listagem da Shopify Theme Store: cada
-// tema com nome, posicionamento e o pacote de recursos que ele carrega. Ainda
-// sem captura de tela/vídeo reais, então usamos o mesmo bloco-mockup em grid
-// (ver FeatureMockup em features-grid.tsx) como placeholder, com legenda
-// avisando que material real chega depois.
+// tema com nome, posicionamento e o pacote de recursos que ele carrega.
 
 const recursos = [
   "Video commerce",
@@ -27,29 +25,16 @@ const temas = [
     categoria: "Moda e vestuário",
     descricao:
       "Pensado pra marcas de roupa e acessórios: grid de produto que valoriza foto de modelo e uma vitrine que guia até o carrinho sem fricção.",
+    imagem: "/tema-spark.png",
   },
   {
-    nome: "Quart",
+    nome: "Quant",
     categoria: "Decoração e casa",
     descricao:
       "Layout mais espaçoso pra peças de ambiente — categorias por cômodo, blocos de inspiração e destaque pra combos e kits.",
+    imagem: "/tema-quant.png",
   },
 ];
-
-function TemaMockup() {
-  return (
-    <div className="grid aspect-video w-full grid-cols-4 gap-2 rounded-2xl bg-off-white-canvas p-4">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div
-          key={i}
-          className={`rounded-lg ${
-            [1, 5].includes(i) ? "bg-electric-lime/60" : "bg-pure-white"
-          } ${i === 0 ? "col-span-2 row-span-2" : ""}`}
-        />
-      ))}
-    </div>
-  );
-}
 
 export default function TemasPage() {
   return (
@@ -92,20 +77,27 @@ export default function TemasPage() {
             {temas.map((tema) => (
               <div
                 key={tema.nome}
-                className="flex flex-col rounded-3xl bg-pure-white p-8 transition-transform duration-200 hover:scale-[1.02]"
+                className="flex flex-col overflow-hidden rounded-3xl bg-pure-white transition-transform duration-200 hover:scale-[1.02]"
               >
-                <TemaMockup />
-                <span className="mt-2 text-caption text-graphite">
-                  Capturas de tela e vídeo reais em breve
-                </span>
+                <div className="relative aspect-square w-full">
+                  <Image
+                    src={tema.imagem}
+                    alt={`Preview do tema ${tema.nome}`}
+                    fill
+                    sizes="(min-width: 768px) 45vw, 90vw"
+                    className="object-cover"
+                  />
+                </div>
 
-                <span className="mt-6 w-fit rounded-full border border-ash px-3 py-1 text-caption font-medium uppercase text-graphite">
-                  {tema.categoria}
-                </span>
-                <h3 className="mt-4 text-heading font-heading font-bold text-off-black-ink">
-                  {tema.nome}
-                </h3>
-                <p className="mt-2 text-body-sm text-graphite">{tema.descricao}</p>
+                <div className="flex flex-col p-8">
+                  <span className="w-fit rounded-full border border-ash px-3 py-1 text-caption font-medium uppercase text-graphite">
+                    {tema.categoria}
+                  </span>
+                  <h3 className="mt-4 text-heading font-heading font-bold text-off-black-ink">
+                    {tema.nome}
+                  </h3>
+                  <p className="mt-2 text-body-sm text-graphite">{tema.descricao}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -1,21 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button, LinkButton } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/button";
 import { linkWhatsapp } from "@/lib/whatsapp";
 
 // Faixa fixa embaixo — só nas páginas públicas (LP, parceiros), não entra no
-// dashboard pra não brigar com a barra de abas fixa que já existe lá.
-// No mobile a barra não cabe os dois convites (WhatsApp + vídeo), então vira
-// o convite pro vídeo (que abre o pop-up, ver video-popup.tsx); no desktop
-// continua o convite direto pro WhatsApp, já que lá o vídeo também aparece
-// como mini player flutuante à parte.
+// dashboard pra não brigar com a barra de abas fixa que já existe lá. Sempre
+// o convite pro WhatsApp (mobile e desktop) — o convite pro vídeo vive à
+// parte, no mini player flutuante (ver video-popup.tsx), que também aparece
+// no mobile agora. Sempre fechável pelo usuário.
 
 const MENSAGEM_DUVIDAS = "Olá! Vim do site da Stokys e gostaria de tirar dúvidas sobre as lojas.";
-
-function abrirVideoPopup() {
-  window.dispatchEvent(new Event("stokys:abrir-video"));
-}
 
 export function PromoBar() {
   const [visivel, setVisivel] = useState(true);
@@ -28,7 +23,7 @@ export function PromoBar() {
           Tire suas dúvidas com o time da Stokys antes de comprar sua loja.
         </p>
         <p className="text-body-sm font-medium text-off-black-ink md:hidden">
-          Entenda o que é a Stokys
+          Fale com nosso time
         </p>
         <div className="flex shrink-0 items-center gap-3">
           <LinkButton
@@ -36,18 +31,10 @@ export function PromoBar() {
             target="_blank"
             rel="noopener noreferrer"
             variant="dark"
-            className="hidden whitespace-nowrap md:inline-flex"
+            className="whitespace-nowrap"
           >
             Falar no WhatsApp
           </LinkButton>
-          <Button
-            type="button"
-            onClick={abrirVideoPopup}
-            variant="dark"
-            className="whitespace-nowrap md:hidden"
-          >
-            Assista ao vídeo
-          </Button>
           <button
             type="button"
             onClick={() => setVisivel(false)}

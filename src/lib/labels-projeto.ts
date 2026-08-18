@@ -9,6 +9,6 @@ export const labelPlataforma = {
   outra: "Outra",
 } as const;
 
-export const labelTema = { spark: "Spark", quart: "Quart" } as const;
+export const labelTema = { spark: "Spark", quant: "Quant" } as const;
 
 export const labelMercado = { brasil: "Brasil", global: "Global", latam: "Latam" } as const;

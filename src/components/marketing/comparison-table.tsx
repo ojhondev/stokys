@@ -35,7 +35,7 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
   },
   {
     label: "Tema",
-    valores: { zen: "Gratuito", pro: "Spark ou Quart", customizado: "Spark ou Quart" },
+    valores: { zen: "Gratuito", pro: "Spark ou Quant", customizado: "Spark ou Quant" },
   },
   { label: "Banners desktop", valores: { zen: "3", pro: "4", customizado: "4" } },
   { label: "Banners mobile", valores: { zen: "3", pro: "4", customizado: "4" } },

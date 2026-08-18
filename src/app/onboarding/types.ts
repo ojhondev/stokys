@@ -2,7 +2,7 @@ import type { PlanoConteudo } from "@/lib/planos-conteudo";
 
 export type MercadoAlvo = "brasil" | "global" | "latam";
 export type Plataforma = "shopify" | "nuvemshop" | "tray" | "bagy" | "outra";
-export type Tema = "spark" | "quart";
+export type Tema = "spark" | "quant";
 
 export const TOTAL_REFERENCIAS = 3;
 

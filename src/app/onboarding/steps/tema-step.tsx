@@ -1,27 +1,21 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import type { Tema, StepProps } from "../types";
 
-const temas: { valor: Tema; label: string; descricao: string }[] = [
-  { valor: "spark", label: "Spark", descricao: "Indicado para moda, acessórios e uso geral." },
-  { valor: "quart", label: "Quart", descricao: "Indicado para decoração e casa." },
+const temas: { valor: Tema; label: string; descricao: string; imagem: string }[] = [
+  {
+    valor: "spark",
+    label: "Spark",
+    descricao: "Indicado para moda, acessórios e uso geral.",
+    imagem: "/tema-spark.png",
+  },
+  {
+    valor: "quant",
+    label: "Quant",
+    descricao: "Indicado para decoração e casa.",
+    imagem: "/tema-quant.png",
+  },
 ];
-
-// Preview em grade — mesmo placeholder de .../temas (TemaMockup) até as fotos
-// reais de referência chegarem (Moda/Acessórios/Geral e Casa/Decoração).
-function PreviewMockup() {
-  return (
-    <div className="grid aspect-video w-full grid-cols-4 gap-2 rounded-2xl bg-pure-white p-4">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div
-          key={i}
-          className={`rounded-lg ${[1, 5].includes(i) ? "bg-electric-lime/60" : "bg-off-white-canvas"} ${
-            i === 0 ? "col-span-2 row-span-2" : ""
-          }`}
-        />
-      ))}
-    </div>
-  );
-}
 
 export function TemaStep({ dados, setDados, onContinuar, onVoltar }: StepProps) {
   const podeContinuar = Boolean(dados.tema);
@@ -45,10 +39,15 @@ export function TemaStep({ dados, setDados, onContinuar, onVoltar }: StepProps) 
                 ativo ? "bg-electric-lime" : "bg-off-white-canvas"
               }`}
             >
-              <PreviewMockup />
-              <span className="mt-2 text-caption text-graphite">
-                Capturas de tela reais em breve
-              </span>
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-pure-white">
+                <Image
+                  src={t.imagem}
+                  alt={`Preview do tema ${t.label}`}
+                  fill
+                  sizes="(min-width: 640px) 45vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
               <p className="mt-4 text-subheading font-heading font-bold text-off-black-ink">
                 {t.label}
               </p>

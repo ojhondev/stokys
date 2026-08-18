@@ -37,7 +37,7 @@ export const plataformaEnum = pgEnum("plataforma", [
 
 // Só relevante para planos Zen/Pro — Customizado usa personalizacoes.mercadoAlvo
 // pra definir o template em vez de um tema pronto (ver docs/PRD.md seção 3).
-export const temaEnum = pgEnum("tema", ["spark", "quart"]);
+export const temaEnum = pgEnum("tema", ["spark", "quant"]);
 
 export const mercadoAlvoEnum = pgEnum("mercado_alvo", ["brasil", "global", "latam"]);
 
