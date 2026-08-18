@@ -11,7 +11,7 @@ import { Fragment } from "react";
 const colunas: { slug: "zen" | "pro" | "customizado"; nome: string; badge?: string }[] = [
   { slug: "zen", nome: "Zen" },
   { slug: "pro", nome: "Pro", badge: "Mais popular" },
-  { slug: "customizado", nome: "Premium" },
+  { slug: "customizado", nome: "Elite" },
 ];
 
 type Valor = boolean | string;
@@ -19,7 +19,9 @@ type Valor = boolean | string;
 // Ordem pensada pra facilitar a leitura vertical (feedback do usuário): tudo
 // que os 3 planos têm primeiro, depois os campos com valor variável, depois
 // os recursos que só entram a partir do Pro, e por fim os exclusivos do
-// Premium — assim os ✓ e ✕ ficam agrupados em vez de espalhados.
+// Elite — assim os ✓ e ✕ ficam agrupados em vez de espalhados. Dados batendo
+// com planosConteudo (lib/planos-conteudo.ts) — ver planos-novos.png, ajuste
+// definitivo do usuário em 2026-08-17.
 const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"], Valor> }[] = [
   {
     label: "Plataforma (Shopify ou Nuvemshop)",
@@ -28,18 +30,21 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
   { label: "Cobrança PIX, cartão ou boleto", valores: { zen: true, pro: true, customizado: true } },
   { label: "Preview em tempo real", valores: { zen: true, pro: true, customizado: true } },
   {
-    label: "Tema",
-    valores: { zen: "Spark ou Quart", pro: "Spark ou Quart", customizado: "Spark ou Quart" },
+    label: "Prazo de entrega",
+    valores: { zen: "10 dias úteis", pro: "15 dias úteis", customizado: "15 dias úteis" },
   },
   {
-    label: "Banners",
-    valores: { zen: "3", pro: "4 desktop + 4 mobile", customizado: "4 desktop + 4 mobile" },
+    label: "Tema",
+    valores: { zen: "Gratuito", pro: "Spark ou Quart", customizado: "Spark ou Quart" },
   },
-  { label: "Capas de categoria", valores: { zen: "5", pro: "5", customizado: "5" } },
+  { label: "Banners desktop", valores: { zen: "3", pro: "4", customizado: "4" } },
+  { label: "Banners mobile", valores: { zen: "3", pro: "4", customizado: "4" } },
+  { label: "Capas de categoria", valores: { zen: "5", pro: "8", customizado: "5" } },
   {
     label: "Produtos cadastrados",
-    valores: { zen: "15", pro: "15", customizado: "35" },
+    valores: { zen: "10", pro: "25", customizado: "35" },
   },
+  { label: "Suporte", valores: { zen: true, pro: true, customizado: "Prioritário" } },
   {
     label: "Página de política e rastreio",
     valores: { zen: false, pro: true, customizado: true },
@@ -47,17 +52,17 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
   { label: "Video commerce", valores: { zen: false, pro: true, customizado: true } },
   {
     label: "Tabela de medidas",
-    valores: { zen: false, pro: true, customizado: "Nativa" },
+    valores: { zen: false, pro: "Nativa", customizado: "Nativa" },
   },
   { label: "Parcelamento dinâmico", valores: { zen: false, pro: true, customizado: true } },
-  { label: "Barra de menu estilo app", valores: { zen: false, pro: true, customizado: true } },
+  { label: "Barra de menu mobile", valores: { zen: false, pro: true, customizado: true } },
   { label: "Tag de avisos na PDP", valores: { zen: false, pro: false, customizado: true } },
   { label: "Filtro de busca dinâmico", valores: { zen: false, pro: false, customizado: true } },
   {
     label: "Barra de adição ao carrinho fixa",
     valores: { zen: false, pro: false, customizado: true },
   },
-  { label: "Stories commerce", valores: { zen: false, pro: false, customizado: true } },
+  { label: "Stories commerce na PDP", valores: { zen: false, pro: false, customizado: true } },
   {
     label: "Barra dinâmica de frete no carrinho",
     valores: { zen: false, pro: false, customizado: true },
@@ -67,15 +72,7 @@ const linhas: { label: string; valores: Record<(typeof colunas)[number]["slug"],
     valores: { zen: false, pro: false, customizado: true },
   },
   {
-    label: "Template para mercado (Brasil, Global ou Latam)",
-    valores: { zen: false, pro: false, customizado: true },
-  },
-  {
     label: "Comunidade Sem Estoque no Discord",
-    valores: { zen: false, pro: false, customizado: true },
-  },
-  {
-    label: "Mentoria estratégica com a Viscale Assessoria",
     valores: { zen: false, pro: false, customizado: true },
   },
 ];

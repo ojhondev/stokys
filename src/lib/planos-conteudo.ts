@@ -6,21 +6,29 @@ export type PlanoConteudo = {
   nome: string;
   descricao: string;
   precoCentavos: number;
+  prazoDiasUteis: number;
   destaque?: boolean;
   itens: string[];
 };
 
+// Preços e escopo ajustados em definitivo pelo usuário (2026-08-17, ref.
+// planos-novos.png) — "customizado" continua sendo o slug interno (enum do
+// banco, não renomeado pra não exigir migration), só o nome de exibição virou
+// "Elite" (era "Premium").
 export const planosConteudo: PlanoConteudo[] = [
   {
     slug: "zen",
     nome: "Zen",
     descricao: "Pra começar com o essencial já pronto.",
     precoCentavos: 69700,
+    prazoDiasUteis: 10,
     itens: [
-      "Tema Spark ou Quart incluso",
-      "3 banners",
-      "5 capas de categoria",
-      "15 produtos minerados e cadastrados",
+      "Tema gratuito",
+      "3 banners desktop",
+      "3 banners mobile",
+      "5 capas de categorias",
+      "10 produtos minerados e cadastrados",
+      "Suporte",
     ],
   },
   {
@@ -28,43 +36,46 @@ export const planosConteudo: PlanoConteudo[] = [
     nome: "Pro",
     descricao: "Mais estrutura pra loja crescer.",
     precoCentavos: 99700,
+    prazoDiasUteis: 15,
     destaque: true,
     itens: [
-      "Tema Spark ou Quart incluso",
-      "4 banners desktop + 4 banners mobile",
-      "5 capas de categoria",
+      "Tema Spark ou Quart",
+      "4 banners desktop",
+      "4 banners mobile",
+      "8 capas de categorias",
       "Página de política e rastreio",
-      "15 produtos minerados e cadastrados",
-      "Video commerce",
-      "Tabela de medidas premium",
-      "Parcelamento dinâmico",
-      "Barra de menu estilo app",
+      "25 produtos minerados e cadastrados",
+      "Video Commerce",
+      "Tabela de Medidas Nativa",
+      "Parcelamento Dinâmico",
+      "Barra de menu Mobile",
+      "Suporte",
     ],
   },
   {
     slug: "customizado",
-    nome: "Premium",
-    descricao: "Loja sob medida, com mentoria de tráfego inclusa.",
+    nome: "Elite",
+    descricao: "Loja com identidade visual própria e suporte prioritário.",
     precoCentavos: 199700,
+    prazoDiasUteis: 15,
     itens: [
-      "Tema Spark ou Quart incluso",
+      "Tema Spark ou Quart",
       "Logotipo e paleta de cores personalizados",
-      "Template para mercado Brasil, Global ou Latam",
       "4 banners desktop + 4 banners mobile",
       "5 capas de categoria",
-      "Página de política e rastreio",
+      "Página de Política e Rastreio",
       "35 produtos minerados e cadastrados",
-      "Video commerce",
-      "Tag de avisos na PDP",
-      "Filtro de busca dinâmico",
-      "Tabela de medidas nativa",
-      "Parcelamento dinâmico",
-      "Barra de menu estilo app",
-      "Barra de adição ao carrinho fixa",
-      "Stories commerce",
-      "Barra dinâmica de frete no carrinho",
+      "Video Commerce",
+      "Tag de Avisos na PDP",
+      "Filtro de Busca Dinâmico",
+      "Tabela de Medidas Nativa",
+      "Parcelamento Dinâmico",
+      "Barra de menu Mobile",
+      "Barra de Adição ao Carrinho Fixa",
+      "Stories Commerce na PDP",
+      "Barra Dinâmica de Frete no Carrinho",
       "Comunidade Sem Estoque no Discord",
-      "1 Mentoria Estratégica com a Viscale Assessoria",
+      "Suporte Prioritário",
     ],
   },
 ];

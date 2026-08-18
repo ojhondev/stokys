@@ -50,6 +50,9 @@ export function PlanoCard({
       <p className="mt-1 text-heading-lg font-heading font-bold text-off-black-ink">
         {formatarPreco(plano.precoCentavos)}
       </p>
+      <p className="mt-1 text-caption font-medium text-graphite">
+        Entrega em {plano.prazoDiasUteis} dias úteis
+      </p>
       <p className="mt-4 text-body-sm text-graphite">{plano.descricao}</p>
 
       <details className="group mt-6">

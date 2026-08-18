@@ -7,7 +7,7 @@ export default async function ComunidadePage() {
   if (!sessao) return null;
 
   const registro = await getProjetoDoCliente(sessao.userId);
-  const ehPremium = registro?.plano.nome === "customizado";
+  const ehElite = registro?.plano.nome === "customizado";
   const conviteDiscord = process.env.DISCORD_INVITE_URL;
 
   return (
@@ -16,10 +16,10 @@ export default async function ComunidadePage() {
         Comunidade Sem Estoque
       </span>
       <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">
-        {ehPremium ? "Você já faz parte" : "Benefício do plano Premium"}
+        {ehElite ? "Você já faz parte" : "Benefício do plano Elite"}
       </h1>
 
-      {ehPremium ? (
+      {ehElite ? (
         <div className="mt-6 rounded-3xl bg-pure-white p-6">
           <p className="text-body-sm text-off-black-ink">
             A Comunidade Sem Estoque é o grupo no Discord com quem já está construindo loja com a
@@ -43,15 +43,15 @@ export default async function ComunidadePage() {
       ) : (
         <div className="mt-6 rounded-3xl bg-pure-white p-6">
           <p className="text-body-sm text-off-black-ink">
-            A Comunidade Sem Estoque no Discord é exclusiva de quem está no plano Premium.
+            A Comunidade Sem Estoque no Discord é exclusiva de quem está no plano Elite.
           </p>
           <a
-            href={linkWhatsapp("Quero saber mais sobre o plano Premium e a Comunidade Sem Estoque.")}
+            href={linkWhatsapp("Quero saber mais sobre o plano Elite e a Comunidade Sem Estoque.")}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-block rounded-full bg-electric-lime px-6 py-3 text-body-sm font-bold text-off-black-ink"
           >
-            Falar sobre o Premium
+            Falar sobre o Elite
           </a>
         </div>
       )}

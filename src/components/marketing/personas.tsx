@@ -20,7 +20,7 @@ const personas = [
     titulo: "Material desenvolvido do zero, para sua marca",
     subtexto:
       "Banners, categorias e paleta pensados pro seu nicho — não é um template reaproveitado de outro cliente.",
-    ctaLabel: "Conhecer o Premium",
+    ctaLabel: "Conhecer o Elite",
     ctaHref: "/cadastro?tipo=cliente&plano=customizado",
     imagem: "/persona-2.png",
   },

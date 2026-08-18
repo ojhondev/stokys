@@ -14,7 +14,7 @@ const perguntas = [
   {
     pergunta: "Vocês cadastram os produtos também?",
     resposta:
-      "Sim. Cadastramos os produtos definidos no seu plano (15 no Zen e no Pro, 35 no Premium), já prontos pra vender.",
+      "Sim. Cadastramos os produtos definidos no seu plano (10 no Zen, 25 no Pro, 35 no Elite), já prontos pra vender.",
   },
   {
     pergunta: "Quanto tempo demora até a loja ficar pronta?",

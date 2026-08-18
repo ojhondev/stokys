@@ -9,7 +9,7 @@ export function AnnouncementBar() {
   return (
     <div className="relative bg-electric-lime px-6 py-3 text-center sm:px-10 lg:px-16">
       <p className="text-body-sm font-medium text-off-black-ink">
-        Planos Zen, Pro e Premium já disponíveis — monte sua loja agora.
+        Planos Zen, Pro e Elite já disponíveis — monte sua loja agora.
       </p>
       <button
         type="button"
