@@ -82,12 +82,24 @@ export function VideoPopup() {
 function VideoModal({ onFechar }: { onFechar: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [comAudio, setComAudio] = useState(false);
+  const [ehMobile, setEhMobile] = useState(false);
   const [nome, setNome] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
   const [erro, setErro] = useState<string | null>(null);
   const [enviado, setEnviado] = useState(false);
   const [pendente, iniciarTransicao] = useTransition();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const timer = setTimeout(() => setEhMobile(mq.matches), 0);
+    const handler = (e: MediaQueryListEvent) => setEhMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => {
+      clearTimeout(timer);
+      mq.removeEventListener("change", handler);
+    };
+  }, []);
 
   function alternarAudio() {
     const video = videoRef.current;
@@ -130,8 +142,9 @@ function VideoModal({ onFechar }: { onFechar: () => void }) {
 
         <div className="relative h-[34vh] w-full shrink-0 bg-off-black-ink sm:h-auto sm:w-[42%]">
           <video
+            key={ehMobile ? "mobile" : "desktop"}
             ref={videoRef}
-            src="/video-stokys.mp4"
+            src={ehMobile ? "/video-stokys-mobile.mp4" : "/video-stokys.mp4"}
             autoPlay
             muted
             loop
