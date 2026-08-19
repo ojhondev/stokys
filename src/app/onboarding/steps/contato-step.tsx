@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { criarLead } from "@/lib/actions/leads";
+import { formatarWhatsapp } from "@/lib/telefone";
 import type { StepProps } from "../types";
 
 // Primeira etapa do onboarding — coleta contato antes de qualquer outra
@@ -51,8 +52,9 @@ export function ContatoStep({ dados, setDados, onContinuar }: StepProps) {
           <span className="text-body-sm font-medium text-off-black-ink">WhatsApp</span>
           <input
             type="tel"
+            inputMode="numeric"
             value={dados.whatsapp}
-            onChange={(e) => setDados((d) => ({ ...d, whatsapp: e.target.value }))}
+            onChange={(e) => setDados((d) => ({ ...d, whatsapp: formatarWhatsapp(e.target.value) }))}
             placeholder="(00) 00000-0000"
             className="rounded-lg border border-ash bg-off-white-canvas px-4 py-3 text-body text-off-black-ink"
           />

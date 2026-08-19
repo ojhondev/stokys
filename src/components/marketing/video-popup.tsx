@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition, type FormEvent } from "reac
 import Image from "next/image";
 import { criarLead } from "@/lib/actions/leads";
 import { linkWhatsapp } from "@/lib/whatsapp";
+import { formatarWhatsapp } from "@/lib/telefone";
 
 // Pop-up de vídeo com captura de lead — abre sozinho na primeira visita
 // (localStorage guarda que já foi visto, pra não repetir a cada navegação).
@@ -212,8 +213,9 @@ function VideoModal({ onFechar }: { onFechar: () => void }) {
               />
               <input
                 type="tel"
+                inputMode="numeric"
                 value={whatsapp}
-                onChange={(e) => setWhatsapp(e.target.value)}
+                onChange={(e) => setWhatsapp(formatarWhatsapp(e.target.value))}
                 placeholder="WhatsApp"
                 className="rounded-xl bg-pure-white px-4 py-2.5 text-body-sm text-off-black-ink placeholder:text-graphite sm:px-5 sm:py-4 sm:text-body"
               />
