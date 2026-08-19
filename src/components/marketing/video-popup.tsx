@@ -59,7 +59,7 @@ export function VideoPopup() {
         <button
           type="button"
           onClick={abrir}
-          className="fixed bottom-20 left-3 z-40 flex flex-col items-center gap-1.5 rounded-2xl bg-pure-white p-2 shadow-lg transition-transform duration-200 hover:scale-[1.03] md:bottom-auto md:left-4 md:top-1/2 md:-translate-y-1/2 md:gap-2 md:rounded-3xl md:p-3"
+          className="fixed bottom-20 left-3 z-40 flex flex-col items-center gap-1.5 rounded-2xl bg-pure-white p-2 shadow-lg transition-transform duration-200 hover:scale-[1.03] md:left-4 md:gap-2 md:rounded-3xl md:p-3"
         >
           <span className="relative block h-14 w-9 overflow-hidden rounded-xl md:h-24 md:w-16 md:rounded-2xl">
             <video
