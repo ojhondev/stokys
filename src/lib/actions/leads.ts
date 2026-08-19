@@ -31,3 +31,16 @@ export async function marcarLeadContatado(leadId: string, contatado: boolean): P
   revalidatePath("/admin/leads");
   return {};
 }
+
+// Exclusão de verdade (não arquivamento) — lead é só um contato solto, sem
+// nenhuma outra tabela referenciando leads.id, então apagar não deixa nada
+// órfão (diferente de projetos, que é arquivado — ver actions/projetos.ts).
+export async function excluirLead(leadId: string): Promise<LeadState> {
+  const sessao = await getSession();
+  if (!sessao || !["master", "admin"].includes(sessao.papel)) return { erro: "Sessão inválida." };
+
+  await getDb().delete(leads).where(eq(leads.id, leadId));
+
+  revalidatePath("/admin/leads");
+  return {};
+}

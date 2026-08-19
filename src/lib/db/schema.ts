@@ -1,6 +1,5 @@
 import {
   boolean,
-  date,
   integer,
   jsonb,
   pgEnum,
@@ -160,6 +159,10 @@ export const projetos = pgTable("projetos", {
   posicionamento: text("posicionamento"),
   // Informações da loja — editado pelo cliente em dashboard/configuracoes.
   dominio: text("dominio"),
+  // Arquivamento é só visibilidade na lista interna (ver admin) — não é um
+  // status do pipeline de produção, por isso é uma coluna própria em vez de
+  // um valor de statusProjetoEnum. Nunca é hard-delete (ver docs de segurança).
+  arquivado: boolean("arquivado").notNull().default(false),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
   atualizadoEm: timestamp("atualizado_em", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -212,19 +215,6 @@ export const snapshots = pgTable("snapshots", {
     .notNull()
     .references(() => projetos.id),
   url: text("url").notNull(),
-  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
-});
-
-export const mensagens = pgTable("mensagens", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  projetoId: uuid("projeto_id")
-    .notNull()
-    .references(() => projetos.id),
-  autorId: uuid("autor_id")
-    .notNull()
-    .references(() => usuarios.id),
-  texto: text("texto").notNull(),
-  anexoUrl: text("anexo_url"),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -295,8 +285,8 @@ export const tarefas = pgTable("tarefas", {
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
-// Módulo Solicitações — separado do chat livre (mensagens) porque precisa de
-// tipo+status próprios pra virar uma lista rastreável.
+// Módulo Solicitações — tipo+status próprios pra virar uma lista rastreável
+// (contato livre com a produção acontece por WhatsApp, fora do app).
 export const solicitacoes = pgTable("solicitacoes", {
   id: uuid("id").primaryKey().defaultRandom(),
   projetoId: uuid("projeto_id")
@@ -312,7 +302,7 @@ export const solicitacoes = pgTable("solicitacoes", {
 });
 
 // Módulo Revisões — versões entregues pela equipe, aprovadas ou com mudança
-// pedida pelo cliente. Reusa o mesmo seam de upload das mensagens.
+// pedida pelo cliente.
 export const revisoes = pgTable("revisoes", {
   id: uuid("id").primaryKey().defaultRandom(),
   projetoId: uuid("projeto_id")
@@ -358,21 +348,10 @@ export const leads = pgTable("leads", {
   whatsapp: text("whatsapp").notNull(),
   email: text("email").notNull(),
   contatado: boolean("contatado").notNull().default(false),
+  // Preenchido quando o lead completa o onboarding inteiro (ver
+  // lib/actions/onboarding.ts) — permite mostrar a ficha respondida na
+  // janela lateral do admin/leads em vez de só nome/whatsapp/e-mail.
+  projetoId: uuid("projeto_id").references(() => projetos.id, { onDelete: "set null" }),
   criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
 });
 
-// Curadoria semanal do admin/master — mostrado no dashboard do cliente.
-export const produtosVencedores = pgTable("produtos_vencedores", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  semanaInicio: date("semana_inicio").notNull().unique(),
-  nome: text("nome").notNull(),
-  imagemUrl: text("imagem_url"),
-  nicho: text("nicho"),
-  porqueVence: text("porque_vence").notNull(),
-  linkFornecedor: text("link_fornecedor"),
-  publicado: boolean("publicado").notNull().default(false),
-  criadoPorId: uuid("criado_por_id")
-    .notNull()
-    .references(() => usuarios.id),
-  criadoEm: timestamp("criado_em", { withTimezone: true }).notNull().defaultNow(),
-});

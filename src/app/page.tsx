@@ -50,7 +50,7 @@ export default function Home() {
         <StatCallout
           linha1="Loja profissional"
           linha2="de verdade."
-          descricao="Toda decisão do projeto fica registrada — orçamento, acessos, mensagens e pagamento, tudo num histórico só."
+          descricao="Toda decisão do projeto fica registrada — orçamento, acessos e pagamento, tudo num histórico só."
           ctaLabel="Começar agora"
           ctaHref="/cadastro?tipo=cliente"
           fundo="off-white-canvas"

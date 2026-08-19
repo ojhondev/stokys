@@ -10,20 +10,18 @@ export const clienteNavItems = [
   { href: "/dashboard/solicitacoes", label: "Solicitações", icone: "solicitacoes" },
   { href: "/dashboard/revisoes", label: "Revisões", icone: "revisoes" },
   { href: "/dashboard/pagamentos", label: "Pagamentos", icone: "pagamentos" },
-  { href: "/dashboard/vencedor-da-semana", label: "Vencedor da Semana", icone: "vencedor" },
   { href: "/dashboard/comunidade", label: "Comunidade", icone: "comunidade" },
   { href: "/dashboard/parceiros", label: "Tráfego Pago", icone: "parceiros" },
-  { href: "/dashboard/mensagens", label: "Mensagens", icone: "mensagens" },
   { href: "/dashboard/historico", label: "Histórico", icone: "historico" },
   { href: "/dashboard/configuracoes", label: "Configurações", icone: "configuracoes" },
 ] as const;
 
-// Com 13 itens, a barra de abas do mobile não cabe a lista inteira (ver
+// Com 11 itens, a barra de abas do mobile não cabe a lista inteira (ver
 // app-shell.tsx) — mostra só os mais usados no dia a dia + um botão "Menu"
 // que abre a lista completa num drawer.
 export const clienteNavMobilePrimario = [
   "/dashboard",
   "/dashboard/timeline",
   "/dashboard/tarefas",
-  "/dashboard/mensagens",
+  "/dashboard/solicitacoes",
 ] as const;

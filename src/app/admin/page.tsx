@@ -1,14 +1,22 @@
 import Link from "next/link";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { projetos, usuarios, planos } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { formatarPreco, nomeExibicaoPlano } from "@/lib/planos-conteudo";
 import { labelStatusProjeto as labelStatus } from "@/lib/status-projeto";
+import { ProjetoArquivarToggle } from "@/components/admin/projeto-arquivar-toggle";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ arquivados?: string }>;
+}) {
   const sessao = await getSession();
   if (!sessao) return null;
+
+  const { arquivados: arquivadosParam } = await searchParams;
+  const verArquivados = arquivadosParam === "1";
 
   const db = getDb();
   const query = db
@@ -18,6 +26,7 @@ export default async function AdminPage() {
       plataforma: projetos.plataforma,
       precoCentavos: projetos.precoNoMomentoDaCompraCentavos,
       criadoEm: projetos.criadoEm,
+      arquivado: projetos.arquivado,
       clienteNome: usuarios.nome,
       clienteEmail: usuarios.email,
       planoNome: planos.nome,
@@ -27,23 +36,36 @@ export default async function AdminPage() {
     .innerJoin(planos, eq(projetos.planoId, planos.id))
     .orderBy(desc(projetos.criadoEm));
 
+  const filtroArquivado = eq(projetos.arquivado, verArquivados);
   const lista =
     sessao.papel === "producao"
-      ? await query.where(eq(projetos.responsavelId, sessao.userId))
-      : await query;
+      ? await query.where(and(eq(projetos.responsavelId, sessao.userId), filtroArquivado))
+      : await query.where(filtroArquivado);
 
   return (
     <div>
       <span className="text-caption font-medium uppercase text-graphite">Painel interno</span>
-      <h1 className="mt-1 text-heading font-heading font-bold text-off-black-ink">Projetos</h1>
+      <div className="mt-1 flex items-center justify-between gap-4">
+        <h1 className="text-heading font-heading font-bold text-off-black-ink">
+          {verArquivados ? "Projetos arquivados" : "Projetos"}
+        </h1>
+        <Link
+          href={verArquivados ? "/admin" : "/admin?arquivados=1"}
+          className="text-body-sm font-medium text-graphite underline underline-offset-4"
+        >
+          {verArquivados ? "Ver ativos" : "Ver arquivados"}
+        </Link>
+      </div>
 
       {lista.length === 0 && (
-        <p className="mt-6 text-body-sm text-graphite">Nenhum projeto por aqui ainda.</p>
+        <p className="mt-6 text-body-sm text-graphite">
+          {verArquivados ? "Nenhum projeto arquivado." : "Nenhum projeto por aqui ainda."}
+        </p>
       )}
 
       <div className="mt-8 overflow-x-auto rounded-3xl bg-pure-white">
         {lista.length > 0 && (
-          <table className="w-full min-w-[720px] border-collapse text-body-sm">
+          <table className="w-full min-w-[780px] border-collapse text-body-sm">
             <thead>
               <tr className="border-b border-ash text-left text-caption font-medium uppercase text-graphite">
                 <th className="px-6 py-4">Cliente</th>
@@ -52,6 +74,7 @@ export default async function AdminPage() {
                 <th className="px-4 py-4">Status</th>
                 <th className="px-4 py-4">Valor</th>
                 <th className="px-4 py-4">Criado em</th>
+                <th className="px-4 py-4"></th>
               </tr>
             </thead>
             <tbody>
@@ -72,6 +95,9 @@ export default async function AdminPage() {
                   </td>
                   <td className="px-4 py-4 text-off-black-ink">{formatarPreco(p.precoCentavos)}</td>
                   <td className="px-4 py-4 text-graphite">{p.criadoEm.toLocaleDateString("pt-BR")}</td>
+                  <td className="px-4 py-4">
+                    <ProjetoArquivarToggle projetoId={p.id} arquivado={p.arquivado} />
+                  </td>
                 </tr>
               ))}
             </tbody>

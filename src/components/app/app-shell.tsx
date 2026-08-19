@@ -6,10 +6,8 @@ import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { clienteNavItems, clienteNavMobilePrimario } from "./nav-items";
 import {
-  IconMensagens,
   IconPagamentos,
   IconConfiguracoes,
-  IconVencedor,
   IconComunidade,
   IconParceiros,
   IconAjuda,
@@ -30,10 +28,8 @@ import { ReenviarVerificacaoButton } from "@/components/auth/reenviar-verificaca
 import { FaixaYoutube } from "@/components/app/faixa-youtube";
 
 const icones = {
-  mensagens: IconMensagens,
   pagamentos: IconPagamentos,
   configuracoes: IconConfiguracoes,
-  vencedor: IconVencedor,
   comunidade: IconComunidade,
   parceiros: IconParceiros,
   visaoGeral: IconVisaoGeral,
@@ -48,8 +44,7 @@ const icones = {
 // Casca do app do cliente — mobile first: barra de abas fixa embaixo no celular
 // (estilo app nativo), vira sidebar (com/sem rótulo, colapsável) a partir de md,
 // no mesmo padrão do app da perk.com (logo + toggle no topo, Ajuda/Sair fixos
-// embaixo). Escopo do cliente é só Pagamentos/Mensagens/Configurações — ver
-// docs/PRD.md 4.4 e nav-items.ts.
+// embaixo). Ver docs/PRD.md 4.4 e nav-items.ts pro escopo completo do cliente.
 
 export function AppShell({
   children,

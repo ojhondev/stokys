@@ -44,7 +44,7 @@ const perguntas = [
   {
     pergunta: "Posso trocar de plano depois de começar?",
     resposta:
-      "Sim, é só falar com a produção pelas mensagens do seu dashboard pra ajustar o escopo do projeto.",
+      "Sim, é só falar com a produção pelo WhatsApp pra ajustar o escopo do projeto.",
   },
   {
     pergunta: "A Stokys também cuida do tráfego pago da loja?",

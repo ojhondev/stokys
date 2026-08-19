@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { getDb } from "@/lib/db";
-import { planos, projetos, personalizacoes, projetoItens } from "@/lib/db/schema";
+import { planos, projetos, personalizacoes, projetoItens, leads } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
 import { nomeExibicaoPlano, formatarPreco } from "@/lib/planos-conteudo";
 import { labelPlataforma, labelTema, labelMercado } from "@/lib/labels-projeto";
@@ -85,6 +85,19 @@ export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingSt
       objetivoCliente: d.objetivoCliente,
     })
     .returning({ id: projetos.id });
+
+  // Linka o Lead criado na etapa "Contato" (mesmo e-mail, ainda sem projeto)
+  // a esta loja — é o que faz a ficha completa aparecer na janela lateral de
+  // admin/leads em vez de só nome/whatsapp/e-mail.
+  const [leadParaLinkar] = await db
+    .select({ id: leads.id })
+    .from(leads)
+    .where(and(eq(leads.email, d.email), isNull(leads.projetoId)))
+    .orderBy(desc(leads.criadoEm))
+    .limit(1);
+  if (leadParaLinkar) {
+    await db.update(leads).set({ projetoId: projeto.id }).where(eq(leads.id, leadParaLinkar.id));
+  }
 
   if (d.plano === "customizado") {
     await db.insert(personalizacoes).values({

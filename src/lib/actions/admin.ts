@@ -65,3 +65,23 @@ export async function atribuirResponsavel(
   revalidatePath(`/admin/projetos/${projetoId}`);
   return {};
 }
+
+// Arquivar em vez de excluir de verdade — um projeto tem histórico real
+// (mensagens antigas, tarefas, cobranças) que quebraria em cascata com um
+// hard delete; arquivar só tira da lista principal, reversível a qualquer
+// momento. Só master/admin (não producao, que só deveria ver o que é seu).
+export async function arquivarProjeto(projetoId: string, arquivado: boolean): Promise<AdminState> {
+  const sessao = await getSession();
+  if (!sessao || !["master", "admin"].includes(sessao.papel)) {
+    return { erro: "Sessão inválida." };
+  }
+
+  await getDb()
+    .update(projetos)
+    .set({ arquivado, atualizadoEm: new Date() })
+    .where(eq(projetos.id, projetoId));
+
+  revalidatePath("/admin");
+  revalidatePath(`/admin/projetos/${projetoId}`);
+  return {};
+}

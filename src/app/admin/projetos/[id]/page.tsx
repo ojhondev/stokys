@@ -6,7 +6,6 @@ import {
   usuarios,
   planos,
   acessosPlataforma,
-  mensagens,
   tarefas,
   solicitacoes,
   revisoes,
@@ -20,7 +19,6 @@ import { VisaoGeralControls } from "@/components/admin/visao-geral-controls";
 import { TarefasEquipe } from "@/components/admin/tarefas-equipe";
 import { SolicitacoesEquipe } from "@/components/admin/solicitacoes-equipe";
 import { RevisoesEquipe } from "@/components/admin/revisoes-equipe";
-import { MensagemForm } from "@/components/dashboard/mensagem-form";
 
 export default async function ProjetoDetalhePage({
   params,
@@ -93,19 +91,6 @@ export default async function ProjetoDetalhePage({
     comentarios: comentariosDasRevisoes.filter((c) => c.revisaoId === r.id),
   }));
 
-  const thread = await db
-    .select({
-      id: mensagens.id,
-      texto: mensagens.texto,
-      anexoUrl: mensagens.anexoUrl,
-      criadoEm: mensagens.criadoEm,
-      autorNome: usuarios.nome,
-    })
-    .from(mensagens)
-    .innerJoin(usuarios, eq(mensagens.autorId, usuarios.id))
-    .where(eq(mensagens.projetoId, projeto.id))
-    .orderBy(asc(mensagens.criadoEm));
-
   const podeAtribuir = sessao.papel === "master" || sessao.papel === "admin";
   const producaoDisponivel = podeAtribuir
     ? await db
@@ -122,8 +107,8 @@ export default async function ProjetoDetalhePage({
       </h1>
       <p className="mt-1 text-body-sm text-graphite">{cliente.email}</p>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-        <div className="flex flex-col gap-6">
+      <div className="mt-8 grid gap-6">
+        <div className="flex flex-col gap-6 lg:max-w-[720px]">
           <div className="flex flex-col gap-2 rounded-3xl bg-pure-white p-6 text-body-sm">
             <div className="flex items-center justify-between">
               <span className="text-graphite">Plataforma</span>
@@ -214,35 +199,6 @@ export default async function ProjetoDetalhePage({
             responsavelAtualId={projeto.responsavelId}
             podeAtribuir={podeAtribuir}
           />
-        </div>
-
-        <div>
-          <p className="text-caption font-medium uppercase text-graphite">Mensagens</p>
-          <div className="mt-4 flex flex-col gap-4">
-            {thread.length === 0 && (
-              <p className="text-body-sm text-graphite">Nenhuma mensagem ainda.</p>
-            )}
-            {thread.map((m) => (
-              <div key={m.id} className="rounded-3xl bg-pure-white p-6">
-                <div className="flex items-center justify-between">
-                  <p className="text-caption font-medium uppercase text-graphite">{m.autorNome}</p>
-                  <p className="text-caption text-graphite">{m.criadoEm.toLocaleDateString("pt-BR")}</p>
-                </div>
-                {m.texto && <p className="mt-2 text-body-sm text-off-black-ink">{m.texto}</p>}
-                {m.anexoUrl && (
-                  <a
-                    href={m.anexoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-block text-body-sm font-medium text-off-black-ink underline"
-                  >
-                    Ver anexo
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-          <MensagemForm projetoIdParaEquipe={projeto.id} />
         </div>
       </div>
     </div>

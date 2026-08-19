@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { LinkButton } from "@/components/ui/button";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Mesmo padrão da seção de personas da perk.com: título centralizado maior, cards
 // com categoria + título + subtexto + CTA à esquerda e imagem à direita, efeito de
@@ -29,14 +30,14 @@ const personas = [
     titulo: "Equipe e suporte do começo ao fim",
     subtexto:
       "Da produção ao pós-entrega, você fala direto com quem tá montando sua loja — sem fila de suporte genérico.",
-    ctaLabel: "Ver mensageria",
-    ctaHref: "/dashboard/mensagens",
+    ctaLabel: "Falar no WhatsApp",
+    ctaHref: linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA),
     imagem: "/persona-3.png",
   },
   {
     categoria: "Painel",
     titulo: "Controle total pelo app. Do começo ao fim do projeto",
-    subtexto: "Status, pagamentos, preview e mensagens — tudo no seu dashboard, direto do celular.",
+    subtexto: "Status, pagamentos, tarefas e revisões — tudo no seu dashboard, direto do celular.",
     ctaLabel: "Ver dashboard",
     ctaHref: "/dashboard",
     imagem: "/persona-4.png",

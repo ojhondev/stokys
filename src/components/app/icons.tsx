@@ -2,19 +2,6 @@
 
 type IconProps = { className?: string };
 
-export function IconMensagens({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path
-        d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 export function IconPagamentos({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className}>
@@ -50,19 +37,6 @@ export function IconAjuda({ className }: IconProps) {
         strokeLinecap="round"
       />
       <circle cx="12" cy="17" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-export function IconVencedor({ className }: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className}>
-      <path
-        d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9L12 3Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
     </svg>
   );
 }
