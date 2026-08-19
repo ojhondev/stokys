@@ -55,12 +55,26 @@ export function RevisaoStep({
   async function criarLoja() {
     setErro(null);
     setEnviando(true);
+
+    // Aberto aqui (síncrono, dentro do clique) pra não ser bloqueado como pop-up —
+    // navegadores só permitem window.open sem bloqueio durante o próprio gesto do
+    // usuário. Fica em branco até a action confirmar que deu certo.
+    const abaPainel = window.open("about:blank", "_blank");
+
     const resultado = await criarProjeto(dados);
-    // Em caso de sucesso a action redireciona (nunca retorna) — só chega aqui no erro.
+
     if (resultado?.erro) {
+      abaPainel?.close();
       setErro(resultado.erro);
       setEnviando(false);
+      return;
     }
+
+    // Duas abas: uma com o WhatsApp (pedido pronto pra enviar), outra já
+    // logada na Área do Cliente — pedido do usuário, senão uma navegação
+    // substitui a outra e o fluxo se perde.
+    if (abaPainel) abaPainel.location.href = "/dashboard";
+    if (resultado?.whatsappUrl) window.location.href = resultado.whatsappUrl;
   }
 
   return (

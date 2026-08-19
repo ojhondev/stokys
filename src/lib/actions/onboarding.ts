@@ -34,7 +34,7 @@ const dadosSchema = z
     path: ["plataformaOutraNome"],
   });
 
-export type OnboardingState = { erro?: string };
+export type OnboardingState = { erro?: string; whatsappUrl?: string };
 
 // Cadastro (conta) e onboarding (loja) são passos separados — a conta já
 // existe e está logada antes de chegar aqui (ver /cadastro,
@@ -123,5 +123,8 @@ export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingSt
   ];
   const mensagem = `Olá! Quero fechar meu pedido na Stokys:\n\n${linhasPedido.join("\n")}`;
 
-  redirect(linkWhatsapp(mensagem));
+  // Não usa redirect() aqui de propósito — o cliente precisa abrir o WhatsApp
+  // E a Área do Cliente ao mesmo tempo (uma aba cada), então quem decide pra
+  // onde navegar é o RevisaoStep (ver revisao-step.tsx), não a action.
+  return { whatsappUrl: linkWhatsapp(mensagem) };
 }
