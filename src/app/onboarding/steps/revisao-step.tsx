@@ -31,6 +31,7 @@ export function RevisaoStep({
   totalEtapas: number;
 }) {
   const [enviando, setEnviando] = useState(false);
+  const [redirecionando, setRedirecionando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const plano = planosConteudo.find((p) => p.slug === dados.plano);
 
@@ -56,25 +57,39 @@ export function RevisaoStep({
     setErro(null);
     setEnviando(true);
 
-    // Aberto aqui (síncrono, dentro do clique) pra não ser bloqueado como pop-up —
-    // navegadores só permitem window.open sem bloqueio durante o próprio gesto do
-    // usuário. Fica em branco até a action confirmar que deu certo.
-    const abaPainel = window.open("about:blank", "_blank");
-
+    // A tentativa anterior abria uma 2ª aba com o painel via window.open —
+    // pouco confiável (bloqueio de pop-up varia por navegador, e quando a
+    // aba nova rouba o foco, o usuário nem percebe que a aba original
+    // navegou pro WhatsApp). Agora é só uma tela de transição na própria
+    // aba, depois redireciona — o cliente já tem conta/projeto criados
+    // (Área do Cliente), só não abre sozinho em outra aba.
     const resultado = await criarProjeto(dados);
 
     if (resultado?.erro) {
-      abaPainel?.close();
       setErro(resultado.erro);
       setEnviando(false);
       return;
     }
 
-    // Duas abas: uma com o WhatsApp (pedido pronto pra enviar), outra já
-    // logada na Área do Cliente — pedido do usuário, senão uma navegação
-    // substitui a outra e o fluxo se perde.
-    if (abaPainel) abaPainel.location.href = "/dashboard";
-    if (resultado?.whatsappUrl) window.location.href = resultado.whatsappUrl;
+    if (resultado?.whatsappUrl) {
+      const url = resultado.whatsappUrl;
+      setEnviando(false);
+      setRedirecionando(true);
+      setTimeout(() => {
+        window.location.href = url;
+      }, 1800);
+    }
+  }
+
+  if (redirecionando) {
+    return (
+      <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-hero-canvas px-6 text-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-off-black-ink/20 border-t-off-black-ink" />
+        <p className="mt-6 max-w-[360px] text-body font-medium text-off-black-ink">
+          Agora você será redirecionado para o WhatsApp para finalizar o processo.
+        </p>
+      </div>
+    );
   }
 
   return (
