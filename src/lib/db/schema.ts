@@ -189,6 +189,7 @@ export const personalizacoes = pgTable("personalizacoes", {
   mercadoAlvo: mercadoAlvoEnum("mercado_alvo").notNull(),
   logoUrl: text("logo_url"),
   paletaCores: jsonb("paleta_cores").$type<string[]>(),
+  possuiIdentidadeVisual: boolean("possui_identidade_visual"),
 });
 
 export const cobrancas = pgTable("cobrancas", {

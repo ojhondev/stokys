@@ -15,6 +15,7 @@ import { Faq } from "@/components/marketing/faq";
 import { ClosingCta } from "@/components/marketing/closing-cta";
 import { PromoBar } from "@/components/marketing/promo-bar";
 import { VideoPopup } from "@/components/marketing/video-popup";
+import { linkWhatsapp, MENSAGEM_WHATSAPP_GENERICA } from "@/lib/whatsapp";
 
 // Ordem da página (pedido do usuário): Seção 1 > Como funciona > Loja
 // profissional de verdade > Depoimentos > Planos e preços > Resultados >
@@ -40,7 +41,7 @@ export default function Home() {
           contadorSufixo="lojas entregues."
           descricao="Onboarding, pagamento, produção e preview — sem trocar de ferramenta em nenhuma etapa."
           ctaLabel="Criar loja"
-          ctaHref="/cadastro?tipo=cliente"
+          ctaHref={linkWhatsapp(MENSAGEM_WHATSAPP_GENERICA)}
           fundo="pure-white"
         />
 

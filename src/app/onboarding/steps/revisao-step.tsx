@@ -84,8 +84,8 @@ export function RevisaoStep({
             Confira antes de criar sua loja
           </h1>
           <p className="mt-2 text-body-sm text-graphite">
-            Falta só o pagamento — ele acontece no próximo passo, depois de você entrar na sua
-            conta. Os acessos da plataforma são pedidos depois, no painel.
+            Ao confirmar, você já ganha acesso à Área do Cliente pra acompanhar tudo, e seu pedido
+            segue pronto pro WhatsApp — é lá que fechamos os detalhes e o pagamento com você.
           </p>
 
           <div className="mt-8 flex flex-col gap-2 rounded-3xl bg-off-white-canvas p-6">
@@ -119,7 +119,7 @@ export function RevisaoStep({
           alt="Você está perto de começar a viver do digital."
           fill
           sizes="50vw"
-          className="object-cover"
+          className="object-cover object-bottom"
           priority
         />
       </div>

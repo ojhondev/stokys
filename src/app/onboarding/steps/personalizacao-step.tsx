@@ -7,19 +7,21 @@ const mercados: { valor: MercadoAlvo; label: string; descricao: string }[] = [
   { valor: "latam", label: "Latam", descricao: "Espanhol, pagamento regional." },
 ];
 
-const paleta = ["#14140f", "#beff50", "#30302a", "#f5f5eb", "#6e6e64", "#d2d2c8"];
+const opcoesIdentidade: { valor: boolean; label: string }[] = [
+  { valor: true, label: "Sim, já tenho" },
+  { valor: false, label: "Não, preciso criar" },
+];
 
 export function PersonalizacaoStep({ dados, setDados, onContinuar, onVoltar }: StepProps) {
-  function alternarCor(cor: string) {
-    setDados((d) => ({
-      ...d,
-      paletaCores: d.paletaCores.includes(cor)
-        ? d.paletaCores.filter((c) => c !== cor)
-        : [...d.paletaCores, cor],
-    }));
+  function definirCor(indice: 0 | 1, cor: string) {
+    setDados((d) => {
+      const paleta = [...d.paletaCores];
+      paleta[indice] = cor;
+      return { ...d, paletaCores: paleta };
+    });
   }
 
-  const podeContinuar = Boolean(dados.mercadoAlvo);
+  const podeContinuar = Boolean(dados.mercadoAlvo) && dados.possuiIdentidadeVisual !== null;
 
   return (
     <div>
@@ -56,43 +58,47 @@ export function PersonalizacaoStep({ dados, setDados, onContinuar, onVoltar }: S
       </div>
 
       <div className="mt-8">
-        <p className="text-caption font-medium uppercase text-graphite">Logotipo</p>
-        <label className="mt-3 flex cursor-pointer items-center justify-between rounded-3xl bg-off-white-canvas p-6">
-          <span className="text-body-sm text-off-black-ink">
-            {dados.logoNome ?? "Nenhum arquivo selecionado"}
-          </span>
-          <span className="rounded-full bg-pure-white px-4 py-2 text-body-sm font-medium text-off-black-ink">
-            Escolher arquivo
-          </span>
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) =>
-              setDados((d) => ({ ...d, logoNome: e.target.files?.[0]?.name ?? null }))
-            }
-          />
-        </label>
+        <p className="text-caption font-medium uppercase text-graphite">Identidade visual</p>
+        <p className="mt-1 text-body-sm text-graphite">
+          Você já tem logo, cores e fontes definidos pra sua marca?
+        </p>
+        <div className="mt-3 flex flex-wrap gap-3">
+          {opcoesIdentidade.map((opcao) => {
+            const ativo = dados.possuiIdentidadeVisual === opcao.valor;
+            return (
+              <button
+                key={String(opcao.valor)}
+                type="button"
+                onClick={() => setDados((d) => ({ ...d, possuiIdentidadeVisual: opcao.valor }))}
+                className={`rounded-3xl px-6 py-4 text-body-sm font-bold transition-colors ${
+                  ativo ? "bg-electric-lime text-off-black-ink" : "bg-off-white-canvas text-off-black-ink"
+                }`}
+              >
+                {opcao.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="mt-8">
         <p className="text-caption font-medium uppercase text-graphite">Paleta de cores</p>
-        <div className="mt-3 flex flex-wrap gap-3">
-          {paleta.map((cor) => {
-            const ativo = dados.paletaCores.includes(cor);
-            return (
-              <button
-                key={cor}
-                type="button"
-                onClick={() => alternarCor(cor)}
-                aria-label={cor}
-                style={{ backgroundColor: cor }}
-                className={`h-12 w-12 rounded-full transition-all ${
-                  ativo ? "ring-2 ring-off-black-ink ring-offset-2" : ""
-                }`}
+        <p className="mt-1 text-body-sm text-graphite">Escolha as 2 cores principais da sua marca.</p>
+        <div className="mt-3 flex gap-4">
+          {[0, 1].map((indice) => (
+            <label
+              key={indice}
+              className="relative h-14 w-14 cursor-pointer rounded-full ring-2 ring-ash ring-offset-2"
+              style={{ backgroundColor: dados.paletaCores[indice] ?? "#ffffff" }}
+            >
+              <input
+                type="color"
+                value={dados.paletaCores[indice] ?? "#ffffff"}
+                onChange={(e) => definirCor(indice as 0 | 1, e.target.value)}
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
               />
-            );
-          })}
+            </label>
+          ))}
         </div>
       </div>
 

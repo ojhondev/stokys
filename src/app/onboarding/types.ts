@@ -7,6 +7,10 @@ export type Tema = "spark" | "quant";
 export const TOTAL_REFERENCIAS = 3;
 
 export type DadosOnboarding = {
+  // Coletados na etapa "Contato" (primeira etapa) — também salvos em Leads.
+  nome: string;
+  whatsapp: string;
+  email: string;
   plano: PlanoConteudo["slug"] | null;
   plataforma: Plataforma | null;
   // Só preenchido quando plataforma === "outra".
@@ -14,7 +18,8 @@ export type DadosOnboarding = {
   // Zen/Pro escolhem um tema pronto; Customizado personaliza (ver docs/PRD.md seção 3).
   tema: Tema | null;
   mercadoAlvo: MercadoAlvo | null;
-  logoNome: string | null;
+  // Só perguntado no plano Customizado (ver personalizacao-step.tsx).
+  possuiIdentidadeVisual: boolean | null;
   paletaCores: string[];
   nicho: string;
   referencias: string[];
@@ -23,13 +28,16 @@ export type DadosOnboarding = {
 };
 
 export const dadosIniciais: DadosOnboarding = {
+  nome: "",
+  whatsapp: "",
+  email: "",
   plano: null,
   plataforma: null,
   plataformaOutraNome: "",
   tema: null,
   mercadoAlvo: null,
-  logoNome: null,
-  paletaCores: [],
+  possuiIdentidadeVisual: null,
+  paletaCores: ["#000000", "#ffffff"],
   nicho: "",
   referencias: Array(TOTAL_REFERENCIAS).fill(""),
   objetivoCliente: "",

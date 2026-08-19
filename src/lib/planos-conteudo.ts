@@ -61,8 +61,8 @@ export const planosConteudo: PlanoConteudo[] = [
     itens: [
       "Tema Spark ou Quant",
       "Logotipo e paleta de cores personalizados",
-      "4 banners desktop + 4 banners mobile",
-      "5 capas de categoria",
+      "6 banners desktop + 6 banners mobile",
+      "10+ capas de categoria",
       "Página de Política e Rastreio",
       "35 produtos minerados e cadastrados",
       "Video Commerce",

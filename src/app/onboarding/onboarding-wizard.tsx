@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { dadosIniciais, type DadosOnboarding } from "./types";
+import { ContatoStep } from "./steps/contato-step";
 import { PlanoStep } from "./steps/plano-step";
 import { PlataformaStep } from "./steps/plataforma-step";
 import { TemaStep } from "./steps/tema-step";
@@ -25,21 +26,23 @@ export function OnboardingWizard({
   const [dados, setDadosState] = useState<DadosOnboarding>({
     ...dadosIniciais,
     plano: planoInicial ?? null,
+    nome,
+    email,
   });
 
   function setDados(updater: (dados: DadosOnboarding) => DadosOnboarding) {
     setDadosState(updater);
   }
 
-  // Plano -> Plataforma -> Tema (Zen/Pro) ou Personalização (Customizado) -> Nicho ->
-  // Referências -> Revisão ("Criar minha loja"). Nenhuma etapa deixa avançar sem os
-  // campos obrigatórios preenchidos (ver validação em cada step). Pagamento NÃO faz
-  // parte do onboarding — só acontece depois, dentro do dashboard, com o usuário
-  // logado (RevisaoStep leva pra /login ao concluir).
+  // Contato -> Plano -> Plataforma -> Tema (Zen/Pro) ou Personalização (Customizado) ->
+  // Nicho -> Referências -> Revisão ("Criar minha loja"). Nenhuma etapa deixa avançar
+  // sem os campos obrigatórios preenchidos (ver validação em cada step). "Criar minha
+  // loja" leva pro WhatsApp com o pedido pronto — pagamento é combinado por lá, não
+  // dentro do app (ver revisao-step.tsx e lib/actions/onboarding.ts).
   const etapas =
     dados.plano === "customizado"
-      ? (["Plano", "Plataforma", "Personalização", "Nicho", "Referências", "Revisão"] as const)
-      : (["Plano", "Plataforma", "Tema", "Nicho", "Referências", "Revisão"] as const);
+      ? (["Contato", "Plano", "Plataforma", "Personalização", "Nicho", "Referências", "Revisão"] as const)
+      : (["Contato", "Plano", "Plataforma", "Tema", "Nicho", "Referências", "Revisão"] as const);
 
   const avancar = () => setPasso((p) => Math.min(p + 1, etapas.length - 1));
   const voltar = () => setPasso((p) => Math.max(p - 1, 0));
@@ -85,6 +88,7 @@ export function OnboardingWizard({
         </p>
 
         <div className="mt-8">
+          {etapaAtual === "Contato" && <ContatoStep dados={dados} setDados={setDados} onContinuar={avancar} />}
           {etapaAtual === "Plano" && (
             <PlanoStep dados={dados} setDados={setDados} onContinuar={avancar} />
           )}

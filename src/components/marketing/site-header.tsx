@@ -12,10 +12,10 @@ import { LinkButton } from "@/components/ui/button";
 // ícone de conta, hambúrguer (abre o menu com os links).
 
 const navLinks = [
-  { href: "#planos", label: "Planos" },
-  { href: "#como-funciona", label: "Como funciona" },
-  { href: "/parcerias", label: "Parcerias" },
+  { href: "/#como-funciona", label: "Como funciona" },
   { href: "/temas", label: "Temas" },
+  { href: "/#planos", label: "Planos" },
+  { href: "/parcerias", label: "Parcerias" },
 ];
 
 export function SiteHeader() {
@@ -74,7 +74,7 @@ export function SiteHeader() {
           <div className="hidden items-center gap-3 sm:flex">
             <LinkButton href="/cadastro?tipo=cliente">Criar loja</LinkButton>
             <LinkButton href="/login" variant="outline">
-              Entrar
+              Área do cliente
             </LinkButton>
           </div>
           <Link
@@ -123,7 +123,7 @@ export function SiteHeader() {
               onClick={() => setMenuAberto(false)}
               className="rounded-2xl px-4 py-3 text-left text-body font-medium text-off-black-ink hover:bg-hero-canvas sm:hidden"
             >
-              Entrar
+              Área do cliente
             </Link>
           </nav>
         </div>

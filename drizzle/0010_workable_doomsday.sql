@@ -1,0 +1,1 @@
+ALTER TABLE "personalizacoes" ADD COLUMN "possui_identidade_visual" boolean;

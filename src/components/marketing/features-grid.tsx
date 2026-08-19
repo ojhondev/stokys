@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type CSSProperties } from "react";
+import { useRef, useState } from "react";
 
 // Carrossel de features — mesmo padrão da seção "100,000 tasks handled everyday"
 // da perk.com (card com badge, mockup, heading, descrição e link "Read more",
@@ -60,49 +60,6 @@ function MockupAcompanhamento() {
   );
 }
 
-function MockupSimplicidade() {
-  const ferramentas = [
-    {
-      className: "left-3 top-3",
-      dx: "16px",
-      dy: "16px",
-      path: "M9 4v4M9 16v4M4 9h4M16 9h4M6.5 6.5l2.8 2.8M14.5 14.5l2.8 2.8M6.5 17.5l2.8-2.8M14.5 9.5l2.8-2.8",
-    },
-    {
-      className: "right-3 top-3",
-      dx: "-16px",
-      dy: "16px",
-      path: "M4 18v-3a5 5 0 0 1 10 0v3M4 18h10M6 9a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z",
-    },
-    {
-      className: "bottom-3 left-1/2 -translate-x-1/2",
-      dx: "0px",
-      dy: "-18px",
-      path: "M3 6h14l-1.5 8h-11L3 6Zm0 0-1-3M8 17a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm7 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
-    },
-  ];
-  return (
-    <div className="relative aspect-square w-32 overflow-hidden rounded-2xl bg-off-white-canvas sm:w-40">
-      <span className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl bg-electric-lime sm:h-11 sm:w-11">
-        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden>
-          <rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" strokeWidth="1.8" className="text-off-black-ink" />
-        </svg>
-      </span>
-      {ferramentas.map((ferramenta, i) => (
-        <span
-          key={i}
-          className={`absolute flex h-8 w-8 animate-converge items-center justify-center rounded-lg bg-pure-white sm:h-9 sm:w-9 ${ferramenta.className}`}
-          style={{ "--dx": ferramenta.dx, "--dy": ferramenta.dy } as CSSProperties}
-        >
-          <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden>
-            <path d={ferramenta.path} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="text-off-black-ink" />
-          </svg>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 function MockupResultado() {
   return (
     <div className="relative flex aspect-square w-32 items-center justify-center rounded-2xl bg-off-white-canvas sm:w-40">
@@ -131,30 +88,43 @@ function MockupResultado() {
   );
 }
 
+function MockupPainel() {
+  return (
+    <div className="relative flex aspect-square w-32 items-center justify-center rounded-2xl bg-off-white-canvas sm:w-40">
+      <svg viewBox="0 0 48 48" fill="none" className="h-16 w-16 sm:h-20 sm:w-20" aria-hidden>
+        <rect x="7" y="9" width="34" height="24" rx="3" stroke="currentColor" strokeWidth="2" className="text-off-black-ink" />
+        <path d="M14 39h20M24 33v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-off-black-ink" />
+        <path d="M13 25l6-6 5 5 8-8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-off-black-ink" />
+      </svg>
+      <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-electric-lime sm:right-4 sm:top-4" />
+    </div>
+  );
+}
+
 const features = [
   {
-    eyebrow: "Transparência",
-    heading: "Orçamento fechado antes de pagar",
-    descricao: "O plano já define o que está incluso — sem surpresa de escopo depois que o pagamento cai.",
+    eyebrow: "Loja",
+    heading: "Lojas prontas ou personalizadas",
+    descricao: "Escolha um dos nossos temas prontos pra vender ou peça uma loja com identidade visual própria, no plano Elite.",
+    Mockup: MockupResultado,
+  },
+  {
+    eyebrow: "Orçamento",
+    heading: "Orçamento simples e objetivo",
+    descricao: "O valor do seu plano já é o valor final — sem taxa escondida nem surpresa depois que o pagamento cai.",
     Mockup: MockupTransparencia,
   },
   {
-    eyebrow: "Acompanhamento",
-    heading: "Suporte real, nada de chatbot",
-    descricao: "Cada etapa da produção aparece no seu dashboard assim que muda de status.",
+    eyebrow: "Suporte",
+    heading: "Suporte em todas as etapas",
+    descricao: "Da produção até a entrega, você fala direto com o nosso time — nada de chatbot ou fila de ticket.",
     Mockup: MockupAcompanhamento,
   },
   {
-    eyebrow: "Simplicidade",
-    heading: "Tudo dentro da mesma plataforma",
-    descricao: "Onboarding, pagamento, mensagens e preview — sem alternar entre 5 ferramentas.",
-    Mockup: MockupSimplicidade,
-  },
-  {
-    eyebrow: "Resultado",
-    heading: "Loja pronta pra vender",
-    descricao: "Produtos cadastrados, tema aplicado e checkout funcionando na entrega.",
-    Mockup: MockupResultado,
+    eyebrow: "Painel",
+    heading: "Área do Cliente",
+    descricao: "Acompanhe cada etapa da produção da sua loja em tempo real, direto pelo seu painel exclusivo.",
+    Mockup: MockupPainel,
   },
 ];
 
@@ -176,10 +146,10 @@ export function FeaturesGrid() {
     <section id="como-funciona" className="bg-off-white-canvas py-14 md:py-16">
       <div className="mx-auto w-full max-w-[1800px] px-6 sm:px-10 lg:px-16">
         <span className="text-caption font-medium uppercase text-graphite">
-          Por dentro da plataforma
+          Como a Stokys funciona
         </span>
         <h2 className="mt-3 max-w-[560px] text-heading font-heading font-bold text-off-black-ink">
-          Cada detalhe do processo, resolvido em um lugar só.
+          A Stokys não é apenas mais uma agência de dropshipping.
         </h2>
       </div>
 

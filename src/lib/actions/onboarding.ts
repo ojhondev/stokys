@@ -6,18 +6,24 @@ import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { planos, projetos, personalizacoes, projetoItens } from "@/lib/db/schema";
 import { getSession } from "@/lib/auth";
-import { nomeExibicaoPlano } from "@/lib/planos-conteudo";
+import { nomeExibicaoPlano, formatarPreco } from "@/lib/planos-conteudo";
+import { labelPlataforma, labelTema, labelMercado } from "@/lib/labels-projeto";
+import { linkWhatsapp } from "@/lib/whatsapp";
 import type { DadosOnboarding } from "@/app/onboarding/types";
 
 // Revalida tudo no servidor — nunca confia que o estado client do wizard
 // chegou íntegro (ver docs/PRD.md 4.2, fluxo do onboarding).
 const dadosSchema = z
   .object({
+    nome: z.string().min(1, "Informe seu nome."),
+    whatsapp: z.string().min(1, "Informe seu WhatsApp."),
+    email: z.string().email("Informe um e-mail válido."),
     plano: z.enum(["zen", "pro", "customizado"]),
     plataforma: z.enum(["shopify", "nuvemshop", "tray", "bagy", "outra"]),
     plataformaOutraNome: z.string().optional(),
     tema: z.enum(["spark", "quant"]).nullable(),
     mercadoAlvo: z.enum(["brasil", "global", "latam"]).nullable(),
+    possuiIdentidadeVisual: z.boolean().nullable(),
     paletaCores: z.array(z.string()),
     nicho: z.string().min(1, "Informe o nicho da loja."),
     referencias: z.array(z.string().min(1)).length(3, "Liste as 3 referências antes de continuar."),
@@ -47,6 +53,9 @@ export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingSt
 
   if (d.plano === "customizado" && !d.mercadoAlvo) {
     return { erro: "Escolha o mercado-alvo antes de continuar." };
+  }
+  if (d.plano === "customizado" && d.possuiIdentidadeVisual === null) {
+    return { erro: "Diga se você já tem identidade visual pronta." };
   }
   if (d.plano !== "customizado" && !d.tema) {
     return { erro: "Escolha um tema antes de continuar." };
@@ -83,6 +92,7 @@ export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingSt
       mercadoAlvo: d.mercadoAlvo!,
       logoUrl: null,
       paletaCores: d.paletaCores,
+      possuiIdentidadeVisual: d.possuiIdentidadeVisual,
     });
   }
 
@@ -96,5 +106,22 @@ export async function criarProjeto(dados: DadosOnboarding): Promise<OnboardingSt
     criadoPorId: sessao.userId,
   });
 
-  redirect("/dashboard/pagamentos");
+  // A loja já existe no banco (o cliente já tem acesso à Área do Cliente pra
+  // acompanhar) — o pedido some pra fechamento manual pelo WhatsApp em vez de
+  // pagamento automático dentro do app (pedido do usuário, 2026-08-19).
+  const linhasPedido = [
+    `Nome: ${d.nome}`,
+    `WhatsApp: ${d.whatsapp}`,
+    `E-mail: ${d.email}`,
+    `Plano: ${nomeExibicaoPlano(d.plano)} (${formatarPreco(planoRow.precoCentavos!)})`,
+    `Plataforma: ${d.plataforma === "outra" ? d.plataformaOutraNome : labelPlataforma[d.plataforma]}`,
+    d.plano === "customizado"
+      ? `Mercado: ${d.mercadoAlvo ? labelMercado[d.mercadoAlvo] : "-"}`
+      : `Tema: ${d.tema ? labelTema[d.tema] : "-"}`,
+    `Nicho: ${d.nicho}`,
+    `Objetivo: ${d.objetivoCliente}`,
+  ];
+  const mensagem = `Olá! Quero fechar meu pedido na Stokys:\n\n${linhasPedido.join("\n")}`;
+
+  redirect(linkWhatsapp(mensagem));
 }
